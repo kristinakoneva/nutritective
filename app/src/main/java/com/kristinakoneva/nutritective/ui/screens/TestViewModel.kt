@@ -1,28 +1,20 @@
 package com.kristinakoneva.nutritective.ui.screens
 
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
+import com.kristinakoneva.nutritective.ui.shared.di.qualifiers.TextArgument
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.delay
 
 @HiltViewModel
 class TestViewModel @Inject constructor(
 ) : BaseViewModel<TestState, TestEvent>() {
 
     init {
-        launch {
-            showText("Hey there!")
-            delay(2000L)
-            showText("Bye!")
-        }
+        viewState = TestState(text = "lala")
     }
 
-    private fun showText(text: String) {
-        viewState = TestState(text = text)
-    }
-
-    fun onButtonClicked() {
-        emitEvent(TestEvent.ShowToast("Button clicked!"))
+    fun navigateToSecondScreen() {
+        emitEvent(TestEvent.NavigateToSecondScreen("Navigating to second screen!"))
     }
 }
 
@@ -31,7 +23,31 @@ data class TestState(
 )
 
 sealed interface TestEvent {
-    data class ShowToast(val text: String) : TestEvent
+    data class NavigateToSecondScreen(val text: String) : TestEvent
 }
+
+@HiltViewModel
+class TestViewModel2 @Inject constructor(
+    @TextArgument private val text: String
+) : BaseViewModel<TestState2, TestEvent2>() {
+
+    init {
+        viewState = TestState2(text = text)
+    }
+
+    fun onGoBackClicked() {
+        emitEvent(TestEvent2.GoBack())
+    }
+}
+
+data class TestState2(
+    val text: String
+)
+
+sealed interface TestEvent2 {
+    class GoBack : TestEvent2
+}
+
+
 
 

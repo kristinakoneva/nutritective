@@ -7,11 +7,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 @Composable
 fun <State : Any, Event : Any> BaseScreen(
     viewModel: BaseViewModel<State, Event>,
-    eventRenderer: (Event) -> Unit,
-    stateRenderer: @Composable (State) -> Unit
+    eventHandler: (Event) -> Unit,
+    content: @Composable (State) -> Unit
 ) {
     viewModel.stateFlow.collectAsStateWithLifecycle().value?.let { state ->
-        stateRenderer(state)
+        content(state)
     }
 
     viewModel.loadingStateFlow.collectAsStateWithLifecycle().value.let { loadingState ->
@@ -27,7 +27,7 @@ fun <State : Any, Event : Any> BaseScreen(
     }
 
     LaunchedEffect(viewModel.eventFlow) {
-        viewModel.eventFlow.collectSafely(eventRenderer::invoke)
+        viewModel.eventFlow.collectSafely(eventHandler::invoke)
     }
 
     LaunchedEffect(viewModel.errorFlow) {

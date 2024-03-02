@@ -51,17 +51,17 @@ abstract class BaseViewModel<State, Event> : ViewModel() {
         showError(ErrorEvent.UnknownError())
     }
 
-    protected fun showError(error: ErrorEvent) {
+    private fun showError(error: ErrorEvent) {
         viewModelScope.launch {
             mutableErrorFlow.send(error)
         }
     }
 
-    protected fun showLoading() {
+    private fun showLoading() {
         loadingState = LoadingState.Loading()
     }
 
-    protected fun hideLoading() {
+    private fun hideLoading() {
         loadingState = LoadingState.Idle()
     }
 

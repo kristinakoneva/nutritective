@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.ui.shared.base
 
-sealed class ErrorEvent {
+sealed interface ErrorEvent {
 
-    class UnknownError : ErrorEvent()
+    class UnknownError : ErrorEvent
 }
