@@ -8,9 +8,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 fun <State : Any, Event : Any> BaseScreen(
     viewModel: BaseViewModel<State, Event>,
     eventHandler: (Event) -> Unit,
-    content: @Composable (State) -> Unit
+    content: @Composable (State) -> Unit,
 ) {
-    viewModel.stateFlow.collectAsStateWithLifecycle().value?.let { state ->
+    viewModel.stateFlow.collectAsStateWithLifecycle().value.let { state ->
         content(state)
     }
 
