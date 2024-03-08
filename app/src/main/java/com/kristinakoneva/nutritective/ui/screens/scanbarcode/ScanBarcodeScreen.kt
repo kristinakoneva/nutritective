@@ -14,5 +14,6 @@ fun ScanBarcodeScreen(
         Column {
             Text(text = "Scan Barcode Screen")
         }
+
     }
 }
