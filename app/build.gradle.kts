@@ -89,4 +89,13 @@ dependencies {
     // Serialization
     implementation ("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation ("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
+
+    // Accompanist - Permissions
+    implementation ("com.google.accompanist:accompanist-permissions:0.30.0")
+
+    // Camera
+    implementation ("androidx.camera:camera-camera2:1.3.2")
+    implementation ("androidx.camera:camera-lifecycle:1.3.2")
+    implementation ("androidx.camera:camera-view:1.3.2")
+    implementation ("com.google.mlkit:barcode-scanning:17.2.0")
 }
