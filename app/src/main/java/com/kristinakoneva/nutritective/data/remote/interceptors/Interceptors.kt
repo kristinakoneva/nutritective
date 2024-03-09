@@ -5,4 +5,6 @@ import okhttp3.Interceptor
 interface Interceptors {
 
     interface Chucker : Interceptor
+
+    interface CalorieNinjasApiKeyHeader : Interceptor
 }

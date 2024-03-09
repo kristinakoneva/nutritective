@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.data.remote.api.openfoodfacts.models
+package com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

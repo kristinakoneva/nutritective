@@ -12,4 +12,9 @@ class InterceptorsModule {
     @Provides
     @Singleton
     fun chuckerInterceptor(interceptor: ChuckerInterceptor): Interceptors.Chucker = interceptor
+
+    @Provides
+    @Singleton
+    fun calorieNinjasApiKeyHeaderInterceptor(interceptor: CalorieNinjasApiKeyHeaderInterceptor):
+        Interceptors.CalorieNinjasApiKeyHeader = interceptor
 }

@@ -1,6 +1,6 @@
-package com.kristinakoneva.nutritective.data.remote.api.openfoodfacts
+package com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts
 
-import com.kristinakoneva.nutritective.data.remote.api.openfoodfacts.models.ProductNutritionDataResponse
+import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.ProductNutritionDataResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 

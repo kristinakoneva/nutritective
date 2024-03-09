@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -6,6 +8,9 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlinx-serialization")
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").inputStream())
 
 android {
     namespace = "com.kristinakoneva.nutritective"
@@ -22,6 +27,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        buildConfigField("String", "CALORIE_NINJAS_API_KEY", properties.getProperty("CALORIE_NINJAS_API_KEY"))
     }
 
     buildTypes {

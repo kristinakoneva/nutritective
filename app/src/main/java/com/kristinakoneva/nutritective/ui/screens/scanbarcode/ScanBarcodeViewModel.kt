@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.ui.screens.scanbarcode
 
-import com.kristinakoneva.nutritective.data.remote.api.openfoodfacts.OpenFoodFactsSource
+import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.OpenFoodFactsSource
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
