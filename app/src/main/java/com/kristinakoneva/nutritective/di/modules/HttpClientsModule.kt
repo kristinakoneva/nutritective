@@ -1,5 +1,7 @@
 package com.kristinakoneva.nutritective.di.modules
 
+import com.kristinakoneva.nutritective.data.remote.interceptors.Interceptors
+import com.kristinakoneva.nutritective.data.remote.interceptors.InterceptorsModule
 import com.kristinakoneva.nutritective.di.qualifiers.CacheDir
 import com.kristinakoneva.nutritective.di.qualifiers.OpenFoodFactsApi
 import dagger.Module
@@ -11,7 +13,7 @@ import javax.inject.Singleton
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 
-@Module
+@Module(includes = [InterceptorsModule::class])
 @InstallIn(SingletonComponent::class)
 class HttpClientsModule {
 
@@ -27,6 +29,7 @@ class HttpClientsModule {
     @Singleton
     @OpenFoodFactsApi
     fun openFoodFactsApiOkHttpClient(
+        chuckerInterceptor: Interceptors.Chucker,
         @CacheDir cacheDir: File
     ): OkHttpClient = OkHttpClient.Builder().apply {
         cache(
@@ -35,5 +38,6 @@ class HttpClientsModule {
                 maxSize = MAX_CACHING_SIZE
             )
         )
+        addNetworkInterceptor(chuckerInterceptor)
     }.build()
 }

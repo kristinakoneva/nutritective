@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.data.remote.api
+package com.kristinakoneva.nutritective.data.remote
 
 import com.kristinakoneva.nutritective.data.remote.api.openfoodfacts.OpenFoodFactsSource
 import com.kristinakoneva.nutritective.data.remote.api.openfoodfacts.OpenFoodFactsSourceImpl
