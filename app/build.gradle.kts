@@ -115,4 +115,10 @@ dependencies {
     // Chucker
     debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
     releaseImplementation("com.github.chuckerteam.chucker:library-no-op:4.0.0")
+
+    // More icons
+    implementation ("androidx.compose.material:material-icons-extended")
+
+    // Coil¬
+    implementation("io.coil-kt:coil-compose:2.6.0")
 }
