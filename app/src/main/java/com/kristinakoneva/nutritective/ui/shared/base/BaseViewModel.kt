@@ -15,7 +15,7 @@ import kotlinx.coroutines.launch
 abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
 
     private val mutableStateFlow: MutableStateFlow<State> = MutableStateFlow(initialState)
-    private val mutableLoadingStateFlow: MutableStateFlow<LoadingState> = MutableStateFlow(LoadingState.Idle())
+    private val mutableLoadingStateFlow: MutableStateFlow<LoadingState> = MutableStateFlow(LoadingState.Idle)
     private val mutableEventFlow = Channel<Event>(capacity = 1)
     private val mutableErrorFlow = Channel<ErrorEvent>(capacity = 1)
 
@@ -48,7 +48,7 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
     }
 
     private fun handleError(throwable: Throwable?) {
-        showError(ErrorEvent.UnknownError())
+        showError(ErrorEvent.UnknownError)
     }
 
     private fun showError(error: ErrorEvent) {
@@ -58,11 +58,11 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
     }
 
     private fun showLoading() {
-        loadingState = LoadingState.Loading()
+        loadingState = LoadingState.Loading
     }
 
     private fun hideLoading() {
-        loadingState = LoadingState.Idle()
+        loadingState = LoadingState.Idle
     }
 
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
