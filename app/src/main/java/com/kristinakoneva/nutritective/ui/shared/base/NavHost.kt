@@ -12,6 +12,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.kristinakoneva.nutritective.ui.screens.analyzetext.AnalyzeTextScreen
+import com.kristinakoneva.nutritective.ui.screens.auth.AuthScreen
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
 import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
@@ -21,7 +22,10 @@ import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
 fun NavHost() {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = ScreenRoute.SCAN_BARCODE) {
+    NavHost(navController = navController, startDestination = ScreenRoute.AUTH) {
+        composable(ScreenRoute.AUTH) {
+            WithoutBottomNavigationBar(screenContent = { AuthScreen() })
+        }
         composable(ScreenRoute.SCAN_BARCODE) {
             WithBottomNavigationBar(navController, screenContent = { ScanBarcodeScreen() })
         }
