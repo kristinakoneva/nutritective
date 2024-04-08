@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.domain.authentication
 
-import com.kristinakoneva.nutritective.domain.models.User
+import com.kristinakoneva.nutritective.domain.authentication.models.User
 
 interface AuthRepository {
 

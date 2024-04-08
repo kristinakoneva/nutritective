@@ -1,11 +1,11 @@
 package com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts
 
-import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.ProductNutritionDataResponse
+import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.FoodProductNutritionDataResponse
 import javax.inject.Inject
 
 class OpenFoodFactsSourceImpl @Inject constructor(
     private val apiService: OpenFoodFactsApiService
 ) : OpenFoodFactsSource {
-    override suspend fun getProductNutritionData(barcode: String): ProductNutritionDataResponse =
-        apiService.getProductNutritionData(barcode)
+    override suspend fun fetchFoodProductByBarcode(barcode: String): FoodProductNutritionDataResponse =
+        apiService.fetchFoodProductByBarcode(barcode)
 }

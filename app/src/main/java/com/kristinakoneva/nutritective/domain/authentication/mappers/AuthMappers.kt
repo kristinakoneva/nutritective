@@ -1,7 +1,7 @@
-package com.kristinakoneva.nutritective.domain.mappers
+package com.kristinakoneva.nutritective.domain.authentication.mappers
 
 import com.google.firebase.auth.FirebaseUser
-import com.kristinakoneva.nutritective.domain.models.User
+import com.kristinakoneva.nutritective.domain.authentication.models.User
 
 fun FirebaseUser.toUser() = User(
     uid = uid,

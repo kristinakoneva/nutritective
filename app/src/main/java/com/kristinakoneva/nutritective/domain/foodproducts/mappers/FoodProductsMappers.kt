@@ -1,0 +1,58 @@
+package com.kristinakoneva.nutritective.domain.foodproducts.mappers
+
+import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.NutrimentsResource
+import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.FoodProductResource
+import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
+import com.kristinakoneva.nutritective.domain.foodproducts.models.Nutriment
+import com.kristinakoneva.nutritective.domain.foodproducts.models.NutrimentType
+
+fun FoodProductResource.toFoodProduct() = FoodProduct(
+    name = this.productName,
+    imageUrl = this.imageUrl,
+    nutriments = this.nutriments?.toNutrimentsList(),
+    ingredients = this.ingredientsText?.dropLast(1),
+    allergens = this.allergens,
+    brands = this.brands,
+    categories = this.categories,
+    nutriscoreUrl = this.nutriscoreGrade?.toNutriscoreGradeUrl()
+)
+
+fun NutrimentsResource.toNutrimentsList(): List<Nutriment>? {
+    val nutriments = mutableListOf<Nutriment>()
+
+    if (this.energyValue != null && this.energyUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.ENERGY, combineValueWithUnit(this.energyValue, this.energyUnit)))
+    }
+    if (this.fatValue != null && this.fatUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.FAT, combineValueWithUnit(this.fatValue, this.fatUnit)))
+    }
+    if (this.saturatedFatValue != null && this.saturatedFatUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.SATURATED_FAT, combineValueWithUnit(this.saturatedFatValue, this.saturatedFatUnit)))
+    }
+    if (this.carbohydratesValue != null && this.carbohydratesUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.CARBOHYDRATES, combineValueWithUnit(this.carbohydratesValue, this.carbohydratesUnit)))
+    }
+    if (this.sugarsValue != null && this.sugarsUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.SUGARS, combineValueWithUnit(this.sugarsValue, this.sugarsUnit)))
+    }
+    if (this.fiberValue != null && this.fiberUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.FIBER, combineValueWithUnit(this.fiberValue, this.fiberUnit)))
+    }
+    if (this.proteinsValue != null && this.proteinsUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.PROTEINS, combineValueWithUnit(this.proteinsValue, this.proteinsUnit)))
+    }
+    if (this.saltValue != null && this.saltUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.SALT, combineValueWithUnit(this.saltValue, this.saltUnit)))
+    }
+    if (this.sodiumValue != null && this.sodiumUnit != null) {
+        nutriments.add(Nutriment(NutrimentType.SODIUM, combineValueWithUnit(this.sodiumValue, this.sodiumUnit)))
+    }
+
+    if (nutriments.isEmpty()) return null
+    return nutriments
+}
+
+private fun combineValueWithUnit(value: Double?, unit: String?): String = "$value $unit"
+
+fun String.toNutriscoreGradeUrl(): String? =
+    if (this.isNotEmpty()) "https://static.openfoodfacts.org/images/misc/nutriscore-$this.svg" else null

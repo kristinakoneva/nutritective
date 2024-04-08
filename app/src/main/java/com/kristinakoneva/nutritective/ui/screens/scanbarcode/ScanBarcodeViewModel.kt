@@ -1,13 +1,13 @@
 package com.kristinakoneva.nutritective.ui.screens.scanbarcode
 
-import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.OpenFoodFactsSource
+import com.kristinakoneva.nutritective.domain.foodproducts.FoodProductsRepository
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ScanBarcodeViewModel @Inject constructor(
-    private val source: OpenFoodFactsSource
+    private val foodProductsRepository: FoodProductsRepository
 ) : BaseViewModel<ScanBarcodeState, Unit>(ScanBarcodeState()) {
 
     fun onBarcodeScanned(barcode: String?) {
@@ -16,7 +16,7 @@ class ScanBarcodeViewModel @Inject constructor(
                 viewState = ScanBarcodeState(null)
                 return@launch
             }
-            val product = source.getProductNutritionData(barcode).product
+            val product = foodProductsRepository.fetchFoodProductByBarcode(barcode)
             viewState = ScanBarcodeState(product)
         }
     }

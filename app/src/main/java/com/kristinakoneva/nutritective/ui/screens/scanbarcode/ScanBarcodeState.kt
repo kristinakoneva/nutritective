@@ -1,7 +1,7 @@
 package com.kristinakoneva.nutritective.ui.screens.scanbarcode
 
-import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.ProductResource
+import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 
 data class ScanBarcodeState(
-    val product: ProductResource? = null,
+    val product: FoodProduct? = null
 )
