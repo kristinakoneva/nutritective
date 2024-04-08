@@ -18,6 +18,14 @@ class AuthViewModel @Inject constructor(
 
     private var isLogin: Boolean = true
 
+    init {
+        launchWithLoading {
+            if (authRepository.getCurrentUser() != null) {
+                emitEvent(AuthEvent.SuccessfulAuth)
+            }
+        }
+    }
+
     fun onNameInputFieldValueChanged(input: String) {
         viewState = viewState.copy(name = input, isNameValid = input.isNotBlank())
     }

@@ -19,17 +19,21 @@ fun BottomNavigationBar(navController: NavController) {
     val currentRoute = navBackStackEntry?.destination?.route
     NavigationBar {
         BottomNavTab.entries.forEach { item ->
-            NavigationBarItem(
-                selected = currentRoute == item.route,
-                onClick = {
-                    navController.navigate(item.route) {
-                        popUpTo(navController.graph.startDestinationId)
-                        launchSingleTop = true
-                    }
-                },
-                icon = { Icon(item.icon, contentDescription = stringResource(item.label)) },
-                label = { Text(stringResource(item.label)) }
-            )
+            if (item.route != null && item.label != null && item.icon != null) {
+                NavigationBarItem(
+                    selected = currentRoute == item.route,
+                    onClick = {
+                        navController.navigate(item.route) {
+                            popUpTo(navController.graph.startDestinationId)
+                            launchSingleTop = true
+                        }
+                    },
+                    icon = { Icon(item.icon, contentDescription = stringResource(item.label)) },
+                    label = { Text(stringResource(item.label)) }
+                )
+            } else {
+                NavigationBarItem(icon = {}, onClick = {}, selected = false, enabled = false)
+            }
         }
     }
 }
