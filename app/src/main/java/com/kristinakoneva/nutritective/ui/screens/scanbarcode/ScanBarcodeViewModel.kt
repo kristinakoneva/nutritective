@@ -16,8 +16,8 @@ class ScanBarcodeViewModel @Inject constructor(
                 viewState = ScanBarcodeState(null)
                 return@launch
             }
-            val name = source.getProductNutritionData(barcode).product.productName
-            viewState = ScanBarcodeState(name)
+            val product = source.getProductNutritionData(barcode).product
+            viewState = ScanBarcodeState(product)
         }
     }
 }

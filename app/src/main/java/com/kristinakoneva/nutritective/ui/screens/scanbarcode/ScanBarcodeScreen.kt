@@ -31,8 +31,8 @@ fun ScanBarcodeScreen(
     viewModel: ScanBarcodeViewModel = hiltViewModel(),
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
-        if (state.productName != null) {
-            Text("Product name: ${state.productName}")
+        if (state.product != null) {
+            Text("Product: ${state.product}")
         } else {
             val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
             if (cameraPermissionState.status.isGranted) {
