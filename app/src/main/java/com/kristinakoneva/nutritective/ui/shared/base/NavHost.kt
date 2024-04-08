@@ -22,10 +22,10 @@ import com.kristinakoneva.nutritective.ui.screens.analyzetext.AnalyzeTextScreen
 import com.kristinakoneva.nutritective.ui.screens.auth.AuthScreen
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.ExploreRecipesScreen
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
+import com.kristinakoneva.nutritective.ui.screens.opencamera.OpenCameraScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
 import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
 import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
-import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
 
 @Composable
@@ -47,7 +47,13 @@ fun NavHost() {
             })
         }
         composable(ScreenRoute.SCAN_BARCODE) {
-            WithBottomNavigationBar(navController, screenContent = { ScanBarcodeScreen() })
+            WithBottomNavigationBar(navController, screenContent = {
+                ScanBarcodeScreen(
+                    onNavigateToOpenCamera = {
+                        navController.navigate(ScreenRoute.OPEN_CAMERA)
+                    }
+                )
+            })
         }
         composable(ScreenRoute.INSPECT_IMAGE) {
             WithBottomNavigationBar(navController, screenContent = { InspectImageScreen() })
@@ -57,6 +63,9 @@ fun NavHost() {
         }
         composable(ScreenRoute.EXPLORE_RECIPES) {
             WithBottomNavigationBar(navController, screenContent = { ExploreRecipesScreen() })
+        }
+        composable(ScreenRoute.OPEN_CAMERA) {
+            WithoutBottomNavigationBar(screenContent = { OpenCameraScreen() })
         }
     }
 }
@@ -90,7 +99,7 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
 @Composable
 fun WithBottomNavigationBarPreview() {
     WithBottomNavigationBar(navController = rememberNavController()) {
-        ScanBarcodeScreen()
+        ScanBarcodeScreen(onNavigateToOpenCamera = {})
     }
 }
 

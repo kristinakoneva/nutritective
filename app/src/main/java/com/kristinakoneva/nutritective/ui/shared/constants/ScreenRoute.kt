@@ -7,4 +7,6 @@ object ScreenRoute {
     const val INSPECT_IMAGE = "inspect_image"
     const val ANALYZE_TEXT = "analyze_text"
     const val EXPLORE_RECIPES = "explore_recipes"
+
+    const val OPEN_CAMERA = "open_camera"
 }
