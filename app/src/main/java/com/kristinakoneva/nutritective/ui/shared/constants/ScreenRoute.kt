@@ -9,4 +9,5 @@ object ScreenRoute {
     const val EXPLORE_RECIPES = "explore_recipes"
 
     const val OPEN_CAMERA = "open_camera"
+    const val FOOD_PRODUCT_DETAILS = "food_product_details"
 }

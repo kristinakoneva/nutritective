@@ -8,6 +8,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
@@ -28,21 +29,37 @@ import com.kristinakoneva.nutritective.utils.BarcodeAnalyzer
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun OpenCameraScreen(
-    viewModel: OpenCameraViewModel = hiltViewModel()
+    viewModel: OpenCameraViewModel = hiltViewModel(),
+    onNavigateToFoodProductDetails: () -> Unit
 ) {
-    BaseScreen(viewModel = viewModel, eventHandler = {}) {
-        val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-        if (cameraPermissionState.status.isGranted) {
-            OpenCameraScreenContent {
-                viewModel.onBarcodeScanned(it)
+    BaseScreen(viewModel = viewModel, eventHandler = { event ->
+        when (event) {
+            is OpenCameraEvent.ProductFound -> onNavigateToFoodProductDetails()
+        }
+    }) { state ->
+        when (state) {
+            is OpenCameraState.Initial -> {
+                val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
+                if (cameraPermissionState.status.isGranted) {
+                    OpenCameraScreenContent {
+                        viewModel.onBarcodeScanned(it)
+                    }
+                } else if (cameraPermissionState.status.shouldShowRationale) {
+                    Text("Camera Permission permanently denied")
+                } else {
+                    SideEffect {
+                        cameraPermissionState.run { launchPermissionRequest() }
+                    }
+                    Text("No Camera Permission")
+                }
             }
-        } else if (cameraPermissionState.status.shouldShowRationale) {
-            Text("Camera Permission permanently denied")
-        } else {
-            SideEffect {
-                cameraPermissionState.run { launchPermissionRequest() }
+
+            is OpenCameraState.ProductNotFound -> {
+                Text("Product not found")
+                Button(onClick = viewModel::onScanAgainButtonClicked) {
+                    Text(text = "Scan again")
+                }
             }
-            Text("No Camera Permission")
         }
     }
 }

@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kristinakoneva.nutritective.ui.screens.analyzetext.AnalyzeTextScreen
 import com.kristinakoneva.nutritective.ui.screens.auth.AuthScreen
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.ExploreRecipesScreen
+import com.kristinakoneva.nutritective.ui.screens.foodproductdetails.FoodProductDetailsScreen
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
 import com.kristinakoneva.nutritective.ui.screens.opencamera.OpenCameraScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
@@ -65,7 +66,16 @@ fun NavHost() {
             WithBottomNavigationBar(navController, screenContent = { ExploreRecipesScreen() })
         }
         composable(ScreenRoute.OPEN_CAMERA) {
-            WithoutBottomNavigationBar(screenContent = { OpenCameraScreen() })
+            WithoutBottomNavigationBar(screenContent = {
+                OpenCameraScreen(
+                    onNavigateToFoodProductDetails = {
+                        navController.navigate(ScreenRoute.FOOD_PRODUCT_DETAILS)
+                    }
+                )
+            })
+        }
+        composable(ScreenRoute.FOOD_PRODUCT_DETAILS) {
+            WithoutBottomNavigationBar(screenContent = { FoodProductDetailsScreen() })
         }
     }
 }
