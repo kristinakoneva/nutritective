@@ -24,7 +24,17 @@ fun NavHost() {
 
     NavHost(navController = navController, startDestination = ScreenRoute.AUTH) {
         composable(ScreenRoute.AUTH) {
-            WithoutBottomNavigationBar(screenContent = { AuthScreen() })
+            WithoutBottomNavigationBar(screenContent = {
+                AuthScreen(
+                    onNavigateToScanBarcodeScreen = {
+                        navController.navigate(ScreenRoute.SCAN_BARCODE) {
+                            popUpTo(ScreenRoute.AUTH) {
+                                inclusive = true
+                            }
+                        }
+                    },
+                )
+            })
         }
         composable(ScreenRoute.SCAN_BARCODE) {
             WithBottomNavigationBar(navController, screenContent = { ScanBarcodeScreen() })

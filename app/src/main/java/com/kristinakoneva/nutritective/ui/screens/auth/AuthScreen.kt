@@ -13,6 +13,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -28,7 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
@@ -38,9 +39,21 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_3
 
 @Composable
 fun AuthScreen(
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = hiltViewModel(),
+    onNavigateToScanBarcodeScreen: () -> Unit
 ) {
-    BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
+    val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
+
+    BaseScreen(viewModel = viewModel, eventHandler = {
+        when (it) {
+            is AuthEvent.SuccessfulAuth -> onNavigateToScanBarcodeScreen()
+            is AuthEvent.FailedAuth -> {
+                focusManager.clearFocus()
+                Toast.makeText(context, "Failed to authenticate", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }) { state ->
         AuthScreenContent(
             name = state.name,
             email = state.email,
@@ -55,6 +68,7 @@ fun AuthScreen(
             isPasswordValid = state.isPasswordValid,
             isConfirmPasswordValid = state.isConfirmPasswordValid,
             isLogin = state.isLogin,
+            onPrimaryButtonClicked = viewModel::onPrimaryButtonClicked,
             onSecondaryButtonClicked = viewModel::onSecondaryButtonClicked
         )
     }
@@ -75,6 +89,7 @@ fun AuthScreenContent(
     isPasswordValid: Boolean,
     isConfirmPasswordValid: Boolean,
     isLogin: Boolean,
+    onPrimaryButtonClicked: () -> Unit,
     onSecondaryButtonClicked: () -> Unit
 ) {
 
@@ -87,13 +102,16 @@ fun AuthScreenContent(
         onNameInputFieldValueChange
     ) { { confirmPassword: String -> onConfirmPasswordInputFieldValueChange(confirmPassword) } }
 
-    val context = LocalContext.current
     val focusManager = LocalFocusManager.current
 
     val titleText = if (isLogin) "Login" else "Register"
     val buttonText = if (isLogin) "Login" else "Register"
     val descriptionText = if (isLogin) "Don't have an account yet?" else "Already have an account?"
     val secondaryButtonText = if (isLogin) "Register" else "Login"
+    val isPrimaryButtonEnabled =
+        if (isLogin) isEmailValid && isPasswordValid && email.isNotBlank() && password.isNotBlank()
+        else isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid &&
+            name.isNotBlank() && email.isNotBlank() && password.isNotBlank() && confirmPassword.isNotBlank()
 
     Column(
         modifier = Modifier
@@ -138,7 +156,7 @@ fun AuthScreenContent(
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = 8.dp),
+                .padding(vertical = spacing_1),
             keyboardOptions = KeyboardOptions.Default.copy(
                 imeAction = ImeAction.Next
             ),
@@ -198,12 +216,15 @@ fun AuthScreenContent(
         Spacer(modifier = Modifier.height(spacing_2))
 
         Button(
-            onClick = {
-                Toast.makeText(context, "Button click", Toast.LENGTH_SHORT).show()
-            },
+            onClick = { onPrimaryButtonClicked() },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = spacing_1)
+                .padding(vertical = spacing_1),
+            enabled = isPrimaryButtonEnabled,
+            colors = ButtonDefaults.buttonColors(
+                disabledContainerColor = Color.LightGray,
+                disabledContentColor = Color.Gray
+            )
         ) {
             Text(buttonText)
         }
@@ -217,7 +238,10 @@ fun AuthScreenContent(
         )
 
         OutlinedButton(
-            onClick = { onSecondaryButtonClicked() },
+            onClick = {
+                focusManager.clearFocus()
+                onSecondaryButtonClicked()
+            },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(top = spacing_1)
@@ -225,4 +249,48 @@ fun AuthScreenContent(
             Text(secondaryButtonText)
         }
     }
+}
+
+@Preview
+@Composable
+fun RegisterScreenPreview() {
+    AuthScreenContent(
+        name = "Kristina",
+        email = "test@test.com",
+        password = "password",
+        confirmPassword = "password",
+        onNameInputFieldValueChange = {},
+        onEmailInputFieldValueChange = {},
+        onPasswordInputFieldValueChange = {},
+        onConfirmPasswordInputFieldValueChange = {},
+        isNameValid = true,
+        isEmailValid = true,
+        isPasswordValid = true,
+        isConfirmPasswordValid = true,
+        isLogin = false,
+        onPrimaryButtonClicked = {},
+        onSecondaryButtonClicked = {}
+    )
+}
+
+@Preview
+@Composable
+fun LoginScreenPreview() {
+    AuthScreenContent(
+        name = "",
+        email = "test@test.com",
+        password = "password",
+        confirmPassword = "",
+        onNameInputFieldValueChange = {},
+        onEmailInputFieldValueChange = {},
+        onPasswordInputFieldValueChange = {},
+        onConfirmPasswordInputFieldValueChange = {},
+        isNameValid = true,
+        isEmailValid = true,
+        isPasswordValid = true,
+        isConfirmPasswordValid = true,
+        isLogin = true,
+        onPrimaryButtonClicked = {},
+        onSecondaryButtonClicked = {}
+    )
 }
