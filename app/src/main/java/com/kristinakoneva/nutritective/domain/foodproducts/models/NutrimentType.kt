@@ -1,20 +1,21 @@
 package com.kristinakoneva.nutritective.domain.foodproducts.models
 
 import android.os.Parcelable
+import com.kristinakoneva.nutritective.R
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 enum class NutrimentType(
     val label: String,
-    val icon: Int
+    val iconRes: Int
 ) : Parcelable {
-    ENERGY("Energy", 0),
-    FAT("Fat", 0),
-    SATURATED_FAT("Saturated fat", 0),
-    CARBOHYDRATES("Carbohydrates", 0),
-    SUGARS("Sugars", 0),
-    PROTEINS("Proteins", 0),
-    SALT("Salt", 0),
-    FIBER("Fiber", 0),
-    SODIUM("Sodium", 0)
+    ENERGY("Energy", R.drawable.salt_shaker),
+    FAT("Fat", R.drawable.salt_shaker),
+    SATURATED_FAT("Saturated fat", R.drawable.salt_shaker),
+    CARBOHYDRATES("Carbohydrates", R.drawable.salt_shaker),
+    SUGARS("Sugars", R.drawable.salt_shaker),
+    PROTEINS("Proteins", R.drawable.salt_shaker),
+    SALT("Salt", R.drawable.salt_shaker),
+    FIBER("Fiber", R.drawable.salt_shaker),
+    SODIUM("Sodium", R.drawable.salt_shaker)
 }
