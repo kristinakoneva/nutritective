@@ -32,9 +32,16 @@ fun OpenCameraScreen(
     viewModel: OpenCameraViewModel = hiltViewModel(),
     onNavigateToFoodProductDetails: () -> Unit
 ) {
+    val context = LocalContext.current
+    val cameraProviderFuture = remember {
+        ProcessCameraProvider.getInstance(context)
+    }
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
-            is OpenCameraEvent.ProductFound -> onNavigateToFoodProductDetails()
+            is OpenCameraEvent.ProductFound -> {
+                cameraProviderFuture.get().unbindAll()
+                onNavigateToFoodProductDetails()
+            }
         }
     }) { state ->
         when (state) {
@@ -42,7 +49,9 @@ fun OpenCameraScreen(
                 val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
                 if (cameraPermissionState.status.isGranted) {
                     OpenCameraScreenContent {
-                        viewModel.onBarcodeScanned(it)
+                        if (!it.isNullOrEmpty()) {
+                            viewModel.onBarcodeScanned(it)
+                        }
                     }
                 } else if (cameraPermissionState.status.shouldShowRationale) {
                     Text("Camera Permission permanently denied")
@@ -55,6 +64,7 @@ fun OpenCameraScreen(
             }
 
             is OpenCameraState.ProductNotFound -> {
+                cameraProviderFuture.get().unbindAll()
                 Text("Product not found")
                 Button(onClick = viewModel::onScanAgainButtonClicked) {
                     Text(text = "Scan again")
@@ -66,7 +76,7 @@ fun OpenCameraScreen(
 
 @Composable
 fun OpenCameraScreenContent(
-    listener: (String?) -> Unit
+    successfulBarcodeScannedListener: (String?) -> Unit
 ) {
     val localContext = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -86,10 +96,11 @@ fun OpenCameraScreenContent(
             val imageAnalysis = ImageAnalysis.Builder().build()
             imageAnalysis.setAnalyzer(
                 ContextCompat.getMainExecutor(context),
-                BarcodeAnalyzer(listener)
+                BarcodeAnalyzer(successfulBarcodeScannedListener)
             )
 
             runCatching {
+                cameraProviderFuture.get().unbindAll()
                 cameraProviderFuture.get().bindToLifecycle(
                     lifecycleOwner,
                     selector,

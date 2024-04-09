@@ -19,6 +19,6 @@ data class FoodProductResource(
     val categories: String? = null,
     @SerialName("nutriscore_grade")
     val nutriscoreGrade: String? = null,
-    @SerialName("allergens")
-    val allergens: String? = null
+    @SerialName("allergens_tags")
+    val allergensTags: List<String>? = null
 )

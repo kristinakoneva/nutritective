@@ -69,13 +69,27 @@ fun NavHost() {
             WithoutBottomNavigationBar(screenContent = {
                 OpenCameraScreen(
                     onNavigateToFoodProductDetails = {
-                        navController.navigate(ScreenRoute.FOOD_PRODUCT_DETAILS)
+                        navController.navigate(ScreenRoute.FOOD_PRODUCT_DETAILS) {
+                            popUpTo(ScreenRoute.SCAN_BARCODE) {
+                                inclusive = false
+                            }
+                        }
                     }
                 )
             })
         }
         composable(ScreenRoute.FOOD_PRODUCT_DETAILS) {
-            WithoutBottomNavigationBar(screenContent = { FoodProductDetailsScreen() })
+            WithoutBottomNavigationBar(screenContent = {
+                FoodProductDetailsScreen(
+                    onNavigateToScanBarcode = {
+                        navController.navigate(ScreenRoute.SCAN_BARCODE) {
+                            popUpTo(ScreenRoute.SCAN_BARCODE) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
+            })
         }
     }
 }

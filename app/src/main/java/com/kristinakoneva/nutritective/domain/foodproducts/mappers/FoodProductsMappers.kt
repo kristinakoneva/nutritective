@@ -11,11 +11,11 @@ fun FoodProductResource.toFoodProduct() = FoodProduct(
     imageUrl = this.imageUrl,
     nutriments = this.nutriments?.toNutrimentsList(),
     ingredients = this.ingredientsText?.dropLast(1),
-    allergens = this.allergens.toAllergensList(),
+    allergens = this.allergensTags.toAllergensList(),
     brands = this.brands,
     categories = this.categories,
     nutriscoreUrl = this.nutriscoreGrade?.toNutriscoreGradeUrl(),
-    hasAllergensInOtherLanguages = this.allergens.checkIfHasAllergensInOtherLanguages()
+    hasAllergensInOtherLanguages = this.allergensTags.checkIfHasAllergensInOtherLanguages()
 )
 
 fun NutrimentsResource.toNutrimentsList(): List<Nutriment>? {
@@ -58,8 +58,8 @@ private fun combineValueWithUnit(value: Double?, unit: String?): String = "$valu
 fun String.toNutriscoreGradeUrl(): String? =
     if (this.isNotEmpty()) "https://static.openfoodfacts.org/images/misc/nutriscore-$this.svg" else null
 
-fun String?.toAllergensList(): List<String>? =
-    this?.split(",")?.map { it.split(":")[1] }
+fun List<String>?.toAllergensList(): List<String>? =
+    this?.map { it.split(":")[1] }.takeIf { it?.isNotEmpty() == true }
 
-fun String?.checkIfHasAllergensInOtherLanguages(): Boolean =
-    this?.split(",")?.any { !it.contains("en:") } ?: false
+fun List<String>?.checkIfHasAllergensInOtherLanguages(): Boolean =
+    this?.any { !it.contains("en:") } == true

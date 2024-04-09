@@ -10,7 +10,7 @@ import javax.inject.Inject
 class FoodProductDetailsViewModel @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val foodProductRepository: FoodProductsRepository
-) : BaseViewModel<FoodProductDetailsState, Unit>(FoodProductDetailsState.Initial) {
+) : BaseViewModel<FoodProductDetailsState, FoodProductDetailsEvent>(FoodProductDetailsState.Initial) {
 
     init {
         launchWithLoading {
@@ -18,5 +18,9 @@ class FoodProductDetailsViewModel @Inject constructor(
             val product = foodProductRepository.fetchFoodProductByBarcode(barcode)
             viewState = FoodProductDetailsState.Content(product!!)
         }
+    }
+
+    fun onCloseButtonClicked() {
+        emitEvent(FoodProductDetailsEvent.OnNavigateToScanBarcode)
     }
 }
