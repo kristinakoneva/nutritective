@@ -11,10 +11,11 @@ fun FoodProductResource.toFoodProduct() = FoodProduct(
     imageUrl = this.imageUrl,
     nutriments = this.nutriments?.toNutrimentsList(),
     ingredients = this.ingredientsText?.dropLast(1),
-    allergens = this.allergens,
+    allergens = this.allergens.toAllergensList(),
     brands = this.brands,
     categories = this.categories,
-    nutriscoreUrl = this.nutriscoreGrade?.toNutriscoreGradeUrl()
+    nutriscoreUrl = this.nutriscoreGrade?.toNutriscoreGradeUrl(),
+    hasAllergensInOtherLanguages = this.allergens.checkIfHasAllergensInOtherLanguages()
 )
 
 fun NutrimentsResource.toNutrimentsList(): List<Nutriment>? {
@@ -56,3 +57,9 @@ private fun combineValueWithUnit(value: Double?, unit: String?): String = "$valu
 
 fun String.toNutriscoreGradeUrl(): String? =
     if (this.isNotEmpty()) "https://static.openfoodfacts.org/images/misc/nutriscore-$this.svg" else null
+
+fun String?.toAllergensList(): List<String>? =
+    this?.split(",")?.map { it.split(":")[1] }
+
+fun String?.checkIfHasAllergensInOtherLanguages(): Boolean =
+    this?.split(",")?.any { !it.contains("en:") } ?: false

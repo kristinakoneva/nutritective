@@ -7,6 +7,7 @@ data class FoodProduct(
     val brands: String?,
     val nutriscoreUrl: String?,
     val nutriments: List<Nutriment>?,
-    val allergens: String?,
-    val categories: String?
+    val allergens: List<String>?,
+    val categories: String?,
+    val hasAllergensInOtherLanguages: Boolean
 )
