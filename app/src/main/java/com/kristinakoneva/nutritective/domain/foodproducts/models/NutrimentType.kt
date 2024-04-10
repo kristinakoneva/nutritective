@@ -9,13 +9,13 @@ enum class NutrimentType(
     val label: String,
     val iconRes: Int
 ) : Parcelable {
-    ENERGY("Energy", R.drawable.salt_shaker),
-    FAT("Fat", R.drawable.salt_shaker),
-    SATURATED_FAT("Saturated fat", R.drawable.salt_shaker),
-    CARBOHYDRATES("Carbohydrates", R.drawable.salt_shaker),
-    SUGARS("Sugars", R.drawable.salt_shaker),
-    PROTEINS("Proteins", R.drawable.salt_shaker),
-    SALT("Salt", R.drawable.salt_shaker),
-    FIBER("Fiber", R.drawable.salt_shaker),
-    SODIUM("Sodium", R.drawable.salt_shaker)
+    ENERGY("Energy", R.drawable.ic_energy),
+    FAT("Fat", R.drawable.ic_fat),
+    SATURATED_FAT("Satur. fat", R.drawable.ic_saturated_fat),
+    CARBOHYDRATES("Carbs", R.drawable.ic_carbohydrates),
+    SUGARS("Sugars", R.drawable.ic_sugars),
+    PROTEINS("Proteins", R.drawable.ic_proteins),
+    SALT("Salt", R.drawable.ic_salt),
+    FIBER("Fiber", R.drawable.ic_fiber),
+    SODIUM("Sodium", R.drawable.ic_sodium)
 }
