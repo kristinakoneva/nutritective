@@ -126,7 +126,7 @@ fun OpenCameraScreenContent(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(spacing_3)
+                .padding(horizontal = spacing_3)
                 .padding(top = spacing_8, bottom = spacing_2),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {

@@ -19,4 +19,5 @@ val large_icon_size = 32.dp
 val default_corner_radius = 8.dp
 
 val camera_preview_height = 300.dp
+val instruction_step_image_size = 60.dp
 
