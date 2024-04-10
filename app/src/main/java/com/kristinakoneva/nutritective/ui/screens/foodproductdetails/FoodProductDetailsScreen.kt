@@ -81,8 +81,7 @@ fun FoodProductDetailsScreenContent(
     ) { _ ->
         Column(
             modifier = Modifier
-                .padding(top = spacing_8)
-                .padding(bottom = spacing_2)
+                .padding(top = spacing_8, bottom = spacing_2)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start

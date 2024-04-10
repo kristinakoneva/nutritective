@@ -16,3 +16,7 @@ val small_icon_size = 16.dp
 val medium_icon_size = 24.dp
 val large_icon_size = 32.dp
 
+val default_corner_radius = 8.dp
+
+val camera_preview_height = 300.dp
+

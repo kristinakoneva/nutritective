@@ -27,7 +27,15 @@ class OpenCameraViewModel @Inject constructor(
         }
     }
 
-    fun onScanAgainButtonClicked() {
+    fun onTryAnotherProductButtonClicked() {
+        viewState = OpenCameraState.Initial
+    }
+
+    fun onEnterBarcodeManuallyButtonClicked() {
+        viewState = OpenCameraState.ShowBarcodeInputDialog
+    }
+
+    fun resetToInitialState() {
         viewState = OpenCameraState.Initial
     }
 }

@@ -68,6 +68,9 @@ fun NavHost() {
         composable(ScreenRoute.OPEN_CAMERA) {
             WithoutBottomNavigationBar(screenContent = {
                 OpenCameraScreen(
+                    onNavigateUp = {
+                        navController.navigateUp()
+                    },
                     onNavigateToFoodProductDetails = {
                         navController.navigate(ScreenRoute.FOOD_PRODUCT_DETAILS) {
                             popUpTo(ScreenRoute.SCAN_BARCODE) {
