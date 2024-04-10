@@ -13,12 +13,16 @@ class OpenCameraViewModel @Inject constructor(
 ) : BaseViewModel<OpenCameraState, OpenCameraEvent>(OpenCameraState.Initial) {
     fun onBarcodeScanned(barcode: String) {
         launch {
-            val product = foodProductsRepository.fetchFoodProductByBarcode(barcode)
-            if (product == null) {
+            try {
+                val product = foodProductsRepository.fetchFoodProductByBarcode(barcode)
+                if (product == null) {
+                    viewState = OpenCameraState.ProductNotFound
+                } else {
+                    sessionRepository.saveLastScannedFoodProductBarcode(barcode)
+                    emitEvent(OpenCameraEvent.ProductFound)
+                }
+            } catch (e: Exception) {
                 viewState = OpenCameraState.ProductNotFound
-            } else {
-                sessionRepository.saveLastScannedFoodProductBarcode(barcode)
-                emitEvent(OpenCameraEvent.ProductFound)
             }
         }
     }
