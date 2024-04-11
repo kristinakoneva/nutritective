@@ -33,6 +33,7 @@ class HttpClientsModule {
     @OpenFoodFactsApi
     fun openFoodFactsApiOkHttpClient(
         chuckerInterceptor: Interceptors.Chucker,
+        userAgentHeaderInterceptor: Interceptors.UserAgentHeader,
         @CacheDir cacheDir: File
     ): OkHttpClient = OkHttpClient.Builder().apply {
         cache(
@@ -42,6 +43,7 @@ class HttpClientsModule {
             )
         )
         addNetworkInterceptor(chuckerInterceptor)
+        addInterceptor(userAgentHeaderInterceptor)
     }.build()
 
 
@@ -55,6 +57,7 @@ class HttpClientsModule {
     fun calorieNinjasApiOkHttpClient(
         chuckerInterceptor: Interceptors.Chucker,
         apiKeyHeaderInterceptor: Interceptors.CalorieNinjasApiKeyHeader,
+        userAgentHeaderInterceptor: Interceptors.UserAgentHeader,
         @CacheDir cacheDir: File
     ): OkHttpClient = OkHttpClient.Builder().apply {
         cache(
@@ -65,5 +68,6 @@ class HttpClientsModule {
         )
         addNetworkInterceptor(chuckerInterceptor)
         addInterceptor(apiKeyHeaderInterceptor)
+        addInterceptor(userAgentHeaderInterceptor)
     }.build()
 }

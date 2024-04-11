@@ -7,4 +7,6 @@ interface Interceptors {
     interface Chucker : Interceptor
 
     interface CalorieNinjasApiKeyHeader : Interceptor
+
+    interface UserAgentHeader: Interceptor
 }

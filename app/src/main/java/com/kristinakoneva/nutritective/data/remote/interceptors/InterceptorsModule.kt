@@ -17,4 +17,9 @@ class InterceptorsModule {
     @Singleton
     fun calorieNinjasApiKeyHeaderInterceptor(interceptor: CalorieNinjasApiKeyHeaderInterceptor):
         Interceptors.CalorieNinjasApiKeyHeader = interceptor
+
+    @Provides
+    @Singleton
+    fun userAgentHeaderInterceptor(interceptor: UserAgentHeaderInterceptor):
+        Interceptors.UserAgentHeader = interceptor
 }
