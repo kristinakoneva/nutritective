@@ -66,7 +66,7 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
     }
 
     protected fun launch(block: suspend CoroutineScope.() -> Unit): Job =
-        viewModelScope.launch(coroutineExceptionHandler + Dispatchers.IO, block = block)
+        viewModelScope.launch(coroutineExceptionHandler + Dispatchers.Main, block = block)
 
     protected fun launchWithLoading(block: suspend CoroutineScope.() -> Unit) {
         launch {
