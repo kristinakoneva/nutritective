@@ -20,4 +20,5 @@ val default_corner_radius = 8.dp
 
 val camera_preview_height = 300.dp
 val instruction_step_image_size = 60.dp
+val loading_box_size = 100.dp
 

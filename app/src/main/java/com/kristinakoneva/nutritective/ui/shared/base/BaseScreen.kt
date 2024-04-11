@@ -3,6 +3,7 @@ package com.kristinakoneva.nutritective.ui.shared.base
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.kristinakoneva.nutritective.ui.shared.composables.LoadingDialog
 
 @Composable
 fun <State : Any, Event : Any> BaseScreen(
@@ -16,13 +17,9 @@ fun <State : Any, Event : Any> BaseScreen(
 
     viewModel.loadingStateFlow.collectAsStateWithLifecycle().value.let { loadingState ->
         when (loadingState) {
-            is LoadingState.Idle -> {
-                // TODO
-            }
+            is LoadingState.Idle -> Unit
 
-            is LoadingState.Loading -> {
-                // TODO
-            }
+            is LoadingState.Loading -> LoadingDialog()
         }
     }
 
