@@ -65,7 +65,7 @@ fun ScanBarcodeScreenContent(
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.padding(top = spacing_0_5))
+        Spacer(modifier = Modifier.padding(top = spacing_3))
         ScanBarcodeInstructionSteps()
     }
 }
@@ -73,7 +73,6 @@ fun ScanBarcodeScreenContent(
 @Composable
 fun ScanBarcodeInstructionSteps() {
     Column {
-        Spacer(modifier = Modifier.padding(top = spacing_3))
         InstructionSteps.getScanBarcodeInstructionSteps().forEach { step ->
             InstructionStep(
                 imageResId = step.imageResId,
@@ -86,7 +85,7 @@ fun ScanBarcodeInstructionSteps() {
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.padding(top = spacing_0_5))
+        Spacer(modifier = Modifier.padding(top = spacing_3))
         InstructionStep(
             imageResId = R.drawable.illustration_alternative,
             description = "Alternatively, you can manually enter the barcode of the food product and get the nutritional information."

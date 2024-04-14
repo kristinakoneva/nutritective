@@ -13,10 +13,15 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -26,6 +31,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
@@ -34,6 +41,11 @@ import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.BuildConfig
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
+import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
+import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
+import com.kristinakoneva.nutritective.ui.theme.spacing_2
+import com.kristinakoneva.nutritective.ui.theme.spacing_3
+import com.kristinakoneva.nutritective.ui.theme.spacing_8
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -160,7 +172,12 @@ fun MyImageArea(
     }
 
     Column(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(spacing_3)
+            .padding(bottom = spacing_8),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
         Box(
@@ -193,5 +210,30 @@ fun MyImageArea(
             Spacer(modifier = Modifier.height(16.dp))
         }
         Text(text = result ?: "No result yet")
+
+        Text(
+            modifier = Modifier
+                .padding(top = spacing_3)
+                .fillMaxSize(),
+            text = "Instructions",
+            style = MaterialTheme.typography.titleLarge,
+            textAlign = TextAlign.Start,
+            fontWeight = FontWeight.Bold
+        )
+        Spacer(modifier = Modifier.padding(top = spacing_3))
+        InspectImageInstructionSteps()
+    }
+}
+
+@Composable
+fun InspectImageInstructionSteps() {
+    Column {
+        InstructionSteps.getInspectImageInstructionSteps().forEach { step ->
+            InstructionStep(
+                imageResId = step.imageResId,
+                description = step.description
+            )
+            Spacer(modifier = Modifier.padding(top = spacing_2))
+        }
     }
 }
