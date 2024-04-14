@@ -35,7 +35,7 @@ object InstructionSteps {
             imageResId = R.drawable.illustration_text_input
         ),
         InstructionStep(
-            description = "If you want to get a more precise nutrition data, you can prefix the item with a quantity.\nExample: 20mg chocolate bar\n(the default quantity is 100 grams)",
+            description = "If you want to get a more precise nutrition data, you can prefix the item with a quantity.\nExample: 20g chocolate and 1 banana\n(the default quantity is 100 grams)",
             imageResId = R.drawable.illustration_weight
         ),
         InstructionStep(
