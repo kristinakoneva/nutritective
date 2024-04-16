@@ -31,8 +31,11 @@ fun BottomNavigationBar(navController: NavController) {
                     selected = currentRoute == item.route,
                     onClick = {
                         navController.navigate(item.route) {
-                            popUpTo(navController.graph.startDestinationId)
+                            popUpTo(navController.graph.startDestinationId) {
+                                saveState = true
+                            }
                             launchSingleTop = true
+                            restoreState = true
                         }
                     },
                     icon = { Icon(item.icon, contentDescription = stringResource(item.label)) },
@@ -42,7 +45,7 @@ fun BottomNavigationBar(navController: NavController) {
                             textAlign = TextAlign.Center,
                             maxLines = 2,
                             overflow = TextOverflow.Ellipsis,
-                            fontWeight = if(currentRoute == item.route) FontWeight.ExtraBold else FontWeight.Medium
+                            fontWeight = if (currentRoute == item.route) FontWeight.ExtraBold else FontWeight.Medium
                         )
                     },
                     colors = NavigationBarItemDefaults
