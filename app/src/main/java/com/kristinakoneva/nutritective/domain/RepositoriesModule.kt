@@ -2,6 +2,8 @@ package com.kristinakoneva.nutritective.domain
 
 import com.kristinakoneva.nutritective.domain.authentication.AuthRepository
 import com.kristinakoneva.nutritective.domain.authentication.AuthRepositoryImpl
+import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
+import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepositoryImpl
 import com.kristinakoneva.nutritective.domain.foodproducts.FoodProductsRepository
 import com.kristinakoneva.nutritective.domain.foodproducts.FoodProductsRepositoryImpl
 import com.kristinakoneva.nutritective.domain.session.SessionRepository
@@ -20,6 +22,9 @@ interface RepositoriesModule {
 
     @Binds
     fun foodProductsRepository(foodProductsRepository: FoodProductsRepositoryImpl): FoodProductsRepository
+
+    @Binds
+    fun foodItemsRepository(foodItemsRepository: FoodItemsRepositoryImpl): FoodItemsRepository
 
     @Binds
     fun sessionRepository(sessionRepository: SessionRepositoryImpl): SessionRepository

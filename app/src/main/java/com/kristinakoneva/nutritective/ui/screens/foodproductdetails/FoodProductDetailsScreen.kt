@@ -30,7 +30,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
-import com.kristinakoneva.nutritective.domain.foodproducts.models.Nutriment
+import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_1

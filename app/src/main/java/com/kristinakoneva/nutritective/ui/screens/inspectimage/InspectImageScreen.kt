@@ -56,7 +56,7 @@ fun InspectImageScreen(
     viewModel: InspectImageViewModel = hiltViewModel()
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
-        MyImageArea(state.uri, state.result) { it1, it2, it3 ->
+        MyImageArea(state.uri, state.foodItems.toString()) { it1, it2, it3 ->
             viewModel.setUri(it1, it2, it3)
         }
     }

@@ -1,13 +1,13 @@
 package com.kristinakoneva.nutritective.ui.screens.analyzetext
 
-import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasSource
+import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AnalyzeTextViewModel @Inject constructor(
-    private val source: CalorieNinjasSource
+    private val foodItemsRepository: FoodItemsRepository
 ) : BaseViewModel<AnalyzeTextState, Unit>(AnalyzeTextState()) {
 
     private var searchText: String = "apple"
@@ -18,8 +18,8 @@ class AnalyzeTextViewModel @Inject constructor(
     }
 
     fun analyzeText() {
-        launch {
-            viewState = AnalyzeTextState(name = source.getNutrition(searchText).product.first().name)
+        launchWithLoading {
+            viewState = AnalyzeTextState(foodProducts = foodItemsRepository.getNutritionFromText(searchText))
         }
     }
 }

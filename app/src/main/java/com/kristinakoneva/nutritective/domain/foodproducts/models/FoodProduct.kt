@@ -1,5 +1,7 @@
 package com.kristinakoneva.nutritective.domain.foodproducts.models
 
+import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
+
 data class FoodProduct(
     val name: String?,
     val ingredients: String?,

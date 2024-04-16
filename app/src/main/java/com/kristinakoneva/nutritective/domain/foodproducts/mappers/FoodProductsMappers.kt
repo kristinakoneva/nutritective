@@ -3,8 +3,8 @@ package com.kristinakoneva.nutritective.domain.foodproducts.mappers
 import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.NutrimentsResource
 import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.FoodProductResource
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
-import com.kristinakoneva.nutritective.domain.foodproducts.models.Nutriment
-import com.kristinakoneva.nutritective.domain.foodproducts.models.NutrimentType
+import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
+import com.kristinakoneva.nutritective.domain.shared.models.NutrimentType
 
 fun FoodProductResource.toFoodProduct() = FoodProduct(
     name = this.productName,

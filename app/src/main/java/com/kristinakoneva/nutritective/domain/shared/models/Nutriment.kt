@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.domain.foodproducts.models
+package com.kristinakoneva.nutritective.domain.shared.models
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

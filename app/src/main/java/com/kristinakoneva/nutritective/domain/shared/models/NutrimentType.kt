@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.domain.foodproducts.models
+package com.kristinakoneva.nutritective.domain.shared.models
 
 import android.os.Parcelable
 import com.kristinakoneva.nutritective.R
@@ -17,5 +17,7 @@ enum class NutrimentType(
     PROTEINS("Proteins", R.drawable.ic_proteins),
     SALT("Salt", R.drawable.ic_salt),
     FIBER("Fiber", R.drawable.ic_fiber),
-    SODIUM("Sodium", R.drawable.ic_sodium)
+    SODIUM("Sodium", R.drawable.ic_sodium),
+    POTASSIUM("Potassium", R.drawable.ic_sodium),
+    CHOLESTEROL("Cholesterol", R.drawable.ic_sodium),
 }

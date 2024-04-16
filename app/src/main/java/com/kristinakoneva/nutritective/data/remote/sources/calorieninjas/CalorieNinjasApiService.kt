@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.data.remote.sources.calorieninjas
 
-import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.models.NutritionResponse
+import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.models.FoodItemsNutritionDataResponse
 import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -12,10 +12,10 @@ import retrofit2.http.Query
 interface CalorieNinjasApiService {
 
     @GET("nutrition")
-    suspend fun getNutrition(@Query("query") text: String): NutritionResponse
+    suspend fun getNutritionFromText(@Query("query") text: String): FoodItemsNutritionDataResponse
 
     @Multipart
     @POST("imagetextnutrition")
     @Headers("Transfer-Encoding: chunked")
-    suspend fun getNutritionFromImage(@Part image: MultipartBody.Part): NutritionResponse
+    suspend fun getNutritionFromImage(@Part image: MultipartBody.Part): FoodItemsNutritionDataResponse
 }

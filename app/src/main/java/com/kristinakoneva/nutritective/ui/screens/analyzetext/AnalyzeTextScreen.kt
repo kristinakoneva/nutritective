@@ -45,7 +45,7 @@ fun AnalyzeTextScreen(
             Button(onClick = { viewModel.analyzeText() }) {
                 Text("Analyze")
             }
-            Text(text = state.name ?: "")
+            Text(text = state.foodProducts.toString())
             Text(
                 modifier = Modifier
                     .padding(top = spacing_3)

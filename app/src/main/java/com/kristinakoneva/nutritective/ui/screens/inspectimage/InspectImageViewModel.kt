@@ -2,7 +2,7 @@ package com.kristinakoneva.nutritective.ui.screens.inspectimage
 
 import android.net.Uri
 import android.util.Log
-import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasSource
+import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -13,7 +13,7 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 @HiltViewModel
 class InspectImageViewModel @Inject constructor(
-    private val source: CalorieNinjasSource
+    private val foodItemsRepository: FoodItemsRepository
 ) : BaseViewModel<InspectImageState, Unit>(InspectImageState()) {
 
     fun setUri(uri: Uri, fileName: String = "", imagePath: String = "") {
@@ -21,7 +21,7 @@ class InspectImageViewModel @Inject constructor(
     }
 
     private fun analyzeImage(fileName: String, imagePath: String, uri: Uri) {
-        launch {
+        launchWithLoading {
             val requestBody =
                 MultipartBody.Part.createFormData(
                     "image",
@@ -31,7 +31,7 @@ class InspectImageViewModel @Inject constructor(
 
             Log.e("InspectImageViewModel", "analyzeImage: $requestBody")
             try {
-                val result = source.getNutritionFromImage(requestBody).product.joinToString(", ")
+                val result = foodItemsRepository.getNutritionFromImage(requestBody)
                 viewState = InspectImageState(uri, result)
             } catch (e: Exception) {
                 Log.e("InspectImageViewModel", "analyzeImage: $e")
