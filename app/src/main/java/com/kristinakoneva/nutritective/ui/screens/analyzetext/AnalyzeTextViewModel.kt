@@ -19,7 +19,7 @@ class AnalyzeTextViewModel @Inject constructor(
 
     fun analyzeText() {
         launchWithLoading {
-            viewState = AnalyzeTextState(foodProducts = foodItemsRepository.getNutritionFromText(searchText))
+            viewState = AnalyzeTextState(foodItems = foodItemsRepository.getNutritionFromText(searchText))
         }
     }
 }

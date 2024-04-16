@@ -17,6 +17,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -35,7 +36,7 @@ fun AnalyzeTextScreen(
                 .padding(spacing_3)
                 .padding(bottom = spacing_8),
             horizontalAlignment = Alignment.CenterHorizontally
-        )  {
+        ) {
             Text("Analyze Text")
             TextField(
                 value = state.searchText ?: "", onValueChange = { viewModel.onTextChanged(it) },
@@ -45,7 +46,9 @@ fun AnalyzeTextScreen(
             Button(onClick = { viewModel.analyzeText() }) {
                 Text("Analyze")
             }
-            Text(text = state.foodProducts.toString())
+            state.foodItems?.forEach {
+                FoodItemCard(foodItem = it)
+            }
             Text(
                 modifier = Modifier
                     .padding(top = spacing_3)
