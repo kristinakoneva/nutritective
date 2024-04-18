@@ -64,7 +64,8 @@ fun FoodItemCard(foodItem: FoodItem) {
             Row(
                 modifier = Modifier
                     .padding(horizontal = spacing_2)
-                    .padding(vertical = spacing_1)
+                    .padding(vertical = spacing_1),
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.ic_calories),
@@ -75,8 +76,9 @@ fun FoodItemCard(foodItem: FoodItem) {
                     modifier = Modifier
                         .padding(start = spacing_2),
                     text = "Calories: ${foodItem.calories}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = md_theme_dark_onSecondary
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = md_theme_dark_onSecondary,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
             Row(
@@ -94,8 +96,9 @@ fun FoodItemCard(foodItem: FoodItem) {
                     modifier = Modifier
                         .padding(start = spacing_2),
                     text = "Serving Size: ${foodItem.servingSize}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = md_theme_dark_onSecondary
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = md_theme_dark_onSecondary,
+                    fontWeight = FontWeight.SemiBold
                 )
             }
             OutlinedButton(

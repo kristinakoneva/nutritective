@@ -18,6 +18,6 @@ enum class NutrimentType(
     SALT("Salt", R.drawable.ic_salt),
     FIBER("Fiber", R.drawable.ic_fiber),
     SODIUM("Sodium", R.drawable.ic_sodium),
-    POTASSIUM("Potassium", R.drawable.ic_sodium),
-    CHOLESTEROL("Cholesterol", R.drawable.ic_sodium),
+    POTASSIUM("Potassium", R.drawable.ic_potassium),
+    CHOLESTEROL("Cholesterol", R.drawable.ic_cholesterol),
 }

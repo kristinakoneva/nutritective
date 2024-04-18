@@ -19,7 +19,6 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
-import com.kristinakoneva.nutritective.ui.theme.spacing_0_5
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
@@ -52,8 +51,13 @@ fun ScanBarcodeScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Scan a food product's barcode", style = MaterialTheme.typography.headlineMedium, textAlign = TextAlign.Center)
-        Button(modifier = Modifier.padding(top = spacing_3), onClick = { onScanBarcodeButtonClicked() }) {
+        Text(
+            text = "Scan a food product's barcode",
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
+        )
+        Button(modifier = Modifier.padding(top = spacing_3), onClick = onScanBarcodeButtonClicked) {
             Text(text = "Scan barcode")
         }
         Text(

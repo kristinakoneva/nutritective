@@ -131,7 +131,7 @@ fun AuthScreenContent(
             OutlinedTextField(
                 value = name,
                 textStyle = TextStyle(color = Color.Black),
-                onValueChange = { onNameValueChange(it) },
+                onValueChange = onNameValueChange,
                 label = { Text("Name") },
                 modifier = Modifier
                     .fillMaxWidth()
