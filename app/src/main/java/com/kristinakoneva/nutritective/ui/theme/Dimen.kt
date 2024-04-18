@@ -8,6 +8,7 @@ val spacing_2 = 16.dp
 val spacing_3 = 24.dp
 val spacing_4 = 32.dp
 val spacing_5 = 40.dp
+val spacing_5_5 = 44.dp
 val spacing_6 = 48.dp
 val spacing_7 = 56.dp
 val spacing_8 = 64.dp
@@ -22,4 +23,6 @@ val camera_preview_height = 300.dp
 val instruction_step_image_size = 60.dp
 val loading_box_size = 100.dp
 val food_item_card_corner_radius = 16.dp
+val floating_button_size = 64.dp
+val floating_button_image_size = 60.dp
 
