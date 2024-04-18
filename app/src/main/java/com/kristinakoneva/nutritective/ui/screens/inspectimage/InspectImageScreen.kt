@@ -39,7 +39,9 @@ import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.BuildConfig
+import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
@@ -56,16 +58,14 @@ fun InspectImageScreen(
     viewModel: InspectImageViewModel = hiltViewModel()
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
-        MyImageArea(state.uri, state.foodItems.toString()) { it1, it2, it3 ->
-            viewModel.setUri(it1, it2, it3)
-        }
+        InspectImageScreenContent(state.uri, state.foodItems, viewModel::setUri)
     }
 }
 
 @Composable
-fun MyImageArea(
+fun InspectImageScreenContent(
     uri: Uri? = null,
-    result: String? = null,
+    foodItems: List<FoodItem>? = null,
     onSetUri: (Uri, String, String) -> Unit
 ) {
     val context = LocalContext.current
@@ -180,8 +180,14 @@ fun MyImageArea(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        Text(
+            text = "Inspect image for food items",
+            style = MaterialTheme.typography.headlineMedium,
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.Bold
+        )
         Box(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(top = spacing_3),
             contentAlignment = Alignment.Center
         ) {
             Button(
@@ -193,7 +199,7 @@ fun MyImageArea(
             }
         }
 
-        //preview selfie
+        //preview image
         uri?.let {
             Box(
                 modifier = Modifier.fillMaxWidth(),
@@ -209,7 +215,10 @@ fun MyImageArea(
             }
             Spacer(modifier = Modifier.height(16.dp))
         }
-        Text(text = result ?: "No result yet")
+        foodItems?.forEach {
+            Spacer(modifier = Modifier.padding(top = spacing_2))
+            FoodItemCard(foodItem = it)
+        }
 
         Text(
             modifier = Modifier
