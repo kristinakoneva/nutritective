@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FabPosition
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -31,7 +30,6 @@ import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
 import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
 import com.kristinakoneva.nutritective.ui.theme.floating_button_image_size
 import com.kristinakoneva.nutritective.ui.theme.floating_button_size
-import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_5_5
 
 @Composable
@@ -118,7 +116,7 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
             ) {
                 Image(
                     modifier = Modifier.size(floating_button_image_size),
-                    painter = painterResource(id = R.drawable.ic_launcher_round),
+                    painter = painterResource(id = R.mipmap.ic_launcher_round),
                     contentDescription = "Floating action button"
                 )
             }
