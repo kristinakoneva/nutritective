@@ -133,7 +133,9 @@ fun InspectImageScreenContent(
             // Permission is granted, proceed to step 2
             val tmpUri = getTempUri()
             tempUri.value = tmpUri
-            takePhotoLauncher.launch(tempUri.value)
+            tmpUri?.let {
+                takePhotoLauncher.launch(it)
+            }
         } else {
             // Permission is denied, handle it accordingly
         }
@@ -154,7 +156,9 @@ fun InspectImageScreenContent(
                     // Permission is already granted, proceed to step 2
                     val tmpUri = getTempUri()
                     tempUri.value = tmpUri
-                    takePhotoLauncher.launch(tempUri.value)
+                    tmpUri?.let {
+                        takePhotoLauncher.launch(it)
+                    }
                 } else {
                     // Permission is not granted, request it
                     cameraPermissionLauncher.launch(permission)
@@ -187,7 +191,9 @@ fun InspectImageScreenContent(
             fontWeight = FontWeight.Bold
         )
         Box(
-            modifier = Modifier.fillMaxWidth().padding(top = spacing_3),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = spacing_3),
             contentAlignment = Alignment.Center
         ) {
             Button(
