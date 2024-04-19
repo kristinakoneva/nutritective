@@ -27,6 +27,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
@@ -70,7 +71,12 @@ fun FoodProductDetailsScreenContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = foodProduct.name.orEmpty()) },
+                title = {
+                    Text(
+                        text = foodProduct.name.orEmpty(),
+                        maxLines = 1, overflow = TextOverflow.Ellipsis
+                    )
+                },
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Close button")
