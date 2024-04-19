@@ -3,6 +3,7 @@ package com.kristinakoneva.nutritective.ui.screens.inspectimage
 import android.net.Uri
 import android.util.Log
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
+import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
@@ -28,8 +29,6 @@ class InspectImageViewModel @Inject constructor(
                     "$fileName.jpeg",
                     File(imagePath).asRequestBody("multipart/form-data".toMediaType())
                 )
-
-            Log.e("InspectImageViewModel", "analyzeImage: $requestBody")
             try {
                 val result = foodItemsRepository.getNutritionFromImage(requestBody)
                 viewState = InspectImageState(uri, result)
@@ -37,5 +36,13 @@ class InspectImageViewModel @Inject constructor(
                 Log.e("InspectImageViewModel", "analyzeImage: $e")
             }
         }
+    }
+
+    fun onFoodItemClicked(foodItem: FoodItem) {
+        viewState = viewState.copy(selectedFoodItem = foodItem)
+    }
+
+    fun clearFoodItemSelection() {
+        viewState = viewState.copy(selectedFoodItem = null)
     }
 }

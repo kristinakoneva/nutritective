@@ -42,6 +42,7 @@ import com.kristinakoneva.nutritective.BuildConfig
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
+import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
@@ -58,7 +59,14 @@ fun InspectImageScreen(
     viewModel: InspectImageViewModel = hiltViewModel()
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
-        InspectImageScreenContent(state.uri, state.foodItems, viewModel::setUri)
+        InspectImageScreenContent(
+            state.uri,
+            state.foodItems,
+            state.selectedFoodItem,
+            viewModel::setUri,
+            viewModel::onFoodItemClicked,
+            viewModel::clearFoodItemSelection
+        )
     }
 }
 
@@ -66,7 +74,10 @@ fun InspectImageScreen(
 fun InspectImageScreenContent(
     uri: Uri? = null,
     foodItems: List<FoodItem>? = null,
-    onSetUri: (Uri, String, String) -> Unit
+    selectedFoodItem: FoodItem? = null,
+    onSetUri: (Uri, String, String) -> Unit,
+    onFoodItemClicked: (FoodItem) -> Unit,
+    clearFoodItemSelection: () -> Unit
 ) {
     val context = LocalContext.current
     val tempUri = remember { mutableStateOf<Uri?>(null) }
@@ -183,6 +194,10 @@ fun InspectImageScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (selectedFoodItem != null) {
+            Spacer(modifier = Modifier.padding(top = spacing_3))
+            FoodItemDetailsDialog(foodItem = selectedFoodItem, onClose = clearFoodItemSelection)
+        }
 
         Text(
             text = "Inspect image for food items",
@@ -223,7 +238,7 @@ fun InspectImageScreenContent(
         }
         foodItems?.forEach {
             Spacer(modifier = Modifier.padding(top = spacing_2))
-            FoodItemCard(foodItem = it)
+            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
         }
 
         Text(
