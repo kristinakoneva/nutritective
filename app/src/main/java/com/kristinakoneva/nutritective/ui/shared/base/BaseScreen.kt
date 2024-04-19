@@ -30,11 +30,11 @@ fun <State : Any, Event : Any> BaseScreen(
     }
 
     LaunchedEffect(viewModel.eventFlow) {
-        viewModel.eventFlow.collectSafely(eventHandler::invoke)
+        viewModel.eventFlow.collect(eventHandler::invoke)
     }
 
     LaunchedEffect(viewModel.errorFlow) {
-        viewModel.errorFlow.collectSafely { _ ->
+        viewModel.errorFlow.collect { _ ->
             Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
             navController.popBackStack()
         }

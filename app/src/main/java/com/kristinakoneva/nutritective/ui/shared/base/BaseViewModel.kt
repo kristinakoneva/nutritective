@@ -7,6 +7,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -16,17 +17,17 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
 
     private val mutableStateFlow: MutableStateFlow<State> = MutableStateFlow(initialState)
     private val mutableLoadingStateFlow: MutableStateFlow<LoadingState> = MutableStateFlow(LoadingState.Idle)
-    private val mutableEventFlow = Channel<Event>(capacity = 1)
-    private val mutableErrorFlow = Channel<ErrorEvent>(capacity = 1)
+    private val mutableEventFlow = Channel<Event>(Channel.BUFFERED)
+    private val mutableErrorFlow = Channel<ErrorEvent>(Channel.BUFFERED)
 
     val stateFlow: StateFlow<State> = mutableStateFlow
     val loadingStateFlow: StateFlow<LoadingState> = mutableLoadingStateFlow
-    val eventFlow: SingleSubscriberFlow<Event> = SingleSubscriberFlow(mutableEventFlow.receiveAsFlow())
-    val errorFlow: SingleSubscriberFlow<ErrorEvent> = SingleSubscriberFlow(mutableErrorFlow.receiveAsFlow())
+    val eventFlow: Flow<Event> = mutableEventFlow.receiveAsFlow()
+    val errorFlow: Flow<ErrorEvent> = mutableErrorFlow.receiveAsFlow()
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, throwable ->
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, _ ->
         hideLoading()
-        handleError(throwable)
+        showError(ErrorEvent.UnknownError)
     }
 
     protected var viewState: State
@@ -45,10 +46,6 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
         viewModelScope.launch {
             mutableEventFlow.send(event)
         }
-    }
-
-    private fun handleError(throwable: Throwable?) {
-        showError(ErrorEvent.UnknownError)
     }
 
     private fun showError(error: ErrorEvent) {
