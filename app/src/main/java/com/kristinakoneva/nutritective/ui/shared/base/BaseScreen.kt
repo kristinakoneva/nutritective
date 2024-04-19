@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.ui.shared.base
 
-import git android.widget.Toast
+import android.widget.Toast
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
