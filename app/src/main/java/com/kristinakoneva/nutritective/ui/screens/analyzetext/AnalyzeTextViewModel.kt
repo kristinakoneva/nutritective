@@ -1,6 +1,7 @@
 package com.kristinakoneva.nutritective.ui.screens.analyzetext
 
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
+import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -28,5 +29,13 @@ class AnalyzeTextViewModel @Inject constructor(
                 foodItems = foodItems
             )
         }
+    }
+
+    fun onFoodItemClicked(foodItem: FoodItem) {
+        viewState = viewState.copy(selectedFoodItem = foodItem)
+    }
+
+    fun clearFoodItemSelection() {
+        viewState = viewState.copy(selectedFoodItem = null)
     }
 }

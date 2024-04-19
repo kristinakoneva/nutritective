@@ -22,6 +22,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
+import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -38,8 +39,11 @@ fun AnalyzeTextScreen(
             searchText = state.searchText,
             searchedFor = state.searchedFor,
             foodItems = state.foodItems,
+            selectedFoodItem = state.selectedFoodItem,
             onAnalyzeButtonClick = viewModel::analyzeText,
-            onSearchTextChanged = viewModel::onSearchTextChanged
+            onSearchTextChanged = viewModel::onSearchTextChanged,
+            onFoodItemClicked = viewModel::onFoodItemClicked,
+            clearFoodItemSelection = viewModel::clearFoodItemSelection
         )
     }
 }
@@ -49,8 +53,11 @@ fun AnalyzeTextScreenContent(
     searchText: String?,
     searchedFor: String?,
     foodItems: List<FoodItem>?,
+    selectedFoodItem: FoodItem? = null,
     onAnalyzeButtonClick: () -> Unit,
-    onSearchTextChanged: (String) -> Unit
+    onSearchTextChanged: (String) -> Unit,
+    onFoodItemClicked: (FoodItem) -> Unit,
+    clearFoodItemSelection: () -> Unit
 ) {
     Column(
         modifier = Modifier
@@ -60,6 +67,12 @@ fun AnalyzeTextScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
+        if (selectedFoodItem != null) {
+            Spacer(modifier = Modifier.padding(top = spacing_3))
+            FoodItemDetailsDialog(foodItem = selectedFoodItem, onClose = clearFoodItemSelection)
+        }
+
+
         Text(
             text = "Analyze food related text",
             style = MaterialTheme.typography.headlineMedium,
@@ -93,7 +106,7 @@ fun AnalyzeTextScreenContent(
 
         foodItems?.forEach {
             Spacer(modifier = Modifier.padding(top = spacing_2))
-            FoodItemCard(foodItem = it)
+            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
         }
 
         if (foodItems.isNullOrEmpty() && searchedFor != null) {

@@ -29,7 +29,7 @@ import java.util.Locale
 @Composable
 fun FoodItemCard(
     foodItem: FoodItem,
-    onClickAction: (FoodItem) -> Unit = {}
+    onClickAction: (FoodItem) -> Unit
 ) {
     Card(
         modifier = Modifier

@@ -15,10 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
-import com.kristinakoneva.nutritective.ui.theme.spacing_0_5
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
-import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import java.util.Locale
 
 @OptIn(ExperimentalLayoutApi::class)
