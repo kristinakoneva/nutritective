@@ -19,9 +19,8 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
+import com.kristinakoneva.nutritective.domain.recipes.models.Recipe
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
-import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -51,11 +50,11 @@ fun ExploreRecipesScreen(
 fun ExploreRecipesScreenContent(
     searchText: String?,
     searchedFor: String?,
-    recipes: List<FoodItem>?,
-    selectedRecipe: FoodItem? = null,
+    recipes: List<Recipe>?,
+    selectedRecipe: Recipe? = null,
     onExploreButtonClick: () -> Unit,
     onSearchTextChanged: (String) -> Unit,
-    onRecipeClicked: (FoodItem) -> Unit,
+    onRecipeClicked: (Recipe) -> Unit,
     clearRecipeSelection: () -> Unit
 ) {
     Column(
@@ -68,7 +67,7 @@ fun ExploreRecipesScreenContent(
     ) {
         if (selectedRecipe != null) {
             Spacer(modifier = Modifier.padding(top = spacing_3))
-            FoodItemDetailsDialog(foodItem = selectedRecipe, onClose = clearRecipeSelection)
+            //FoodItemDetailsDialog(foodItem = selectedRecipe, onClose = clearRecipeSelection)
         }
 
 
@@ -101,6 +100,11 @@ fun ExploreRecipesScreenContent(
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
             )
+        }
+
+        recipes?.forEach {
+            Spacer(modifier = Modifier.padding(top = spacing_2))
+            Text(text = it.title)
         }
 
         //        foodItems?.forEach {
