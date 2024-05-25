@@ -26,6 +26,7 @@ import com.kristinakoneva.nutritective.ui.screens.foodproductdetails.FoodProduct
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
 import com.kristinakoneva.nutritective.ui.screens.opencamera.OpenCameraScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
+import com.kristinakoneva.nutritective.ui.screens.usersettings.UserSettingsScreen
 import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
 import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
 import com.kristinakoneva.nutritective.ui.theme.floating_button_image_size
@@ -67,6 +68,9 @@ fun NavHost() {
         }
         composable(ScreenRoute.EXPLORE_RECIPES) {
             WithBottomNavigationBar(navController, screenContent = { ExploreRecipesScreen() })
+        }
+        composable(ScreenRoute.USER_SETTINGS) {
+            WithoutBottomNavigationBar(screenContent = { UserSettingsScreen() })
         }
         composable(ScreenRoute.OPEN_CAMERA) {
             WithoutBottomNavigationBar(screenContent = {
@@ -111,7 +115,8 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
                 modifier = Modifier
                     .offset(y = spacing_5_5)
                     .size(floating_button_size),
-                onClick = { /*TODO*/
+                onClick = {
+                    navController.navigate(ScreenRoute.USER_SETTINGS)
                 }
             ) {
                 Image(
