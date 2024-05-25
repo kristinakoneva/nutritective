@@ -1,7 +1,7 @@
 package com.kristinakoneva.nutritective.data.remote.interceptors
 
 import com.kristinakoneva.nutritective.BuildConfig
-import com.kristinakoneva.nutritective.utils.Constants.CALORIES_NINJA_API_KEY_HEADER
+import com.kristinakoneva.nutritective.utils.Constants.HEADER_API_KEY_CALORIE_NINJAS
 import javax.inject.Inject
 import okhttp3.Interceptor
 import okhttp3.Response
@@ -11,7 +11,7 @@ class CalorieNinjasApiKeyHeaderInterceptor @Inject constructor() : Interceptors.
         val requestBuilder = chain.request().newBuilder()
 
         requestBuilder.header(
-            CALORIES_NINJA_API_KEY_HEADER,
+            HEADER_API_KEY_CALORIE_NINJAS,
             BuildConfig.CALORIE_NINJAS_API_KEY
         )
 

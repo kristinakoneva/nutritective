@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.utils
+package com.kristinakoneva.nutritective.ui.shared.utils
 
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis

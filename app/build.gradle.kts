@@ -129,4 +129,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
+
+    // Browser
+    implementation("androidx.browser:browser:1.8.0")
 }

@@ -5,8 +5,8 @@ import com.kristinakoneva.nutritective.data.remote.interceptors.InterceptorsModu
 import com.kristinakoneva.nutritective.di.qualifiers.CacheDir
 import com.kristinakoneva.nutritective.di.qualifiers.CalorieNinjasApi
 import com.kristinakoneva.nutritective.di.qualifiers.OpenFoodFactsApi
-import com.kristinakoneva.nutritective.utils.Constants.CALORIES_NINJAS_API_BASE_URL
-import com.kristinakoneva.nutritective.utils.Constants.OPEN_FOOD_FACTS_API_BASE_URL
+import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_CALORIE_NINJAS
+import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_OPEN_FOOD_FACTS_API
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +26,7 @@ class HttpClientsModule {
 
     @Provides
     @OpenFoodFactsApi
-    fun openFoodFactsApiBaseUrl(): String = OPEN_FOOD_FACTS_API_BASE_URL
+    fun openFoodFactsApiBaseUrl(): String = BASE_URL_OPEN_FOOD_FACTS_API
 
     @Provides
     @Singleton
@@ -49,7 +49,7 @@ class HttpClientsModule {
 
     @Provides
     @CalorieNinjasApi
-    fun calorieNinjasApiBaseUrl(): String = CALORIES_NINJAS_API_BASE_URL
+    fun calorieNinjasApiBaseUrl(): String = BASE_URL_CALORIE_NINJAS
 
     @Provides
     @Singleton

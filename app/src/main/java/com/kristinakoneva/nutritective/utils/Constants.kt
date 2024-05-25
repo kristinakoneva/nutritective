@@ -2,8 +2,9 @@ package com.kristinakoneva.nutritective.utils
 
 object Constants {
 
-    const val OPEN_FOOD_FACTS_API_BASE_URL = "https://world.openfoodfacts.org/api/v2/"
-    const val CALORIES_NINJAS_API_BASE_URL = "https://api.calorieninjas.com/v1/"
-    const val CALORIES_NINJA_API_KEY_HEADER = "X-Api-Key"
-    const val USER_AGENT_HEADER = "User-Agent"
+    const val BASE_URL_OPEN_FOOD_FACTS_API = "https://world.openfoodfacts.org/api/v2/"
+    const val BASE_URL_CALORIE_NINJAS = "https://api.calorieninjas.com/v1/"
+    const val BASE_URL_ALLERGEN_PRODUCTS = "https://world.openfoodfacts.org/allergen/"
+    const val HEADER_API_KEY_CALORIE_NINJAS = "X-Api-Key"
+    const val HEADER_USER_AGENT = "User-Agent"
 }

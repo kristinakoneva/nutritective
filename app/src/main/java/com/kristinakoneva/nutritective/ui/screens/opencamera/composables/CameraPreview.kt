@@ -20,7 +20,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import com.kristinakoneva.nutritective.ui.theme.camera_preview_height
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
-import com.kristinakoneva.nutritective.utils.BarcodeAnalyzer
+import com.kristinakoneva.nutritective.ui.shared.utils.BarcodeAnalyzer
 
 @Composable
 fun CameraPreview(

@@ -1,6 +1,5 @@
 package com.kristinakoneva.nutritective.ui.screens.usersettings
 
-import android.util.Log
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

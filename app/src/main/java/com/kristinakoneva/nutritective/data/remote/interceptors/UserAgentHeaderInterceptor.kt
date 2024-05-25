@@ -16,7 +16,7 @@ class UserAgentHeaderInterceptor @Inject constructor(
         val appVersion = context.packageManager.getPackageInfo(context.packageName, 0).versionName
 
         requestBuilder.header(
-            Constants.USER_AGENT_HEADER,
+            Constants.HEADER_USER_AGENT,
             "$appName/$appVersion (non-commercial app)"
         )
 
