@@ -1,13 +1,13 @@
 package com.kristinakoneva.nutritective.ui.screens.auth
 
-import com.kristinakoneva.nutritective.domain.authentication.AuthRepository
+import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val userRepository: UserRepository
 ) : BaseViewModel<AuthState, AuthEvent>(
     AuthState(isLogin = true)
 ) {
@@ -20,7 +20,7 @@ class AuthViewModel @Inject constructor(
 
     init {
         launchWithLoading {
-            if (authRepository.getCurrentUser() != null) {
+            if (userRepository.getCurrentUser() != null) {
                 emitEvent(AuthEvent.SuccessfulAuth)
             }
         }
@@ -55,12 +55,12 @@ class AuthViewModel @Inject constructor(
         launchWithLoading {
             try {
                 if (isLogin) {
-                    authRepository.loginUser(viewState.email, viewState.password)
+                    userRepository.loginUser(viewState.email, viewState.password)
                 } else {
-                    authRepository.registerUser(viewState.email, viewState.password)
-                    authRepository.updateUserDisplayName(viewState.name)
+                    userRepository.registerUser(viewState.email, viewState.password)
+                    userRepository.updateUserDisplayName(viewState.name)
                 }
-                if (authRepository.getCurrentUser() != null) {
+                if (userRepository.getCurrentUser() != null) {
                     emitEvent(AuthEvent.SuccessfulAuth)
                 } else {
                     emitEvent(AuthEvent.FailedAuth)

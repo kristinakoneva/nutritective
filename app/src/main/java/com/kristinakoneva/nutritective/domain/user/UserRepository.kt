@@ -1,8 +1,8 @@
-package com.kristinakoneva.nutritective.domain.authentication
+package com.kristinakoneva.nutritective.domain.user
 
-import com.kristinakoneva.nutritective.domain.authentication.models.User
+import com.kristinakoneva.nutritective.domain.user.models.User
 
-interface AuthRepository {
+interface UserRepository {
 
     suspend fun registerUser(email: String, password: String)
 
@@ -13,4 +13,6 @@ interface AuthRepository {
     suspend fun updateUserDisplayName(displayName: String)
 
     suspend fun logoutUser()
+
+    suspend fun getUserAllergensList(): List<String>
 }

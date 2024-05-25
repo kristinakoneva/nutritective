@@ -1,7 +1,7 @@
 package com.kristinakoneva.nutritective.domain
 
-import com.kristinakoneva.nutritective.domain.authentication.AuthRepository
-import com.kristinakoneva.nutritective.domain.authentication.AuthRepositoryImpl
+import com.kristinakoneva.nutritective.domain.user.UserRepository
+import com.kristinakoneva.nutritective.domain.user.UserRepositoryImpl
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepositoryImpl
 import com.kristinakoneva.nutritective.domain.foodproducts.FoodProductsRepository
@@ -20,7 +20,7 @@ import dagger.hilt.components.SingletonComponent
 interface RepositoriesModule {
 
     @Binds
-    fun authRepository(authRepositoryImpl: AuthRepositoryImpl): AuthRepository
+    fun userRepository(userRepositoryImpl: UserRepositoryImpl): UserRepository
 
     @Binds
     fun foodProductsRepository(foodProductsRepository: FoodProductsRepositoryImpl): FoodProductsRepository

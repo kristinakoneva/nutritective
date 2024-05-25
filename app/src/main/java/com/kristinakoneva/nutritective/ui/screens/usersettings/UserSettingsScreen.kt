@@ -28,7 +28,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.R
-import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeViewModel
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.SettingsCell
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
@@ -39,10 +38,19 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_8
 
 @Composable
 fun UserSettingsScreen(
-    viewModel: ScanBarcodeViewModel = hiltViewModel()
+    viewModel: UserSettingsViewModel = hiltViewModel()
 ) {
-    BaseScreen(viewModel = viewModel, eventHandler = {}) {
-        UserSettingsScreenContent {}
+    BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
+        when (state) {
+            is UserSettingsState.Initial -> Unit
+            is UserSettingsState.Content -> {
+                UserSettingsScreenContent(
+                    name = state.name,
+                    allergens = state.allergens,
+                    onCloseButtonClicked = {}
+                )
+            }
+        }
     }
 }
 
@@ -50,6 +58,8 @@ fun UserSettingsScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserSettingsScreenContent(
+    name: String,
+    allergens: List<String>,
     onCloseButtonClicked: () -> Unit
 ) {
     Scaffold(
@@ -57,7 +67,7 @@ fun UserSettingsScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "User Settings",
+                        text = name,
                         maxLines = 1, overflow = TextOverflow.Ellipsis
                     )
                 },
@@ -109,6 +119,8 @@ fun UserSettingsScreenContent(
                     .padding(horizontal = spacing_1, vertical = spacing_2),
                 color = md_theme_dark_primary
             )
+            // Testing
+            Text(text = allergens.joinToString { it }, modifier = Modifier.padding(spacing_3))
         }
     }
 }

@@ -5,6 +5,7 @@ sealed interface UserSettingsState {
     data object Initial : UserSettingsState
 
     data class Content(
-        val name: String
-    )
+        val name: String,
+        val allergens: List<String>,
+    ): UserSettingsState
 }

@@ -1,17 +1,20 @@
-package com.kristinakoneva.nutritective.domain.authentication
+package com.kristinakoneva.nutritective.domain.user
 
 import com.kristinakoneva.nutritective.data.remote.sources.firebaseauth.FirebaseAuthSource
-import com.kristinakoneva.nutritective.domain.authentication.mappers.toUser
-import com.kristinakoneva.nutritective.domain.authentication.models.User
+import com.kristinakoneva.nutritective.data.remote.sources.firestore.FirestoreSource
+import com.kristinakoneva.nutritective.domain.user.mappers.toUser
+import com.kristinakoneva.nutritective.domain.user.models.User
 import javax.inject.Inject
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class AuthRepositoryImpl @Inject constructor(
-    private val authSource: FirebaseAuthSource
-) : AuthRepository {
+class UserRepositoryImpl @Inject constructor(
+    private val authSource: FirebaseAuthSource,
+    private val firestoreSource: FirestoreSource
+) : UserRepository {
     override suspend fun registerUser(email: String, password: String) = withContext(Dispatchers.IO) {
         authSource.registerUser(email, password)
+        firestoreSource.addNewUser(authSource.getCurrentUser()?.uid.orEmpty())
     }
 
     override suspend fun loginUser(email: String, password: String) = withContext(Dispatchers.IO) {
@@ -28,5 +31,9 @@ class AuthRepositoryImpl @Inject constructor(
 
     override suspend fun logoutUser() = withContext(Dispatchers.IO) {
         authSource.logoutUser()
+    }
+
+    override suspend fun getUserAllergensList(): List<String> = withContext(Dispatchers.IO) {
+        firestoreSource.getAllergens(getCurrentUser()?.uid.orEmpty())
     }
 }

@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.domain.authentication.models
+package com.kristinakoneva.nutritective.domain.user.models
 
 data class User(
     val uid: String = "",

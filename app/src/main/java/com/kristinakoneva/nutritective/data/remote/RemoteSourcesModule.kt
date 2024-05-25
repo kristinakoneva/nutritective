@@ -4,6 +4,8 @@ import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.Calorie
 import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasSourceImpl
 import com.kristinakoneva.nutritective.data.remote.sources.firebaseauth.FirebaseAuthSource
 import com.kristinakoneva.nutritective.data.remote.sources.firebaseauth.FirebaseAuthSourceImpl
+import com.kristinakoneva.nutritective.data.remote.sources.firestore.FirestoreSource
+import com.kristinakoneva.nutritective.data.remote.sources.firestore.FirestoreSourceImpl
 import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.OpenFoodFactsSource
 import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.OpenFoodFactsSourceImpl
 import dagger.Binds
@@ -23,4 +25,7 @@ interface RemoteSourcesModule {
 
     @Binds
     fun bindFirebaseAuthSource(source: FirebaseAuthSourceImpl): FirebaseAuthSource
+
+    @Binds
+    fun bindFirestoreSource(source: FirestoreSourceImpl): FirestoreSource
 }
