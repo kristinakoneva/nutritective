@@ -3,6 +3,7 @@ package com.kristinakoneva.nutritective.ui.shared.composables
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,11 +27,12 @@ import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_secondary
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
 @Composable
-fun AllergenSelectionItem(
+fun CommonAllergenSelectionItem(
     name: String,
     iconRes: Int,
     isSelected: Boolean = true,
-    modifier: Modifier
+    modifier: Modifier,
+    onClick: () -> Unit
 ) {
     var columnModifier = Modifier
         .fillMaxSize()
@@ -42,7 +44,7 @@ fun AllergenSelectionItem(
         columnModifier
             .background(md_theme_dark_onSecondaryContainer)
     }
-    Card(modifier = modifier, shape = RoundedCornerShape(default_corner_radius)) {
+    Card(modifier = modifier.clickable { onClick() }, shape = RoundedCornerShape(default_corner_radius)) {
         Column(modifier = columnModifier, horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.size(spacing_1))
             Image(

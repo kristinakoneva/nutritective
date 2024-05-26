@@ -29,7 +29,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
-import com.kristinakoneva.nutritective.ui.shared.composables.AllergenSelectionItem
+import com.kristinakoneva.nutritective.ui.shared.composables.CommonAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -41,7 +41,10 @@ fun SelectAllergensScreen(
     viewModel: SelectAllergensViewModel = hiltViewModel()
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
-        SelectAllergensScreenContent(state)
+        SelectAllergensScreenContent(
+            state,
+            onCommonAllergenSelected = viewModel::onCommonAllergenSelected
+        )
     }
 }
 
@@ -49,7 +52,8 @@ fun SelectAllergensScreen(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun SelectAllergensScreenContent(
-    state: SelectAllergensState
+    state: SelectAllergensState,
+    onCommonAllergenSelected: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -87,11 +91,12 @@ fun SelectAllergensScreenContent(
                     .weight(1f)
                     .padding(spacing_1)
                 state.commonAllergens.forEach { allergen ->
-                    AllergenSelectionItem(
+                    CommonAllergenSelectionItem(
                         name = allergen.text,
                         iconRes = allergen.icon,
-                        isSelected = state.selectedCommonAllergens.contains(allergen),
-                        modifier = itemModifier
+                        isSelected = state.selectedAllergens.contains(allergen.text),
+                        modifier = itemModifier,
+                        onClick = { onCommonAllergenSelected(allergen.text) }
                     )
                 }
             }
