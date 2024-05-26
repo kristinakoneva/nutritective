@@ -43,15 +43,21 @@ import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_ALLERGEN_PRODUCT
 
 @Composable
 fun UserSettingsScreen(
-    viewModel: UserSettingsViewModel = hiltViewModel()
+    viewModel: UserSettingsViewModel = hiltViewModel(),
+    onNavigateToSelectAllergens: () -> Unit
 ) {
-    BaseScreen(viewModel = viewModel, eventHandler = {}) { state ->
+    BaseScreen(viewModel = viewModel, eventHandler = { event ->
+        when (event) {
+            is UserSettingsEvent.NavigateToSelectAllergens -> onNavigateToSelectAllergens()
+        }
+    }) { state ->
         when (state) {
             is UserSettingsState.Initial -> Unit
             is UserSettingsState.Content -> {
                 UserSettingsScreenContent(
                     name = state.name,
                     allergens = state.allergens,
+                    onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
                     onCloseButtonClicked = {}
                 )
             }
@@ -65,6 +71,7 @@ fun UserSettingsScreen(
 fun UserSettingsScreenContent(
     name: String,
     allergens: List<String>,
+    onNavigateToSelectAllergens: () -> Unit,
     onCloseButtonClicked: () -> Unit
 ) {
     val context = LocalContext.current
@@ -116,9 +123,7 @@ fun UserSettingsScreenContent(
 
                 }
                 Spacer(modifier = Modifier.padding(top = spacing_3))
-                SettingsCell(text = "Select allergens") {
-
-                }
+                SettingsCell(text = "Select allergens", onClick = onNavigateToSelectAllergens)
             }
             HorizontalDivider(
                 modifier = Modifier

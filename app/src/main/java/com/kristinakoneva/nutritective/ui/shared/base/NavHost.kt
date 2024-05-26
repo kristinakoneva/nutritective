@@ -26,6 +26,7 @@ import com.kristinakoneva.nutritective.ui.screens.foodproductdetails.FoodProduct
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
 import com.kristinakoneva.nutritective.ui.screens.opencamera.OpenCameraScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
+import com.kristinakoneva.nutritective.ui.screens.selectallergens.SelectAllergensScreen
 import com.kristinakoneva.nutritective.ui.screens.usersettings.UserSettingsScreen
 import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
 import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
@@ -70,7 +71,13 @@ fun NavHost() {
             WithBottomNavigationBar(navController, screenContent = { ExploreRecipesScreen() })
         }
         composable(ScreenRoute.USER_SETTINGS) {
-            WithoutBottomNavigationBar(screenContent = { UserSettingsScreen() })
+            WithoutBottomNavigationBar(screenContent = {
+                UserSettingsScreen(
+                    onNavigateToSelectAllergens = {
+                        navController.navigate(ScreenRoute.SELECT_ALLERGENS)
+                    }
+                )
+            })
         }
         composable(ScreenRoute.OPEN_CAMERA) {
             WithoutBottomNavigationBar(screenContent = {
@@ -99,6 +106,11 @@ fun NavHost() {
                         }
                     }
                 )
+            })
+        }
+        composable(ScreenRoute.SELECT_ALLERGENS) {
+            WithoutBottomNavigationBar(screenContent = {
+                SelectAllergensScreen()
             })
         }
     }

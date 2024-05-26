@@ -8,7 +8,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserSettingsViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseViewModel<UserSettingsState, Unit>(UserSettingsState.Initial) {
+) : BaseViewModel<UserSettingsState, UserSettingsEvent>(UserSettingsState.Initial) {
 
     init {
         launchWithLoading {
@@ -17,5 +17,9 @@ class UserSettingsViewModel @Inject constructor(
                 allergens = userRepository.getUserAllergensList(),
             )
         }
+    }
+
+    fun onNavigateToSelectAllergens() {
+        emitEvent(UserSettingsEvent.NavigateToSelectAllergens)
     }
 }
