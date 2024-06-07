@@ -110,7 +110,18 @@ fun NavHost() {
         }
         composable(ScreenRoute.SELECT_ALLERGENS) {
             WithoutBottomNavigationBar(screenContent = {
-                SelectAllergensScreen()
+                SelectAllergensScreen(
+                    onNavigateBack = {
+                        navController.navigateUp()
+                    },
+                    onNavigateToUserSettings = {
+                        navController.navigate(ScreenRoute.USER_SETTINGS) {
+                            popUpTo(ScreenRoute.SELECT_ALLERGENS) {
+                                inclusive = true
+                            }
+                        }
+                    }
+                )
             })
         }
     }

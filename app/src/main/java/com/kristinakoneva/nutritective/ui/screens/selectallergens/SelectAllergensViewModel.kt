@@ -8,17 +8,21 @@ import javax.inject.Inject
 @HiltViewModel
 class SelectAllergensViewModel @Inject constructor(
     private val userRepository: UserRepository,
-) : BaseViewModel<SelectAllergensState, Unit>(SelectAllergensState()) {
+) : BaseViewModel<SelectAllergensState, SelectAllergensEvent>(SelectAllergensState()) {
+
+    private var inputText: String = ""
+    private var initialSelections = emptyList<String>()
 
     init {
         launchWithLoading {
+            initialSelections = userRepository.getUserAllergensList()
             viewState = viewState.copy(
-                selectedAllergens = userRepository.getUserAllergensList(),
+                selectedAllergens = initialSelections
             )
         }
     }
 
-    fun onCommonAllergenSelected(allergen: String) {
+    fun onAllergenSelected(allergen: String) {
         viewState = viewState.copy(
             selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
                 if (contains(allergen)) {
@@ -26,7 +30,44 @@ class SelectAllergensViewModel @Inject constructor(
                 } else {
                     add(allergen)
                 }
-            }
+            },
+            isSaveChangesButtonEnabled = viewState.selectedAllergens != initialSelections
         )
+    }
+
+    fun onInputTextChanged(inputText: String) {
+        this.inputText = inputText
+        viewState = viewState.copy(inputText = inputText)
+    }
+
+    fun onAddAllergenClicked() {
+        val allergenName = inputText.trim()
+        inputText = ""
+
+        if (allergenName.isEmpty()) return
+        if (viewState.commonAllergens.map { it.text }.contains(allergenName)) {
+            onAllergenSelected(allergenName)
+            viewState = viewState.copy(inputText = "")
+            return
+        }
+
+        viewState = viewState.copy(
+            manuallyAddedAllergens = viewState.manuallyAddedAllergens.toMutableList().apply {
+                add(allergenName)
+            },
+            selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
+                add(allergenName)
+            },
+            inputText = "",
+            isSaveChangesButtonEnabled = initialSelections != viewState.selectedAllergens
+        )
+    }
+
+    fun onSaveChangesButtonClicked() {
+        launchWithLoading {
+            userRepository.setUserAllergensList(viewState.selectedAllergens)
+            initialSelections = viewState.selectedAllergens
+            emitEvent(SelectAllergensEvent.NavigateToUserSettings)
+        }
     }
 }

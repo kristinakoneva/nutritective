@@ -8,11 +8,11 @@ import javax.inject.Inject
 @HiltViewModel
 class UserSettingsViewModel @Inject constructor(
     private val userRepository: UserRepository
-) : BaseViewModel<UserSettingsState, UserSettingsEvent>(UserSettingsState.Initial) {
+) : BaseViewModel<UserSettingsState, UserSettingsEvent>(UserSettingsState()) {
 
     init {
         launchWithLoading {
-            viewState = UserSettingsState.Content(
+            viewState = UserSettingsState(
                 name = userRepository.getCurrentUser()?.displayName.orEmpty(),
                 allergens = userRepository.getUserAllergensList(),
             )

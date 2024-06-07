@@ -15,4 +15,6 @@ interface UserRepository {
     suspend fun logoutUser()
 
     suspend fun getUserAllergensList(): List<String>
+
+    suspend fun setUserAllergensList(allergens: List<String>)
 }

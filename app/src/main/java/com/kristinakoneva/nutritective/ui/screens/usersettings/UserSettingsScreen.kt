@@ -51,17 +51,12 @@ fun UserSettingsScreen(
             is UserSettingsEvent.NavigateToSelectAllergens -> onNavigateToSelectAllergens()
         }
     }) { state ->
-        when (state) {
-            is UserSettingsState.Initial -> Unit
-            is UserSettingsState.Content -> {
-                UserSettingsScreenContent(
-                    name = state.name,
-                    allergens = state.allergens,
-                    onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
-                    onCloseButtonClicked = {}
-                )
-            }
-        }
+        UserSettingsScreenContent(
+            name = state.name,
+            allergens = state.allergens,
+            onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
+            onCloseButtonClicked = {}
+        )
     }
 }
 
@@ -149,9 +144,9 @@ fun UserSettingsScreenContent(
                                 Uri.parse(BASE_URL_ALLERGEN_PRODUCTS + it)
                             )
                         }
+                        HorizontalDivider(modifier = Modifier.padding(vertical = spacing_1))
+                        Spacer(modifier = Modifier.padding(top = spacing_1))
                     }
-                    HorizontalDivider(modifier = Modifier.padding(vertical = spacing_1))
-                    Spacer(modifier = Modifier.padding(top = spacing_1))
                 }
             }
         }
