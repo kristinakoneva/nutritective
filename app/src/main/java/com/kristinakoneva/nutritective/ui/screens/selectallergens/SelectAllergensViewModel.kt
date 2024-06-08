@@ -17,21 +17,25 @@ class SelectAllergensViewModel @Inject constructor(
         launchWithLoading {
             initialSelections = userRepository.getUserAllergensList()
             viewState = viewState.copy(
-                selectedAllergens = initialSelections
+                selectedAllergens = initialSelections,
+                manuallyAddedAllergens = initialSelections.filterNot {
+                    viewState.commonAllergens.map { allergen -> allergen.text }.contains(it)
+                }
             )
         }
     }
 
     fun onAllergenSelected(allergen: String) {
+        val selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
+            if (contains(allergen)) {
+                remove(allergen)
+            } else {
+                add(allergen)
+            }
+        }
         viewState = viewState.copy(
-            selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
-                if (contains(allergen)) {
-                    remove(allergen)
-                } else {
-                    add(allergen)
-                }
-            },
-            isSaveChangesButtonEnabled = viewState.selectedAllergens != initialSelections
+            selectedAllergens = selectedAllergens,
+            isSaveChangesButtonEnabled = selectedAllergens != initialSelections
         )
     }
 
@@ -51,15 +55,21 @@ class SelectAllergensViewModel @Inject constructor(
             return
         }
 
+        val selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
+            add(allergenName)
+        }
+        val manuallyAddedAllergens = if(viewState.manuallyAddedAllergens.contains(allergenName)) {
+            viewState.manuallyAddedAllergens
+        } else {
+            viewState.manuallyAddedAllergens.toMutableList().apply {
+                add(allergenName)
+            }
+        }
         viewState = viewState.copy(
-            manuallyAddedAllergens = viewState.manuallyAddedAllergens.toMutableList().apply {
-                add(allergenName)
-            },
-            selectedAllergens = viewState.selectedAllergens.toMutableList().apply {
-                add(allergenName)
-            },
+            manuallyAddedAllergens = manuallyAddedAllergens,
+            selectedAllergens = selectedAllergens,
             inputText = "",
-            isSaveChangesButtonEnabled = initialSelections != viewState.selectedAllergens
+            isSaveChangesButtonEnabled = initialSelections != selectedAllergens
         )
     }
 

@@ -19,6 +19,16 @@ class UserSettingsViewModel @Inject constructor(
         }
     }
 
+    fun refreshAllergensList() {
+        if (viewState.name != null) {
+            launchWithLoading {
+                viewState = viewState.copy(
+                    allergens = userRepository.getUserAllergensList(),
+                )
+            }
+        }
+    }
+
     fun onNavigateToSelectAllergens() {
         emitEvent(UserSettingsEvent.NavigateToSelectAllergens)
     }

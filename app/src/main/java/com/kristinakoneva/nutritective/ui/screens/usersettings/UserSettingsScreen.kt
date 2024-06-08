@@ -22,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -44,7 +45,8 @@ import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_ALLERGEN_PRODUCT
 @Composable
 fun UserSettingsScreen(
     viewModel: UserSettingsViewModel = hiltViewModel(),
-    onNavigateToSelectAllergens: () -> Unit
+    onNavigateToSelectAllergens: () -> Unit,
+    onNavigateBack: () -> Unit
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
@@ -52,10 +54,11 @@ fun UserSettingsScreen(
         }
     }) { state ->
         UserSettingsScreenContent(
-            name = state.name,
+            name = state.name.orEmpty(),
             allergens = state.allergens,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
-            onCloseButtonClicked = {}
+            refreshAllergensList = viewModel::refreshAllergensList,
+            onCloseButtonClicked = onNavigateBack
         )
     }
 }
@@ -67,9 +70,15 @@ fun UserSettingsScreenContent(
     name: String,
     allergens: List<String>,
     onNavigateToSelectAllergens: () -> Unit,
+    refreshAllergensList: () -> Unit,
     onCloseButtonClicked: () -> Unit
 ) {
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        refreshAllergensList()
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -133,7 +142,10 @@ fun UserSettingsScreenContent(
                 fontWeight = FontWeight.Bold
             )
             if (allergens.isEmpty()) {
-                Text(text = "You haven't selected any allergens you would like Nutritective to detect.")
+                Text(
+                    text = "You haven't selected any allergens you would like Nutritective to detect.",
+                    modifier = Modifier.padding(horizontal = spacing_3)
+                )
             } else {
                 Column(modifier = Modifier.padding(horizontal = spacing_3)) {
                     allergens.forEach {

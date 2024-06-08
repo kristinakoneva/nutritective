@@ -5,14 +5,17 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -31,6 +34,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.CommonAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.ManuallyAddedAllergenSelectionItem
+import com.kristinakoneva.nutritective.ui.theme.large_icon_size
+import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
+import com.kristinakoneva.nutritective.ui.theme.medium_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -40,12 +46,11 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_8
 @Composable
 fun SelectAllergensScreen(
     viewModel: SelectAllergensViewModel = hiltViewModel(),
-    onNavigateBack: () -> Unit,
-    onNavigateToUserSettings: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
-            is SelectAllergensEvent.NavigateToUserSettings -> onNavigateToUserSettings()
+            is SelectAllergensEvent.NavigateToUserSettings -> onNavigateBack()
         }
 
     }) { state ->
@@ -55,8 +60,7 @@ fun SelectAllergensScreen(
             onInputTextChanged = viewModel::onInputTextChanged,
             onAddAllergenClicked = viewModel::onAddAllergenClicked,
             onSaveChangesButtonClicked = viewModel::onSaveChangesButtonClicked,
-            onNavigateBack = onNavigateBack,
-            onNavigateToUserSettings = onNavigateToUserSettings
+            onNavigateBack = onNavigateBack
         )
     }
 }
@@ -70,8 +74,7 @@ fun SelectAllergensScreenContent(
     onInputTextChanged: (String) -> Unit,
     onAddAllergenClicked: () -> Unit,
     onSaveChangesButtonClicked: () -> Unit,
-    onNavigateBack: () -> Unit,
-    onNavigateToUserSettings: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -87,7 +90,8 @@ fun SelectAllergensScreenContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = "Back button"
+                            contentDescription = "Back button",
+                            modifier = Modifier.size(large_icon_size)
                         )
                     }
                 }
@@ -189,12 +193,17 @@ fun SelectAllergensScreenContent(
 
             Button(
                 modifier = Modifier
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
+                    .padding(top = spacing_4)
+                    .padding(horizontal = spacing_3)
+                    .fillMaxWidth(),
                 onClick = onSaveChangesButtonClicked,
-                enabled = state.isSaveChangesButtonEnabled
+                enabled = state.isSaveChangesButtonEnabled,
+                colors = ButtonDefaults.buttonColors(
+                    disabledContainerColor = md_theme_dark_outline
+                ),
+                contentPadding = PaddingValues(spacing_2)
             ) {
-                Text("Save changes")
+                Text("Save changes".uppercase())
             }
         }
     }

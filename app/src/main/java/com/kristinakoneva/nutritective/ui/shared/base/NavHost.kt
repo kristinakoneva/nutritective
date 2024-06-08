@@ -75,6 +75,9 @@ fun NavHost() {
                 UserSettingsScreen(
                     onNavigateToSelectAllergens = {
                         navController.navigate(ScreenRoute.SELECT_ALLERGENS)
+                    },
+                    onNavigateBack = {
+                        navController.navigateUp()
                     }
                 )
             })
@@ -113,13 +116,6 @@ fun NavHost() {
                 SelectAllergensScreen(
                     onNavigateBack = {
                         navController.navigateUp()
-                    },
-                    onNavigateToUserSettings = {
-                        navController.navigate(ScreenRoute.USER_SETTINGS) {
-                            popUpTo(ScreenRoute.SELECT_ALLERGENS) {
-                                inclusive = true
-                            }
-                        }
                     }
                 )
             })
