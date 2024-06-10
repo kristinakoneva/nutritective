@@ -27,4 +27,6 @@ val loading_box_size = 100.dp
 val food_item_card_corner_radius = 16.dp
 val floating_button_size = 64.dp
 val floating_button_image_size = 60.dp
+val nutriscore_image_height = 50.dp
+val nutriscore_image_width = 80.dp
 

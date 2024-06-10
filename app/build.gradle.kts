@@ -123,6 +123,7 @@ dependencies {
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("io.coil-kt:coil-svg:2.6.0")
 
     // Firebase
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
