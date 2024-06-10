@@ -5,6 +5,9 @@ import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.models.
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
 import com.kristinakoneva.nutritective.domain.shared.models.NutrimentType
+import com.kristinakoneva.nutritective.extensions.roundToDecimalPlaces
+import java.math.RoundingMode
+import kotlin.math.roundToLong
 
 fun FoodProductResource.toFoodProduct() = FoodProduct(
     name = this.productName,
@@ -53,7 +56,7 @@ fun NutrimentsResource.toNutrimentsList(): List<Nutriment>? {
     return nutriments
 }
 
-private fun combineValueWithUnit(value: Double?, unit: String?): String = "$value $unit"
+private fun combineValueWithUnit(value: Double?, unit: String?): String = "${value?.roundToDecimalPlaces(2)} $unit"
 
 fun String.toNutriscoreGradeUrl(): String? =
     if (this.isNotEmpty()) "https://static.openfoodfacts.org/images/misc/nutriscore-$this.svg" else null

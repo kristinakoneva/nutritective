@@ -12,6 +12,8 @@ val spacing_5_5 = 44.dp
 val spacing_6 = 48.dp
 val spacing_7 = 56.dp
 val spacing_8 = 64.dp
+val spacing_9 = 72.dp
+val spacing_10 = 80.dp
 
 val small_icon_size = 16.dp
 val medium_icon_size = 24.dp

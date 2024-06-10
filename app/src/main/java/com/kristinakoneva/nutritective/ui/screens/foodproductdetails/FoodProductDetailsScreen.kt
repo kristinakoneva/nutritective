@@ -28,8 +28,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.InformationSection
 import com.kristinakoneva.nutritective.ui.shared.composables.NutrimentItem
+import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -50,6 +52,8 @@ fun FoodProductDetailsScreen(
             is FoodProductDetailsState.Content -> {
                 FoodProductDetailsScreenContent(
                     foodProduct = state.foodProduct,
+                    allergenStatus = state.allergenStatus,
+                    detectedAllergens = state.detectedAllergens,
                     onCloseButtonClicked = viewModel::onCloseButtonClicked
                 )
             }
@@ -62,6 +66,8 @@ fun FoodProductDetailsScreen(
 @Composable
 fun FoodProductDetailsScreenContent(
     foodProduct: FoodProduct,
+    allergenStatus: AllergenStatus?,
+    detectedAllergens: List<String>?,
     onCloseButtonClicked: () -> Unit
 ) {
     Scaffold(
@@ -83,7 +89,7 @@ fun FoodProductDetailsScreenContent(
     ) { _ ->
         Column(
             modifier = Modifier
-                .padding(top = spacing_8, bottom = spacing_2)
+                .padding(top = spacing_8)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
@@ -94,13 +100,30 @@ fun FoodProductDetailsScreenContent(
                     .padding(horizontal = spacing_3),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                AsyncImage(model = foodProduct.imageUrl, contentDescription = "Food Product Image")
-                Column(modifier = Modifier.padding(start = spacing_1)) {
-                    Text(text = foodProduct.name.orEmpty(), style = MaterialTheme.typography.headlineLarge)
+                AsyncImage(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .weight(0.4f),
+                    model = foodProduct.imageUrl,
+                    contentDescription = "Food Product Image"
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(start = spacing_1)
+                        .weight(0.6f)
+                ) {
+                    Text(text = foodProduct.name.orEmpty(), style = MaterialTheme.typography.headlineMedium)
                     Text(text = "Brands: ${foodProduct.brands.orEmpty()}", style = MaterialTheme.typography.labelLarge)
                     //AsyncImage(model = foodProduct.nutriscoreUrl, contentDescription = "Nutri-Score Grade Image")
                 }
             }
+
+            if (allergenStatus != null) {
+                Column(modifier = Modifier.padding(horizontal = spacing_3)) {
+                    AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
+                }
+            }
+
             val nutriments = foodProduct.nutriments ?: emptyList()
             FlowRow(
                 modifier = Modifier
@@ -133,7 +156,7 @@ fun FoodProductDetailsScreenContent(
             )
             InformationSection(
                 modifier = Modifier
-                    .padding(top = spacing_2)
+                    .padding(top = spacing_2, bottom = spacing_3)
                     .padding(horizontal = spacing_3),
                 subtitle = "Categories",
                 value = foodProduct.categories.orEmpty()

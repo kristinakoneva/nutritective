@@ -17,6 +17,7 @@ import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -38,9 +39,10 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.opencamera.composables.BarcodeInputDialog
 import com.kristinakoneva.nutritective.ui.screens.opencamera.composables.CameraPreview
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.theme.spacing_10
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
-import com.kristinakoneva.nutritective.ui.theme.spacing_8
+import com.kristinakoneva.nutritective.ui.theme.spacing_4
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -140,14 +142,20 @@ fun OpenCameraScreenContent(
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = spacing_3)
-                .padding(top = spacing_8, bottom = spacing_2),
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(top = spacing_10, bottom = spacing_2),
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
                 modifier = Modifier.padding(bottom = spacing_2),
-                text = "Locate the barcode on the product and position it within the preview area."
+                text = "Locate the barcode on the product and position it within the preview area:",
+                style = MaterialTheme.typography.titleMedium
             )
             CameraPreview(successfulBarcodeScannedListener)
+            Text(
+                modifier = Modifier.padding(top = spacing_4, bottom = spacing_2),
+                text = "Alternatively:",
+                style = MaterialTheme.typography.titleMedium
+            )
             Button(modifier = Modifier.padding(bottom = spacing_3), onClick = onEnterBarcodeManuallyButtonClicked) {
                 Text(text = "Enter barcode manually")
             }
