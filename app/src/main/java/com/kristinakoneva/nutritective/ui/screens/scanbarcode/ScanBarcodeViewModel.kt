@@ -17,6 +17,10 @@ class ScanBarcodeViewModel @Inject constructor(
 ) : BaseViewModel<ScanBarcodeState, ScanBarcodeEvent>(ScanBarcodeState()) {
 
     init {
+        loadLastSearch()
+    }
+
+    private fun loadLastSearch() {
         launch {
             try {
                 val lastSearchedBarcode = sessionRepository.getLastScannedFoodProductBarcode()
@@ -56,5 +60,11 @@ class ScanBarcodeViewModel @Inject constructor(
 
     fun onScanBarcodeButtonClicked() {
         emitEvent(ScanBarcodeEvent.NavigateToOpenCamera)
+    }
+
+    fun refresh() {
+        if (viewState.lastSearch != null) {
+            loadLastSearch()
+        }
     }
 }
