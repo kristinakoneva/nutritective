@@ -4,6 +4,7 @@ import android.net.Uri
 import android.util.Log
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
+import com.kristinakoneva.nutritective.domain.session.SessionRepository
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
@@ -67,5 +68,17 @@ class InspectImageViewModel @Inject constructor(
 
     fun clearFoodItemSelection() {
         viewState = viewState.copy(selectedFoodItem = null)
+    }
+
+    fun onClearLastSearchClicked() {
+        viewState = viewState.copy(showClearLastSearchDialog = true)
+    }
+
+    fun onClearLastSearchConfirmed() {
+        viewState = InspectImageState(showClearLastSearchDialog = false)
+    }
+
+    fun onClearLastSearchCancelled() {
+        viewState = viewState.copy(showClearLastSearchDialog = false)
     }
 }

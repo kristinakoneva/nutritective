@@ -9,5 +9,6 @@ data class InspectImageState(
     val foodItems: List<FoodItem>? = null,
     val selectedFoodItem: FoodItem? = null,
     val allergenStatus: AllergenStatus? = null,
-    val detectedAllergens: List<String>? = null
+    val detectedAllergens: List<String>? = null,
+    val showClearLastSearchDialog: Boolean = false
 )

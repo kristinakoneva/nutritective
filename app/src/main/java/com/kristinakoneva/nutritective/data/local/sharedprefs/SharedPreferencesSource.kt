@@ -5,4 +5,6 @@ interface SharedPreferencesSource {
     fun getLastScannedBarcode(): String?
 
     fun saveLastScannedBarcode(barcode: String)
+
+    fun clearLastScannedBarcode()
 }

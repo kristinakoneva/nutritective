@@ -63,8 +63,23 @@ class ScanBarcodeViewModel @Inject constructor(
     }
 
     fun refresh() {
-        if (viewState.lastSearch != null) {
+        if (viewState.lastSearch != null && viewState.showClearLastSearchDialog.not()) {
             loadLastSearch()
         }
+    }
+
+    fun onClearLastSearchClicked() {
+        viewState = viewState.copy(showClearLastSearchDialog = true)
+    }
+
+    fun onClearLastSearchConfirmed() {
+        launch {
+            sessionRepository.clearLastScannedFoodProductBarcode()
+            viewState = viewState.copy(lastSearch = null, showClearLastSearchDialog = false)
+        }
+    }
+
+    fun onClearLastSearchCancelled() {
+        viewState = viewState.copy(showClearLastSearchDialog = false)
     }
 }

@@ -10,8 +10,10 @@ import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,6 +23,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -41,6 +44,7 @@ import com.kristinakoneva.nutritective.BuildConfig
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
+import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
@@ -66,9 +70,13 @@ fun InspectImageScreen(
             state.selectedFoodItem,
             state.allergenStatus,
             state.detectedAllergens,
+            state.showClearLastSearchDialog,
             viewModel::setUri,
             viewModel::onFoodItemClicked,
-            viewModel::clearFoodItemSelection
+            viewModel::clearFoodItemSelection,
+            onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
+            onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
         )
     }
 }
@@ -80,10 +88,21 @@ fun InspectImageScreenContent(
     selectedFoodItem: FoodItem? = null,
     allergenStatus: AllergenStatus? = null,
     detectedAllergens: List<String>? = null,
+    showClearLastSearchDialog: Boolean = false,
     onSetUri: (Uri, String, String) -> Unit,
     onFoodItemClicked: (FoodItem) -> Unit,
-    clearFoodItemSelection: () -> Unit
+    clearFoodItemSelection: () -> Unit,
+    onClearLastSearchClicked: () -> Unit,
+    onClearLastSearchConfirmed: () -> Unit,
+    onClearLastSearchCancelled: () -> Unit
 ) {
+    if (showClearLastSearchDialog) {
+        ClearLastSearchConfirmationDialog(
+            onConfirm = onClearLastSearchConfirmed,
+            onCancel = onClearLastSearchCancelled
+        )
+    }
+
     val context = LocalContext.current
     val tempUri = remember { mutableStateOf<Uri?>(null) }
     fun getTempUri(): Uri? {
@@ -277,6 +296,12 @@ fun InspectImageScreenContent(
             )
             Spacer(modifier = Modifier.padding(top = spacing_3))
             InspectImageInstructionSteps()
+        } else {
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
+                    Text(text = "Clear last search")
+                }
+            }
         }
     }
 }

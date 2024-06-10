@@ -1,6 +1,8 @@
 package com.kristinakoneva.nutritective.ui.screens.analyzetext
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +25,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
+import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
@@ -44,10 +48,14 @@ fun AnalyzeTextScreen(
             selectedFoodItem = state.selectedFoodItem,
             allergenStatus = state.allergenStatus,
             detectedAllergens = state.detectedAllergens,
+            showClearLastSearchDialog = state.showClearLastSearchDialog,
             onAnalyzeButtonClick = viewModel::analyzeText,
             onSearchTextChanged = viewModel::onSearchTextChanged,
             onFoodItemClicked = viewModel::onFoodItemClicked,
-            clearFoodItemSelection = viewModel::clearFoodItemSelection
+            clearFoodItemSelection = viewModel::clearFoodItemSelection,
+            onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
+            onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
         )
     }
 }
@@ -60,11 +68,22 @@ fun AnalyzeTextScreenContent(
     selectedFoodItem: FoodItem? = null,
     allergenStatus: AllergenStatus? = null,
     detectedAllergens: List<String>? = null,
+    showClearLastSearchDialog: Boolean,
     onAnalyzeButtonClick: () -> Unit,
     onSearchTextChanged: (String) -> Unit,
     onFoodItemClicked: (FoodItem) -> Unit,
-    clearFoodItemSelection: () -> Unit
+    clearFoodItemSelection: () -> Unit,
+    onClearLastSearchClicked: () -> Unit,
+    onClearLastSearchConfirmed: () -> Unit,
+    onClearLastSearchCancelled: () -> Unit
 ) {
+    if (showClearLastSearchDialog) {
+        ClearLastSearchConfirmationDialog(
+            onConfirm = onClearLastSearchConfirmed,
+            onCancel = onClearLastSearchCancelled
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -142,6 +161,12 @@ fun AnalyzeTextScreenContent(
             )
             Spacer(modifier = Modifier.padding(top = spacing_3))
             AnalyzeTextInstructionSteps()
+        } else {
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
+                    Text(text = "Clear last search")
+                }
+            }
         }
     }
 }

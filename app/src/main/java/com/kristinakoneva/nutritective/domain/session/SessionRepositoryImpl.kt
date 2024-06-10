@@ -10,4 +10,6 @@ class SessionRepositoryImpl @Inject constructor(
     override fun getLastScannedFoodProductBarcode(): String? = sharedPrefs.getLastScannedBarcode()
 
     override fun saveLastScannedFoodProductBarcode(barcode: String) = sharedPrefs.saveLastScannedBarcode(barcode)
+
+    override fun clearLastScannedFoodProductBarcode() = sharedPrefs.clearLastScannedBarcode()
 }

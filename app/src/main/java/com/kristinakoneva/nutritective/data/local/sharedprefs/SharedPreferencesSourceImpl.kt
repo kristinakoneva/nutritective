@@ -16,4 +16,8 @@ class SharedPreferencesSourceImpl @Inject constructor(
 
     override fun saveLastScannedBarcode(barcode: String) =
         sharedPrefs.edit().putString(KEY_LAST_SCANNED_BARCODE, barcode).apply()
+
+    override fun clearLastScannedBarcode() {
+        sharedPrefs.edit().remove(KEY_LAST_SCANNED_BARCODE).apply()
+    }
 }

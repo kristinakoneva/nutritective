@@ -4,4 +4,6 @@ interface SessionRepository {
     fun getLastScannedFoodProductBarcode(): String?
 
     fun saveLastScannedFoodProductBarcode(barcode: String)
+
+    fun clearLastScannedFoodProductBarcode()
 }

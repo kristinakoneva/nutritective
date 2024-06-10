@@ -4,6 +4,7 @@ import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
+import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageState
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -61,5 +62,17 @@ class AnalyzeTextViewModel @Inject constructor(
 
     fun clearFoodItemSelection() {
         viewState = viewState.copy(selectedFoodItem = null)
+    }
+
+    fun onClearLastSearchClicked() {
+        viewState = viewState.copy(showClearLastSearchDialog = true)
+    }
+
+    fun onClearLastSearchConfirmed() {
+        viewState = AnalyzeTextState(showClearLastSearchDialog = false)
+    }
+
+    fun onClearLastSearchCancelled() {
+        viewState = viewState.copy(showClearLastSearchDialog = false)
     }
 }

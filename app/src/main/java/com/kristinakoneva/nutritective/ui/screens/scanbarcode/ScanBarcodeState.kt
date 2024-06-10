@@ -7,4 +7,5 @@ data class ScanBarcodeState(
     val lastSearch: FoodProduct? = null,
     val allergenStatus: AllergenStatus? = null,
     val detectedAllergens: List<String>? = null,
+    val showClearLastSearchDialog: Boolean = false,
 )

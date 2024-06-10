@@ -1,6 +1,8 @@
 package com.kristinakoneva.nutritective.ui.screens.scanbarcode
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -21,6 +24,7 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.composables.FoodProductCard
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
@@ -44,8 +48,12 @@ fun ScanBarcodeScreen(
             lastSearchedFoodProduct = state.lastSearch,
             allergenStatus = state.allergenStatus,
             detectedAllergens = state.detectedAllergens,
+            shouldShowClearLastSearchDialog = state.showClearLastSearchDialog,
             onNavigateToFoodProductDetails = onNavigateToFoodProductDetails,
-            refresh = viewModel::refresh
+            refresh = viewModel::refresh,
+            onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
+            onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
         )
     }
 }
@@ -55,12 +63,23 @@ fun ScanBarcodeScreenContent(
     lastSearchedFoodProduct: FoodProduct? = null,
     allergenStatus: AllergenStatus? = null,
     detectedAllergens: List<String>? = null,
+    shouldShowClearLastSearchDialog: Boolean = false,
     onScanBarcodeButtonClicked: () -> Unit,
     onNavigateToFoodProductDetails: () -> Unit,
-    refresh: () -> Unit
+    refresh: () -> Unit,
+    onClearLastSearchClicked: () -> Unit,
+    onClearLastSearchConfirmed: () -> Unit,
+    onClearLastSearchCancelled: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         refresh()
+    }
+
+    if (shouldShowClearLastSearchDialog) {
+        ClearLastSearchConfirmationDialog(
+            onConfirm = onClearLastSearchConfirmed,
+            onCancel = onClearLastSearchCancelled
+        )
     }
 
     Column(
@@ -112,6 +131,12 @@ fun ScanBarcodeScreenContent(
             )
             Spacer(modifier = Modifier.padding(top = spacing_3))
             ScanBarcodeInstructionSteps()
+        } else {
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
+                    Text(text = "Clear last search")
+                }
+            }
         }
     }
 }
