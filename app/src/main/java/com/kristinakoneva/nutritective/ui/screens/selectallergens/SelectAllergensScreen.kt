@@ -29,6 +29,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
@@ -106,11 +108,14 @@ fun SelectAllergensScreenContent(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "Common allergens:",
                 modifier = Modifier
                     .padding(top = spacing_4)
-                    .padding(horizontal = spacing_3),
-                style = MaterialTheme.typography.titleLarge
+                    .padding(horizontal = spacing_3)
+                    .fillMaxSize(),
+                text = "Common allergens:",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
             )
             FlowRow(
                 modifier = Modifier
@@ -136,11 +141,14 @@ fun SelectAllergensScreenContent(
 
             if (state.manuallyAddedAllergens.isNotEmpty()) {
                 Text(
-                    text = "Manually added allergens:",
                     modifier = Modifier
                         .padding(top = spacing_4)
-                        .padding(horizontal = spacing_3),
-                    style = MaterialTheme.typography.titleLarge
+                        .padding(horizontal = spacing_3)
+                        .fillMaxSize(),
+                    text = "Manually added allergens:",
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
                 )
             }
             FlowRow(
@@ -165,11 +173,14 @@ fun SelectAllergensScreenContent(
             }
 
             Text(
-                text = "Manually add allergens:",
                 modifier = Modifier
                     .padding(top = spacing_4)
-                    .padding(horizontal = spacing_3),
-                style = MaterialTheme.typography.titleLarge
+                    .padding(horizontal = spacing_3)
+                    .fillMaxSize(),
+                text = "Manually add allergens:",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
             )
             OutlinedTextField(
                 value = state.inputText.orEmpty(),

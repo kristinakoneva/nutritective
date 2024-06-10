@@ -96,6 +96,7 @@ fun FoodProductDetailsScreenContent(
         Column(
             modifier = Modifier
                 .padding(top = spacing_8)
+                .padding(bottom = spacing_3)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
@@ -136,7 +137,7 @@ fun FoodProductDetailsScreenContent(
             }
 
             if (allergenStatus != null) {
-                Column(modifier = Modifier.padding(horizontal = spacing_3)) {
+                Column(modifier = Modifier.padding(horizontal = spacing_3, vertical = spacing_2)) {
                     AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
                 }
             }
@@ -145,8 +146,7 @@ fun FoodProductDetailsScreenContent(
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
+                    .padding(spacing_3),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 maxItemsInEachRow = 2
             ) {
@@ -158,23 +158,17 @@ fun FoodProductDetailsScreenContent(
                 }
             }
             InformationSection(
-                modifier = Modifier
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
+                modifier = Modifier.padding(spacing_3),
                 subtitle = "Allergens",
                 value = foodProduct.allergens?.joinToString(", ") ?: "No information available."
             )
             InformationSection(
-                modifier = Modifier
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
+                modifier = Modifier.padding(spacing_3),
                 subtitle = "Ingredients",
                 value = foodProduct.ingredients ?: "No information available."
             )
             InformationSection(
-                modifier = Modifier
-                    .padding(top = spacing_2, bottom = spacing_3)
-                    .padding(horizontal = spacing_3),
+                modifier = Modifier.padding(spacing_3),
                 subtitle = "Categories",
                 value = foodProduct.categories ?: "No information available."
             )
