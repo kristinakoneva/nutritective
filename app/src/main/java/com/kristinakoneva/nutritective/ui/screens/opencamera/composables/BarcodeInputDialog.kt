@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.KeyboardType
 import com.kristinakoneva.nutritective.extensions.isDigitsOnly
+import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
 @Composable
@@ -40,7 +41,7 @@ fun BarcodeInputDialog(
                 )
 
                 if (errorMessage.isNotBlank()) {
-                    Text(errorMessage, color = Color.Red)
+                    Text(errorMessage, color = md_theme_dark_error)
                 }
             }
         },
