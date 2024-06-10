@@ -32,4 +32,14 @@ class UserSettingsViewModel @Inject constructor(
     fun onNavigateToSelectAllergens() {
         emitEvent(UserSettingsEvent.NavigateToSelectAllergens)
     }
+
+    fun onRemoveAllergenClicked(allergen: String) {
+        launchWithLoading {
+            val newAllergenList = viewState.allergens.filter { it != allergen }
+            userRepository.setUserAllergensList(newAllergenList)
+            viewState = viewState.copy(
+                allergens = newAllergenList,
+            )
+        }
+    }
 }

@@ -58,7 +58,8 @@ fun UserSettingsScreen(
             allergens = state.allergens,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
             refreshAllergensList = viewModel::refreshAllergensList,
-            onCloseButtonClicked = onNavigateBack
+            onCloseButtonClicked = onNavigateBack,
+            onRemoveAllergenClicked = viewModel::onRemoveAllergenClicked
         )
     }
 }
@@ -71,7 +72,8 @@ fun UserSettingsScreenContent(
     allergens: List<String>,
     onNavigateToSelectAllergens: () -> Unit,
     refreshAllergensList: () -> Unit,
-    onCloseButtonClicked: () -> Unit
+    onCloseButtonClicked: () -> Unit,
+    onRemoveAllergenClicked: (String) -> Unit
 ) {
     val context = LocalContext.current
 
@@ -149,13 +151,13 @@ fun UserSettingsScreenContent(
             } else {
                 Column(modifier = Modifier.padding(horizontal = spacing_3)) {
                     allergens.forEach {
-                        AllergenListedItem(name = it) {
+                        AllergenListedItem(name = it, onClick = {
                             val intent = CustomTabsIntent.Builder().build()
                             intent.launchUrl(
                                 context,
                                 Uri.parse(BASE_URL_ALLERGEN_PRODUCTS + it)
                             )
-                        }
+                        }, onRemoveAllergen = { onRemoveAllergenClicked(it) })
                         HorizontalDivider(modifier = Modifier.padding(vertical = spacing_1))
                         Spacer(modifier = Modifier.padding(top = spacing_1))
                     }
