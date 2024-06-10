@@ -54,11 +54,11 @@ abstract class BaseViewModel<State, Event>(initialState: State) : ViewModel() {
         }
     }
 
-    private fun showLoading() {
+    protected fun showLoading() {
         loadingState = LoadingState.Loading
     }
 
-    private fun hideLoading() {
+    protected fun hideLoading() {
         loadingState = LoadingState.Idle
     }
 

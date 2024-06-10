@@ -57,6 +57,13 @@ fun NavHost() {
                 ScanBarcodeScreen(
                     onNavigateToOpenCamera = {
                         navController.navigate(ScreenRoute.OPEN_CAMERA)
+                    },
+                    onNavigateToFoodProductDetails = {
+                        navController.navigate(ScreenRoute.FOOD_PRODUCT_DETAILS) {
+                            popUpTo(ScreenRoute.SCAN_BARCODE) {
+                                inclusive = false
+                            }
+                        }
                     }
                 )
             })
@@ -159,7 +166,7 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
 @Composable
 fun WithBottomNavigationBarPreview() {
     WithBottomNavigationBar(navController = rememberNavController()) {
-        ScanBarcodeScreen(onNavigateToOpenCamera = {})
+        ScanBarcodeScreen(onNavigateToOpenCamera = {}, onNavigateToFoodProductDetails = {})
     }
 }
 
