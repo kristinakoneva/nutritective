@@ -28,13 +28,16 @@ class FoodProductDetailsViewModel @Inject constructor(
                 } else {
                     product?.ingredients?.detectAllergensPresence(userAllergenList)
                 }
-                val allergenStatus = if (detectedAllergens.isNullOrEmpty() && !product?.allergens.isNullOrEmpty()) {
-                    AllergenStatus.SAFE
-                } else if (detectedAllergens.isNullOrEmpty()) {
-                    AllergenStatus.WARNING
-                } else {
-                    AllergenStatus.DANGER
-                }
+                val allergenStatus =
+                    if (detectedAllergens.isNullOrEmpty() && !product?.allergens.isNullOrEmpty() && !product!!.hasAllergensInOtherLanguages) {
+                        AllergenStatus.SAFE
+                    } else if ((detectedAllergens.isNullOrEmpty() && product?.allergens.isNullOrEmpty()) ||
+                        (detectedAllergens.isNullOrEmpty() && product!!.hasAllergensInOtherLanguages)
+                    ) {
+                        AllergenStatus.WARNING
+                    } else {
+                        AllergenStatus.DANGER
+                    }
                 viewState = FoodProductDetailsState.Content(product!!, allergenStatus, detectedAllergens?.distinct())
             } else {
                 viewState = FoodProductDetailsState.Content(product!!)

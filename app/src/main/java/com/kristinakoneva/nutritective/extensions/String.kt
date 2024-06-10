@@ -7,6 +7,7 @@ fun String.isDigitsOnly(): Boolean {
 fun String.detectAllergensPresence(allergens: List<String>): List<String> = allergens.filter { allergen ->
     contains(allergen, ignoreCase = true) ||
         contains(allergen.dropLast(1), ignoreCase = true) ||
+        contains(allergen.dropLast(2), ignoreCase = true) ||
         containsAnyWordFrom(allergen)
 }
 

@@ -4,7 +4,10 @@ import android.net.Uri
 import android.util.Log
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
+import com.kristinakoneva.nutritective.domain.user.UserRepository
+import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
+import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import javax.inject.Inject
@@ -14,7 +17,8 @@ import okhttp3.RequestBody.Companion.asRequestBody
 
 @HiltViewModel
 class InspectImageViewModel @Inject constructor(
-    private val foodItemsRepository: FoodItemsRepository
+    private val foodItemsRepository: FoodItemsRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel<InspectImageState, Unit>(InspectImageState()) {
 
     fun setUri(uri: Uri, fileName: String = "", imagePath: String = "") {
@@ -30,8 +34,27 @@ class InspectImageViewModel @Inject constructor(
                     File(imagePath).asRequestBody("multipart/form-data".toMediaType())
                 )
             try {
-                val result = foodItemsRepository.getNutritionFromImage(requestBody)
-                viewState = InspectImageState(uri, result)
+                val foodItems = foodItemsRepository.getNutritionFromImage(requestBody)
+                val userAllergenList = userRepository.getUserAllergensList()
+                if (userAllergenList.isNotEmpty()) {
+                    val detectedAllergens: List<String> =
+                        foodItems.map { foodItem -> foodItem.name }.detectAllergensPresence(userAllergenList)
+                    val allergenStatus =
+                        if (detectedAllergens.isEmpty()) {
+                            AllergenStatus.WARNING
+                        } else {
+                            AllergenStatus.DANGER
+                        }
+                    viewState =
+                        InspectImageState(
+                            uri = uri,
+                            foodItems = foodItems,
+                            allergenStatus = allergenStatus,
+                            detectedAllergens = detectedAllergens.distinct()
+                        )
+                } else {
+                    viewState = InspectImageState(uri = uri, foodItems = foodItems)
+                }
             } catch (e: Exception) {
                 Log.e("InspectImageViewModel", "analyzeImage: $e")
             }

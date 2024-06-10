@@ -6,9 +6,9 @@ import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
 import com.kristinakoneva.nutritective.domain.shared.models.NutrimentType
 
-fun FoodItemsNutritionDataResponse.toFoodItemsList(): List<FoodItem> = this.foodItems.map { it.toFoodProduct() }
+fun FoodItemsNutritionDataResponse.toFoodItemsList(): List<FoodItem> = this.foodItems.map { it.toFoodItem() }.distinctBy { it.name }
 
-fun FoodItemResource.toFoodProduct() = FoodItem(
+fun FoodItemResource.toFoodItem() = FoodItem(
     name = this.name,
     calories = this.calories.toString().withCaloriesSuffix(),
     servingSize = this.servingSizeG.toString().withGramsSuffix(),

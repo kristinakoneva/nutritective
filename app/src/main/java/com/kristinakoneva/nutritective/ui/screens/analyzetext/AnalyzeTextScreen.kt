@@ -21,9 +21,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
+import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -40,6 +42,8 @@ fun AnalyzeTextScreen(
             searchedFor = state.searchedFor,
             foodItems = state.foodItems,
             selectedFoodItem = state.selectedFoodItem,
+            allergenStatus = state.allergenStatus,
+            detectedAllergens = state.detectedAllergens,
             onAnalyzeButtonClick = viewModel::analyzeText,
             onSearchTextChanged = viewModel::onSearchTextChanged,
             onFoodItemClicked = viewModel::onFoodItemClicked,
@@ -54,6 +58,8 @@ fun AnalyzeTextScreenContent(
     searchedFor: String?,
     foodItems: List<FoodItem>?,
     selectedFoodItem: FoodItem? = null,
+    allergenStatus: AllergenStatus? = null,
+    detectedAllergens: List<String>? = null,
     onAnalyzeButtonClick: () -> Unit,
     onSearchTextChanged: (String) -> Unit,
     onFoodItemClicked: (FoodItem) -> Unit,
@@ -104,6 +110,12 @@ fun AnalyzeTextScreenContent(
             )
         }
 
+        if (allergenStatus != null && !foodItems.isNullOrEmpty()) {
+            Column(modifier = Modifier.padding(top = spacing_2)) {
+                AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
+            }
+        }
+
         foodItems?.forEach {
             Spacer(modifier = Modifier.padding(top = spacing_2))
             FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
@@ -111,23 +123,26 @@ fun AnalyzeTextScreenContent(
 
         if (foodItems.isNullOrEmpty() && searchedFor != null) {
             Text(
-                text = "No food items found",
-                modifier = Modifier.padding(top = spacing_2),
-                style = MaterialTheme.typography.bodyLarge,
+                text = "No food items found.",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = spacing_2)
             )
         }
 
-        Text(
-            modifier = Modifier
-                .padding(top = spacing_5)
-                .fillMaxSize(),
-            text = "Instructions",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.padding(top = spacing_3))
-        AnalyzeTextInstructionSteps()
+        if (foodItems == null) {
+            Text(
+                modifier = Modifier
+                    .padding(top = spacing_5)
+                    .fillMaxSize(),
+                text = "Instructions",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.padding(top = spacing_3))
+            AnalyzeTextInstructionSteps()
+        }
     }
 }
 

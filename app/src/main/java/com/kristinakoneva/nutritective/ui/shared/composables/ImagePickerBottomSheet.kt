@@ -2,8 +2,10 @@ package com.kristinakoneva.nutritective.ui.shared.composables
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.icons.Icons
@@ -25,6 +27,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.kristinakoneva.nutritective.ui.theme.spacing_1
+import com.kristinakoneva.nutritective.ui.theme.spacing_2
 
 @Composable
 fun ImagePickerBottomSheet(
@@ -33,20 +37,19 @@ fun ImagePickerBottomSheet(
     onPhotoGalleryClick: () -> Unit
 ) {
     MyModalBottomSheetContent(
-        header = "Choose Option",
         onDismiss = {
             onDismiss.invoke()
         },
         items = listOf(
             BottomSheetItem(
-                title = "Take Photo",
+                title = "Take a photo now",
                 icon = Icons.Default.Camera,
                 onClick = {
                     onTakePhotoClick.invoke()
                 }
             ),
             BottomSheetItem(
-                title = "select image",
+                title = "Select an image from gallery",
                 icon = Icons.Default.Image,
                 onClick = {
                     onPhotoGalleryClick.invoke()
@@ -60,9 +63,6 @@ fun ImagePickerBottomSheet(
 @Composable
 fun MyModalBottomSheetContent(
     onDismiss: () -> Unit,
-    //header
-    header: String = "Choose Option",
-
     items: List<BottomSheetItem> = listOf(),
 ) {
     val skipPartiallyExpanded by remember { mutableStateOf(false) }
@@ -86,17 +86,13 @@ fun MyModalBottomSheetContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                modifier = Modifier.padding(start = 16.dp, end = 16.dp),
-                text = header,
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center
-            )
             items.forEach { item ->
                 androidx.compose.material3.ListItem(
-                    modifier = Modifier.clickable {
-                        item.onClick.invoke()
-                    },
+                    modifier = Modifier
+                        .clickable {
+                            item.onClick.invoke()
+                        }
+                        .padding(horizontal = spacing_2, vertical = spacing_1),
                     headlineContent = {
                         Text(
                             text = item.title,
@@ -111,6 +107,7 @@ fun MyModalBottomSheetContent(
                     },
                 )
             }
+            Spacer(modifier = Modifier.height(spacing_2))
         }
     }
 }

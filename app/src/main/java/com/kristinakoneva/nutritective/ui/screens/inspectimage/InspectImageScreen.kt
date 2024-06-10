@@ -15,7 +15,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -41,10 +40,12 @@ import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.BuildConfig
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
+import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -63,6 +64,8 @@ fun InspectImageScreen(
             state.uri,
             state.foodItems,
             state.selectedFoodItem,
+            state.allergenStatus,
+            state.detectedAllergens,
             viewModel::setUri,
             viewModel::onFoodItemClicked,
             viewModel::clearFoodItemSelection
@@ -75,6 +78,8 @@ fun InspectImageScreenContent(
     uri: Uri? = null,
     foodItems: List<FoodItem>? = null,
     selectedFoodItem: FoodItem? = null,
+    allergenStatus: AllergenStatus? = null,
+    detectedAllergens: List<String>? = null,
     onSetUri: (Uri, String, String) -> Unit,
     onFoodItemClicked: (FoodItem) -> Unit,
     clearFoodItemSelection: () -> Unit
@@ -191,8 +196,7 @@ fun InspectImageScreenContent(
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
             .padding(spacing_3)
-            .padding(bottom = spacing_8),
-        horizontalAlignment = Alignment.CenterHorizontally
+            .padding(bottom = spacing_8)
     ) {
         if (selectedFoodItem != null) {
             Spacer(modifier = Modifier.padding(top = spacing_3))
@@ -203,7 +207,7 @@ fun InspectImageScreenContent(
             text = "Inspect image for food items",
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
         Box(
             modifier = Modifier
@@ -216,42 +220,64 @@ fun InspectImageScreenContent(
                     showBottomSheet = true
                 }
             ) {
-                Text(text = "Select / Take")
+                Text(text = "Select image / Take photo")
             }
         }
 
-        //preview image
+        // preview image
         uri?.let {
-            Box(
-                modifier = Modifier.fillMaxWidth(),
-                contentAlignment = Alignment.Center
-            ) {
-                AsyncImage(
-                    model = it,
-                    modifier = Modifier.size(
+            Text(
+                text = "Inspected image:",
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = spacing_3),
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
+            )
+            AsyncImage(
+                model = it,
+                modifier = Modifier
+                    .padding(vertical = spacing_2)
+                    .size(
                         160.dp
                     ),
-                    contentDescription = null,
-                )
+                contentDescription = "Inspected image preview",
+                alignment = Alignment.TopStart
+            )
+        }
+
+        if (allergenStatus != null && !foodItems.isNullOrEmpty()) {
+            Column {
+                AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
             }
-            Spacer(modifier = Modifier.height(16.dp))
         }
         foodItems?.forEach {
             Spacer(modifier = Modifier.padding(top = spacing_2))
             FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
         }
+        if (foodItems.isNullOrEmpty() && uri != null) {
+            Text(
+                text = "No food items found.",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = spacing_2)
+            )
+        }
 
-        Text(
-            modifier = Modifier
-                .padding(top = spacing_3)
-                .fillMaxSize(),
-            text = "Instructions",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.padding(top = spacing_3))
-        InspectImageInstructionSteps()
+        if (foodItems == null) {
+            Text(
+                modifier = Modifier
+                    .padding(top = spacing_3)
+                    .fillMaxSize(),
+                text = "Instructions",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.padding(top = spacing_3))
+            InspectImageInstructionSteps()
+        }
     }
 }
 
