@@ -12,4 +12,5 @@ object ScreenRoute {
     const val OPEN_CAMERA = "open_camera"
     const val FOOD_PRODUCT_DETAILS = "food_product_details"
     const val SELECT_ALLERGENS = "select_allergens"
+    const val DETECTION_INFO = "detection_info"
 }

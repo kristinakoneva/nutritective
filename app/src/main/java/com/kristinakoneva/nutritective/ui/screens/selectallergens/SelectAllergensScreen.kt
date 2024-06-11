@@ -83,7 +83,7 @@ fun SelectAllergensScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Select Allergens",
+                        text = "Select allergens",
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )

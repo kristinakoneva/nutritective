@@ -21,6 +21,7 @@ import androidx.navigation.compose.rememberNavController
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.analyzetext.AnalyzeTextScreen
 import com.kristinakoneva.nutritective.ui.screens.auth.AuthScreen
+import com.kristinakoneva.nutritective.ui.screens.detectioninfo.DetectionInfoScreen
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.ExploreRecipesScreen
 import com.kristinakoneva.nutritective.ui.screens.foodproductdetails.FoodProductDetailsScreen
 import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageScreen
@@ -80,6 +81,9 @@ fun NavHost() {
         composable(ScreenRoute.USER_SETTINGS) {
             WithoutBottomNavigationBar(screenContent = {
                 UserSettingsScreen(
+                    onNavigateToDetectionInfo = {
+                        navController.navigate(ScreenRoute.DETECTION_INFO)
+                    },
                     onNavigateToSelectAllergens = {
                         navController.navigate(ScreenRoute.SELECT_ALLERGENS)
                     },
@@ -121,6 +125,15 @@ fun NavHost() {
         composable(ScreenRoute.SELECT_ALLERGENS) {
             WithoutBottomNavigationBar(screenContent = {
                 SelectAllergensScreen(
+                    onNavigateBack = {
+                        navController.navigateUp()
+                    }
+                )
+            })
+        }
+        composable(ScreenRoute.DETECTION_INFO) {
+            WithoutBottomNavigationBar(screenContent = {
+                DetectionInfoScreen(
                     onNavigateBack = {
                         navController.navigateUp()
                     }

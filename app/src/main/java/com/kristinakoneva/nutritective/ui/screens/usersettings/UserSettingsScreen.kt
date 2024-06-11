@@ -45,17 +45,20 @@ import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_ALLERGEN_PRODUCT
 @Composable
 fun UserSettingsScreen(
     viewModel: UserSettingsViewModel = hiltViewModel(),
+    onNavigateToDetectionInfo: () -> Unit,
     onNavigateToSelectAllergens: () -> Unit,
     onNavigateBack: () -> Unit
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
             is UserSettingsEvent.NavigateToSelectAllergens -> onNavigateToSelectAllergens()
+            is UserSettingsEvent.NavigateToDetectionInfo -> onNavigateToDetectionInfo()
         }
     }) { state ->
         UserSettingsScreenContent(
             name = state.name.orEmpty(),
             allergens = state.allergens,
+            onNavigateToDetectionInfo = viewModel::onNavigateToDetectionInfo,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
             refreshAllergensList = viewModel::refreshAllergensList,
             onCloseButtonClicked = onNavigateBack,
@@ -70,6 +73,7 @@ fun UserSettingsScreen(
 fun UserSettingsScreenContent(
     name: String,
     allergens: List<String>,
+    onNavigateToDetectionInfo: () -> Unit,
     onNavigateToSelectAllergens: () -> Unit,
     refreshAllergensList: () -> Unit,
     onCloseButtonClicked: () -> Unit,
@@ -125,9 +129,7 @@ fun UserSettingsScreenContent(
                 }
             }
             Column(modifier = Modifier.padding(spacing_3)) {
-                SettingsCell(text = "What do we detect?") {
-
-                }
+                SettingsCell(text = "What do we detect?", onClick = onNavigateToDetectionInfo)
                 Spacer(modifier = Modifier.padding(top = spacing_3))
                 SettingsCell(text = "Select allergens", onClick = onNavigateToSelectAllergens)
             }
