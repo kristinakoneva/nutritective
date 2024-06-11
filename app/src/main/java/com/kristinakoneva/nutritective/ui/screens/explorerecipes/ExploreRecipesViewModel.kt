@@ -1,16 +1,17 @@
 package com.kristinakoneva.nutritective.ui.screens.explorerecipes
 
-import android.util.Log
-import com.kristinakoneva.nutritective.data.remote.sources.edamam.EdamamSource
 import com.kristinakoneva.nutritective.domain.recipes.RecipesRepository
-import com.kristinakoneva.nutritective.domain.recipes.models.Recipe
+import com.kristinakoneva.nutritective.domain.user.UserRepository
+import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
+import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ExploreRecipesViewModel @Inject constructor(
-    private val recipesRepository: RecipesRepository
+    private val recipesRepository: RecipesRepository,
+    private val userRepository: UserRepository
 ) : BaseViewModel<ExploreRecipesState, Unit>(ExploreRecipesState()) {
 
     private var searchText: String = ""
@@ -23,29 +24,41 @@ class ExploreRecipesViewModel @Inject constructor(
     fun exploreRecipes() {
         launchWithLoading {
             val searchedFor = searchText.trim()
-            try{
-                val result = recipesRepository.exploreRecipes(searchedFor)
-                viewState = viewState.copy(
-                    searchedFor = result.toString(),
-                    recipes = null
+            searchText = ""
+
+            val userAllergensList = userRepository.getUserAllergensList()
+            if (userAllergensList.isNotEmpty()) {
+                val recipeItems = recipesRepository.exploreRecipes(searchedFor).map { recipe ->
+                    val detectedAllergens =
+                        recipe.ingredientsList?.detectAllergensPresence(userAllergensList).orEmpty() + recipe.title.detectAllergensPresence(
+                            userAllergensList
+                        )
+                    if (detectedAllergens.isNotEmpty()) {
+                        RecipeItem(
+                            recipe = recipe,
+                            allergenStatus = AllergenStatus.DANGER,
+                            detectedAllergens = detectedAllergens.distinct()
+                        )
+                    } else {
+                        RecipeItem(
+                            recipe = recipe,
+                            allergenStatus = AllergenStatus.WARNING
+                        )
+                    }
+                }
+
+                viewState = ExploreRecipesState(
+                    searchText = searchText,
+                    searchedFor = searchedFor,
+                    recipeItems = recipeItems
                 )
-            } catch (e: Exception) {
-                Log.e("ExploreRecipesViewModel", "Error exploring recipes: ${e.message}", e)
-                Log.e("ExploreRecipesViewModel", "Error exploring recipes: ${e.stackTrace}", e)
-                viewState = viewState.copy(
-                    searchedFor = "No recipes found",
-                    recipes = null
+            } else {
+                viewState = ExploreRecipesState(
+                    searchText = searchText,
+                    searchedFor = searchedFor,
+                    recipeItems = recipesRepository.exploreRecipes(searchedFor).map { recipe -> RecipeItem(recipe = recipe) }
                 )
-                return@launchWithLoading
             }
         }
-    }
-
-    fun onRecipeClicked(recipe: Recipe) {
-        viewState = viewState.copy(selectedRecipe = recipe)
-    }
-
-    fun clearRecipeSelection() {
-        viewState = viewState.copy(selectedRecipe = null)
     }
 }

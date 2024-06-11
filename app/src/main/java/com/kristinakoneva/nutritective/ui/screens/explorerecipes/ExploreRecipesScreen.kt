@@ -1,5 +1,7 @@
 package com.kristinakoneva.nutritective.ui.screens.explorerecipes
 
+import android.net.Uri
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,11 +17,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kristinakoneva.nutritective.domain.recipes.models.Recipe
+import com.kristinakoneva.nutritective.ui.screens.explorerecipes.composables.RecipeItemCard
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
@@ -36,12 +39,9 @@ fun ExploreRecipesScreen(
         ExploreRecipesScreenContent(
             searchText = state.searchText,
             searchedFor = state.searchedFor,
-            recipes = state.recipes,
-            selectedRecipe = state.selectedRecipe,
+            recipeItems = state.recipeItems,
             onExploreButtonClick = viewModel::exploreRecipes,
             onSearchTextChanged = viewModel::onSearchTextChanged,
-            onRecipeClicked = viewModel::onRecipeClicked,
-            clearRecipeSelection = viewModel::clearRecipeSelection
         )
     }
 }
@@ -50,13 +50,11 @@ fun ExploreRecipesScreen(
 fun ExploreRecipesScreenContent(
     searchText: String?,
     searchedFor: String?,
-    recipes: List<Recipe>?,
-    selectedRecipe: Recipe? = null,
+    recipeItems: List<RecipeItem>?,
     onExploreButtonClick: () -> Unit,
-    onSearchTextChanged: (String) -> Unit,
-    onRecipeClicked: (Recipe) -> Unit,
-    clearRecipeSelection: () -> Unit
+    onSearchTextChanged: (String) -> Unit
 ) {
+    val context = LocalContext.current
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -65,12 +63,6 @@ fun ExploreRecipesScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (selectedRecipe != null) {
-            Spacer(modifier = Modifier.padding(top = spacing_3))
-            //FoodItemDetailsDialog(foodItem = selectedRecipe, onClose = clearRecipeSelection)
-        }
-
-
         Text(
             text = "Explore recipes",
             style = MaterialTheme.typography.headlineMedium,
@@ -100,37 +92,39 @@ fun ExploreRecipesScreenContent(
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
             )
+            recipeItems?.forEach {
+                Spacer(modifier = Modifier.padding(top = spacing_2))
+                RecipeItemCard(recipeItem = it) {
+                    val intent = CustomTabsIntent.Builder().build()
+                    intent.launchUrl(
+                        context,
+                        Uri.parse(it.recipe.url)
+                    )
+                }
+            }
+        }
+        if (recipeItems.isNullOrEmpty() && searchedFor != null) {
+            Text(
+                text = "No recipes found.",
+                style = MaterialTheme.typography.titleMedium,
+                textAlign = TextAlign.Start,
+                modifier = Modifier.padding(top = spacing_2)
+            )
         }
 
-//        recipes?.forEach {
-//            Spacer(modifier = Modifier.padding(top = spacing_2))
-//            Text(text = it.title)
-//        }
-//
-//        //        foodItems?.forEach {
-//        //            Spacer(modifier = Modifier.padding(top = spacing_2))
-//        //            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
-//        //        }
-//
-//        if (recipes.isNullOrEmpty() && searchedFor != null) {
-//            Text(
-//                text = "No recipes found",
-//                modifier = Modifier.padding(top = spacing_2),
-//                style = MaterialTheme.typography.bodyLarge,
-//            )
-//        }
-
-        Text(
-            modifier = Modifier
-                .padding(top = spacing_5)
-                .fillMaxSize(),
-            text = "Instructions",
-            style = MaterialTheme.typography.titleLarge,
-            textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Bold
-        )
-        Spacer(modifier = Modifier.padding(top = spacing_3))
-        ExploreRecipesInstructionSteps()
+        if (searchedFor == null) {
+            Text(
+                modifier = Modifier
+                    .padding(top = spacing_5)
+                    .fillMaxSize(),
+                text = "Instructions",
+                style = MaterialTheme.typography.titleLarge,
+                textAlign = TextAlign.Start,
+                fontWeight = FontWeight.Bold
+            )
+            Spacer(modifier = Modifier.padding(top = spacing_3))
+            ExploreRecipesInstructionSteps()
+        }
     }
 }
 

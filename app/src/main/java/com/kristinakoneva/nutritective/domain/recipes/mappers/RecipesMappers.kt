@@ -9,7 +9,7 @@ fun RecipeResource.toRecipe() = Recipe(
     source = this.source,
     url = this.url,
     ingredientsList = this.ingredientLines,
-    cuisineType = this.cuisineType.joinToString(","),
-    mealType = this.mealType.joinToString(","),
-    dishType = this.dishType.joinToString(","),
+    cuisineType = this.cuisineType?.joinToString(", "),
+    mealType = this.mealType?.joinToString(", "),
+    dishType = this.dishType?.joinToString(", "),
 )

@@ -8,17 +8,17 @@ data class RecipeResource(
     @SerialName("label")
     val label: String,
     @SerialName("image")
-    val image: String,
+    val image: String? = null,
     @SerialName("source")
     val source: String,
     @SerialName("url")
     val url: String,
     @SerialName("ingredientLines")
-    val ingredientLines: List<String>,
+    val ingredientLines: List<String>? = null,
     @SerialName("cuisineType")
-    val cuisineType: List<String>,
+    val cuisineType: List<String>? = null,
     @SerialName("mealType")
-    val mealType: List<String>,
+    val mealType: List<String>? = null,
     @SerialName("dishType")
-    val dishType: List<String>
+    val dishType: List<String>? = null,
 )
