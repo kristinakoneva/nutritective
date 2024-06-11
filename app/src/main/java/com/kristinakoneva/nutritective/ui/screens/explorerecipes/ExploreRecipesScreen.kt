@@ -102,23 +102,23 @@ fun ExploreRecipesScreenContent(
             )
         }
 
-        recipes?.forEach {
-            Spacer(modifier = Modifier.padding(top = spacing_2))
-            Text(text = it.title)
-        }
-
-        //        foodItems?.forEach {
-        //            Spacer(modifier = Modifier.padding(top = spacing_2))
-        //            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
-        //        }
-
-        if (recipes.isNullOrEmpty() && searchedFor != null) {
-            Text(
-                text = "No recipes found",
-                modifier = Modifier.padding(top = spacing_2),
-                style = MaterialTheme.typography.bodyLarge,
-            )
-        }
+//        recipes?.forEach {
+//            Spacer(modifier = Modifier.padding(top = spacing_2))
+//            Text(text = it.title)
+//        }
+//
+//        //        foodItems?.forEach {
+//        //            Spacer(modifier = Modifier.padding(top = spacing_2))
+//        //            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
+//        //        }
+//
+//        if (recipes.isNullOrEmpty() && searchedFor != null) {
+//            Text(
+//                text = "No recipes found",
+//                modifier = Modifier.padding(top = spacing_2),
+//                style = MaterialTheme.typography.bodyLarge,
+//            )
+//        }
 
         Text(
             modifier = Modifier

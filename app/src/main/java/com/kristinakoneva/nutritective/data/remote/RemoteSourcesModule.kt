@@ -2,6 +2,8 @@ package com.kristinakoneva.nutritective.data.remote
 
 import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasSource
 import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasSourceImpl
+import com.kristinakoneva.nutritective.data.remote.sources.edamam.EdamamSource
+import com.kristinakoneva.nutritective.data.remote.sources.edamam.EdamamSourceImpl
 import com.kristinakoneva.nutritective.data.remote.sources.firebaseauth.FirebaseAuthSource
 import com.kristinakoneva.nutritective.data.remote.sources.firebaseauth.FirebaseAuthSourceImpl
 import com.kristinakoneva.nutritective.data.remote.sources.firestore.FirestoreSource
@@ -22,6 +24,9 @@ interface RemoteSourcesModule {
 
     @Binds
     fun bindCalorieNinjasSource(source: CalorieNinjasSourceImpl): CalorieNinjasSource
+
+    @Binds
+    fun bindEdamamSource(source: EdamamSourceImpl): EdamamSource
 
     @Binds
     fun bindFirebaseAuthSource(source: FirebaseAuthSourceImpl): FirebaseAuthSource

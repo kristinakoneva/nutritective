@@ -1,5 +1,7 @@
 package com.kristinakoneva.nutritective.ui.screens.explorerecipes
 
+import android.util.Log
+import com.kristinakoneva.nutritective.data.remote.sources.edamam.EdamamSource
 import com.kristinakoneva.nutritective.domain.recipes.RecipesRepository
 import com.kristinakoneva.nutritective.domain.recipes.models.Recipe
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
@@ -8,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreRecipesViewModel @Inject constructor(
-    private val recipesRepository: RecipesRepository
+    private val source: EdamamSource
 ) : BaseViewModel<ExploreRecipesState, Unit>(ExploreRecipesState()) {
 
     private var searchText: String = ""
@@ -21,13 +23,21 @@ class ExploreRecipesViewModel @Inject constructor(
     fun exploreRecipes() {
         launchWithLoading {
             val searchedFor = searchText.trim()
-            val recipes = recipesRepository.getRecipesFromText(searchedFor)
-            searchText = ""
-            viewState = viewState.copy(
-                searchText = searchText,
-                searchedFor = searchedFor,
-                recipes = recipes
-            )
+            try{
+                val result = source.exploreRecipes(searchedFor)
+                viewState = viewState.copy(
+                    searchedFor = result.toString(),
+                    recipes = null
+                )
+            } catch (e: Exception) {
+                Log.e("ExploreRecipesViewModel", "Error exploring recipes: ${e.message}", e)
+                Log.e("ExploreRecipesViewModel", "Error exploring recipes: ${e.stackTrace}", e)
+                viewState = viewState.copy(
+                    searchedFor = "No recipes found",
+                    recipes = null
+                )
+                return@launchWithLoading
+            }
         }
     }
 

@@ -4,8 +4,10 @@ import com.kristinakoneva.nutritective.data.remote.interceptors.Interceptors
 import com.kristinakoneva.nutritective.data.remote.interceptors.InterceptorsModule
 import com.kristinakoneva.nutritective.di.qualifiers.CacheDir
 import com.kristinakoneva.nutritective.di.qualifiers.CalorieNinjasApi
+import com.kristinakoneva.nutritective.di.qualifiers.EdamamApi
 import com.kristinakoneva.nutritective.di.qualifiers.OpenFoodFactsApi
 import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_CALORIE_NINJAS
+import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_EDAMAM_API
 import com.kristinakoneva.nutritective.utils.Constants.BASE_URL_OPEN_FOOD_FACTS_API
 import dagger.Module
 import dagger.Provides
@@ -68,6 +70,28 @@ class HttpClientsModule {
         )
         addNetworkInterceptor(chuckerInterceptor)
         addInterceptor(apiKeyHeaderInterceptor)
+        addInterceptor(userAgentHeaderInterceptor)
+    }.build()
+
+    @Provides
+    @EdamamApi
+    fun edamamApiBaseUrl(): String = BASE_URL_EDAMAM_API
+
+    @Provides
+    @Singleton
+    @EdamamApi
+    fun edamamApiOkHttpClient(
+        chuckerInterceptor: Interceptors.Chucker,
+        userAgentHeaderInterceptor: Interceptors.UserAgentHeader,
+        @CacheDir cacheDir: File
+    ): OkHttpClient = OkHttpClient.Builder().apply {
+        cache(
+            Cache(
+                directory = File(cacheDir, "http_cache"),
+                maxSize = MAX_CACHING_SIZE
+            )
+        )
+        addNetworkInterceptor(chuckerInterceptor)
         addInterceptor(userAgentHeaderInterceptor)
     }.build()
 }

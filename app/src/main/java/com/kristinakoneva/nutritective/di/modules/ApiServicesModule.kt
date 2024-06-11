@@ -2,8 +2,10 @@ package com.kristinakoneva.nutritective.di.modules
 
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.CalorieNinjasApiService
+import com.kristinakoneva.nutritective.data.remote.sources.edamam.EdamamApiService
 import com.kristinakoneva.nutritective.data.remote.sources.openfoodfacts.OpenFoodFactsApiService
 import com.kristinakoneva.nutritective.di.qualifiers.CalorieNinjasApi
+import com.kristinakoneva.nutritective.di.qualifiers.EdamamApi
 import com.kristinakoneva.nutritective.di.qualifiers.OpenFoodFactsApi
 import dagger.Module
 import dagger.Provides
@@ -44,6 +46,21 @@ class ApiServicesModule {
     fun calorieNinjasApiRetrofit(
         @CalorieNinjasApi baseUrl: String,
         @CalorieNinjasApi okHttpClient: OkHttpClient
+    ): Retrofit = Retrofit.Builder()
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .client(okHttpClient)
+        .baseUrl(baseUrl)
+        .build()
+
+    @Provides
+    fun edamamApiService(@EdamamApi retrofit: Retrofit): EdamamApiService =
+        retrofit.create(EdamamApiService::class.java)
+
+    @Provides
+    @EdamamApi
+    fun edamamApiRetrofit(
+        @EdamamApi baseUrl: String,
+        @EdamamApi okHttpClient: OkHttpClient
     ): Retrofit = Retrofit.Builder()
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
         .client(okHttpClient)

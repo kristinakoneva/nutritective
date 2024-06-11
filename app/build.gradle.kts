@@ -30,6 +30,8 @@ android {
         }
 
         buildConfigField("String", "CALORIE_NINJAS_API_KEY", properties.getProperty("CALORIE_NINJAS_API_KEY"))
+        buildConfigField("String", "EDAMAM_APP_ID", properties.getProperty("EDAMAM_APP_ID"))
+        buildConfigField("String", "EDAMAM_APP_KEY", properties.getProperty("EDAMAM_APP_KEY"))
     }
 
     buildTypes {
