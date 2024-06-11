@@ -3,10 +3,11 @@ package com.kristinakoneva.nutritective.ui.screens.inspectimage
 import android.Manifest
 import android.content.Context
 import android.content.ContextWrapper
-import android.content.pm.PackageManager
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.net.Uri
+import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,12 +23,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -38,10 +41,13 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberPermissionState
+import com.google.accompanist.permissions.shouldShowRationale
 import com.kristinakoneva.nutritective.BuildConfig
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
@@ -84,6 +90,7 @@ fun InspectImageScreen(
     }
 }
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun InspectImageScreenContent(
     uri: Uri? = null,
@@ -123,8 +130,11 @@ fun InspectImageScreenContent(
         return FileProvider.getUriForFile(context, "${BuildConfig.APPLICATION_ID}.provider", tmpFile)
     }
 
-    fun getBitmapFromUri(context: Context, uri: Uri): Bitmap {
-        return ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
+    fun getBitmapFromUri(context: Context, uri: Uri): Bitmap? = try {
+        ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, uri))
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 
     fun saveToInternalStorage(bitmap: Bitmap, fileName: String): String? {
@@ -149,7 +159,7 @@ fun InspectImageScreenContent(
         contract = ActivityResultContracts.PickVisualMedia(),
         onResult = {
             it?.let {
-                val bitmap = getBitmapFromUri(context, it)
+                val bitmap = getBitmapFromUri(context, it) ?: return@let
                 val fileName = "image_${System.currentTimeMillis()}.jpeg"
                 val ppPath = saveToInternalStorage(bitmap, fileName)
                 onSetUri.invoke(it, fileName, ppPath!!)
@@ -161,7 +171,7 @@ fun InspectImageScreenContent(
         contract = ActivityResultContracts.TakePicture(),
         onResult = { _ ->
             tempUri.value?.let {
-                val bitmap = getBitmapFromUri(context, it)
+                val bitmap = getBitmapFromUri(context, it) ?: return@let
                 val fileName = "image_${System.currentTimeMillis()}.jpeg"
                 val ppPath = saveToInternalStorage(bitmap, fileName)
                 onSetUri.invoke(it, fileName, ppPath!!)
@@ -169,18 +179,39 @@ fun InspectImageScreenContent(
         }
     )
 
-    val cameraPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
-    ) { isGranted: Boolean ->
-        if (isGranted) {
-            // Permission is granted, proceed to step 2
+    var openCamera by remember { mutableStateOf(false) }
+    if (openCamera) {
+        val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
+        if (cameraPermissionState.status.isGranted) {
             val tmpUri = getTempUri()
             tempUri.value = tmpUri
             tmpUri?.let {
                 takePhotoLauncher.launch(it)
             }
+            openCamera = false
+        } else if (cameraPermissionState.status.shouldShowRationale) {
+            AlertDialog(onDismissRequest = { openCamera = false }, confirmButton = {
+                Button(onClick = {
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                        data = Uri.fromParts("package", context.packageName, null)
+                    }
+                    context.startActivity(intent)
+                }) {
+                    Text("Go to settings")
+                }
+            }, text = {
+                Text("Camera permission is needed to take a photo.")
+            }, dismissButton = {
+                Button(onClick = { openCamera = false }) {
+                    Text("Cancel")
+                }
+            }, title = {
+                Text("Camera permission required")
+            })
         } else {
-            // Permission is denied, handle it accordingly
+            SideEffect {
+                cameraPermissionState.run { launchPermissionRequest() }
+            }
         }
     }
 
@@ -192,20 +223,7 @@ fun InspectImageScreenContent(
             },
             onTakePhotoClick = {
                 showBottomSheet = false
-
-                val permission = Manifest.permission.CAMERA
-                if (ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
-                ) {
-                    // Permission is already granted, proceed to step 2
-                    val tmpUri = getTempUri()
-                    tempUri.value = tmpUri
-                    tmpUri?.let {
-                        takePhotoLauncher.launch(it)
-                    }
-                } else {
-                    // Permission is not granted, request it
-                    cameraPermissionLauncher.launch(permission)
-                }
+                openCamera = true
             },
             onPhotoGalleryClick = {
                 showBottomSheet = false
@@ -289,7 +307,7 @@ fun InspectImageScreenContent(
             Text(
                 text = "No food items found.",
                 style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Start,
+                textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = spacing_2)
             )
         }
