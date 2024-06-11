@@ -88,6 +88,7 @@ class UserSettingsViewModel @Inject constructor(
 
     fun onLogoutConfirmed() {
         launch {
+            viewState = viewState.copy(showLogoutConfirmationDialog = false)
             userRepository.logoutUser()
             emitEvent(UserSettingsEvent.NavigateToAuth)
         }
