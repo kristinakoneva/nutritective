@@ -5,4 +5,6 @@ sealed interface OpenCameraEvent {
     data object ProductFound : OpenCameraEvent
 
     data object NavigateBack : OpenCameraEvent
+
+    data object NavigateToSettings : OpenCameraEvent
 }

@@ -2,6 +2,9 @@ package com.kristinakoneva.nutritective.ui.screens.opencamera
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -73,30 +76,45 @@ fun OpenCameraScreen(
             }
 
             is OpenCameraEvent.NavigateBack -> onNavigateBack()
+
+            is OpenCameraEvent.NavigateToSettings -> {
+                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = Uri.fromParts("package", context.packageName, null)
+                }
+                context.startActivity(intent)
+            }
         }
     }) { state ->
         when (state) {
             is OpenCameraState.Initial -> {
                 val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
-                if (cameraPermissionState.status.isGranted) {
-                    OpenCameraScreenContent(
-                        onNavigateBack = {
-                            cameraProviderFuture.get().unbindAll()
-                            viewModel.onNavigateBack()
-                        },
-                        onEnterBarcodeManuallyButtonClicked = viewModel::onEnterBarcodeManuallyButtonClicked
-                    ) { barcode ->
+
+                OpenCameraScreenContent(
+                    isCameraPermissionGranted = cameraPermissionState.status.isGranted,
+                    shouldShowBarcodeInputDialog = state.showBarcodeInputDialog,
+                    onNavigateBack = {
+                        cameraProviderFuture.get().unbindAll()
+                        viewModel.onNavigateBack()
+                    },
+                    resetToInitialState = viewModel::resetToInitialState,
+                    onBarcodeScanned = viewModel::onBarcodeScanned,
+                    onEnterBarcodeManuallyButtonClicked = viewModel::onEnterBarcodeManuallyButtonClicked,
+                    onGoToSettingsButtonClicked = viewModel::onGoToSettingsButtonClicked,
+                    successfulBarcodeScannedListener = { barcode ->
                         if (!barcode.isNullOrEmpty()) {
                             viewModel.onBarcodeScanned(barcode)
                         }
-                    }
+                    })
+
+                if (cameraPermissionState.status.isGranted) {
+                    // Do nothing
                 } else if (cameraPermissionState.status.shouldShowRationale) {
-                    Text("Camera Permission permanently denied")
+                    // Do nothing, message will be shown through the state and users can navigate to settings
                 } else {
+                    // Request permission with system dialog
                     SideEffect {
                         cameraPermissionState.run { launchPermissionRequest() }
                     }
-                    Text("No Camera Permission")
                 }
             }
 
@@ -107,16 +125,6 @@ fun OpenCameraScreen(
                     onNavigateBack = viewModel::onNavigateBack
                 )
             }
-
-            is OpenCameraState.ShowBarcodeInputDialog -> {
-                cameraProviderFuture.get().unbindAll()
-                BarcodeInputDialog(
-                    onConfirm = { barcode ->
-                        viewModel.onBarcodeScanned(barcode)
-                    },
-                    onCancel = viewModel::resetToInitialState
-                )
-            }
         }
     }
 }
@@ -125,10 +133,22 @@ fun OpenCameraScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenCameraScreenContent(
+    isCameraPermissionGranted: Boolean = false,
     onNavigateBack: () -> Unit,
     onEnterBarcodeManuallyButtonClicked: () -> Unit,
-    successfulBarcodeScannedListener: (String?) -> Unit
+    successfulBarcodeScannedListener: (String?) -> Unit,
+    onBarcodeScanned: (String) -> Unit,
+    resetToInitialState: () -> Unit,
+    onGoToSettingsButtonClicked: () -> Unit,
+    shouldShowBarcodeInputDialog: Boolean = false
 ) {
+    if (shouldShowBarcodeInputDialog) {
+        BarcodeInputDialog(
+            onConfirm = onBarcodeScanned,
+            onCancel = resetToInitialState
+        )
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -153,12 +173,23 @@ fun OpenCameraScreenContent(
                 .padding(top = spacing_10, bottom = spacing_2),
             horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                modifier = Modifier.padding(bottom = spacing_2),
-                text = "Locate the barcode on the product and position it within the preview area:",
-                style = MaterialTheme.typography.titleMedium
-            )
-            CameraPreview(successfulBarcodeScannedListener)
+            if (!isCameraPermissionGranted) {
+                Text(
+                    text = "You need to grant camera permission to scan barcodes. Go to the app settings to enable it.",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                Button(onClick = onGoToSettingsButtonClicked, modifier = Modifier.padding(top = spacing_3)) {
+                    Text(text = "Go to settings")
+                }
+            } else {
+                Text(
+                    modifier = Modifier.padding(bottom = spacing_2),
+                    text = "Locate the barcode on the product and position it within the preview area:",
+                    style = MaterialTheme.typography.titleMedium
+                )
+                CameraPreview(successfulBarcodeScannedListener)
+            }
+
             Text(
                 modifier = Modifier.padding(top = spacing_4, bottom = spacing_2),
                 text = "Alternatively:",

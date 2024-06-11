@@ -10,7 +10,7 @@ import javax.inject.Inject
 class OpenCameraViewModel @Inject constructor(
     private val sessionRepository: SessionRepository,
     private val foodProductsRepository: FoodProductsRepository
-) : BaseViewModel<OpenCameraState, OpenCameraEvent>(OpenCameraState.Initial) {
+) : BaseViewModel<OpenCameraState, OpenCameraEvent>(OpenCameraState.Initial()) {
     fun onBarcodeScanned(barcode: String) {
         launch {
             try {
@@ -28,18 +28,24 @@ class OpenCameraViewModel @Inject constructor(
     }
 
     fun onTryAnotherProductButtonClicked() {
-        viewState = OpenCameraState.Initial
+        viewState = OpenCameraState.Initial()
     }
 
     fun onEnterBarcodeManuallyButtonClicked() {
-        viewState = OpenCameraState.ShowBarcodeInputDialog
+        if (viewState is OpenCameraState.Initial) {
+            viewState = (viewState as OpenCameraState.Initial).copy(showBarcodeInputDialog = true)
+        }
     }
 
     fun resetToInitialState() {
-        viewState = OpenCameraState.Initial
+        viewState = OpenCameraState.Initial()
     }
 
     fun onNavigateBack() {
         emitEvent(OpenCameraEvent.NavigateBack)
+    }
+
+    fun onGoToSettingsButtonClicked() {
+        emitEvent(OpenCameraEvent.NavigateToSettings)
     }
 }
