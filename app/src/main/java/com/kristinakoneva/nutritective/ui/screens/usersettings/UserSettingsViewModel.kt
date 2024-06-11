@@ -46,4 +46,8 @@ class UserSettingsViewModel @Inject constructor(
             )
         }
     }
+
+    fun onNavigateBack() {
+        emitEvent(UserSettingsEvent.NavigateBack)
+    }
 }

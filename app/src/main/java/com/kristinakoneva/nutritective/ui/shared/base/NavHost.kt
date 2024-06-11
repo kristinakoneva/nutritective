@@ -96,7 +96,7 @@ fun NavHost() {
         composable(ScreenRoute.OPEN_CAMERA) {
             WithoutBottomNavigationBar(screenContent = {
                 OpenCameraScreen(
-                    onNavigateUp = {
+                    onNavigateBack = {
                         navController.navigateUp()
                     },
                     onNavigateToFoodProductDetails = {

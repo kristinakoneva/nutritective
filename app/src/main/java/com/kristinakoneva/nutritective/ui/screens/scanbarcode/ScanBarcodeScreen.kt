@@ -41,7 +41,8 @@ fun ScanBarcodeScreen(
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = {
         when (it) {
-            ScanBarcodeEvent.NavigateToOpenCamera -> onNavigateToOpenCamera()
+            is ScanBarcodeEvent.NavigateToOpenCamera -> onNavigateToOpenCamera()
+            is ScanBarcodeEvent.NavigateToFoodProductDetails -> onNavigateToFoodProductDetails()
         }
     }) { state ->
         ScanBarcodeScreenContent(
@@ -50,7 +51,7 @@ fun ScanBarcodeScreen(
             allergenStatus = state.allergenStatus,
             detectedAllergens = state.detectedAllergens,
             shouldShowClearLastSearchDialog = state.showClearLastSearchDialog,
-            onNavigateToFoodProductDetails = onNavigateToFoodProductDetails,
+            onNavigateToFoodProductDetails = viewModel::onNavigateToFoodProductDetails,
             refresh = viewModel::refresh,
             onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
             onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,

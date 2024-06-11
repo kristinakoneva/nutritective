@@ -40,9 +40,13 @@ fun DetectionInfoScreen(
     viewModel: DetectionInfoViewModel = hiltViewModel(),
     onNavigateBack: () -> Unit
 ) {
-    BaseScreen(viewModel = viewModel, eventHandler = {}) {
+    BaseScreen(viewModel = viewModel, eventHandler = { event ->
+        when (event) {
+            DetectionInfoEvent.NavigateBack -> onNavigateBack()
+        }
+    }) {
         DetectionInfoScreenContent(
-            onNavigateBack = onNavigateBack
+            onNavigateBack = viewModel::onNavigateBack
         )
     }
 }

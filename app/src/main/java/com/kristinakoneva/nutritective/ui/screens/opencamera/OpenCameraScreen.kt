@@ -8,10 +8,11 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -39,6 +40,7 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.opencamera.composables.BarcodeInputDialog
 import com.kristinakoneva.nutritective.ui.screens.opencamera.composables.CameraPreview
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_10
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -49,7 +51,7 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_4
 fun OpenCameraScreen(
     viewModel: OpenCameraViewModel = hiltViewModel(),
     onNavigateToFoodProductDetails: () -> Unit,
-    onNavigateUp: () -> Unit
+    onNavigateBack: () -> Unit
 ) {
     val context = LocalContext.current
     val cameraProviderFuture = remember {
@@ -69,6 +71,8 @@ fun OpenCameraScreen(
                 cameraProviderFuture.get().unbindAll()
                 onNavigateToFoodProductDetails()
             }
+
+            is OpenCameraEvent.NavigateBack -> onNavigateBack()
         }
     }) { state ->
         when (state) {
@@ -76,9 +80,9 @@ fun OpenCameraScreen(
                 val cameraPermissionState = rememberPermissionState(Manifest.permission.CAMERA)
                 if (cameraPermissionState.status.isGranted) {
                     OpenCameraScreenContent(
-                        onNavigateUp = {
+                        onNavigateBack = {
                             cameraProviderFuture.get().unbindAll()
-                            onNavigateUp()
+                            viewModel.onNavigateBack()
                         },
                         onEnterBarcodeManuallyButtonClicked = viewModel::onEnterBarcodeManuallyButtonClicked
                     ) { barcode ->
@@ -100,7 +104,7 @@ fun OpenCameraScreen(
                 cameraProviderFuture.get().unbindAll()
                 OpenCameraScreenProductNotFoundContent(
                     onTryAnotherProductButtonClicked = viewModel::onTryAnotherProductButtonClicked,
-                    onNavigateUp = onNavigateUp
+                    onNavigateBack = viewModel::onNavigateBack
                 )
             }
 
@@ -121,7 +125,7 @@ fun OpenCameraScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenCameraScreenContent(
-    onNavigateUp: () -> Unit,
+    onNavigateBack: () -> Unit,
     onEnterBarcodeManuallyButtonClicked: () -> Unit,
     successfulBarcodeScannedListener: (String?) -> Unit
 ) {
@@ -130,8 +134,12 @@ fun OpenCameraScreenContent(
             CenterAlignedTopAppBar(
                 title = { Text(text = "Scan barcode") },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back button")
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronLeft,
+                            contentDescription = "Back button",
+                            modifier = Modifier.size(large_icon_size)
+                        )
                     }
                 }
             )
@@ -167,7 +175,7 @@ fun OpenCameraScreenContent(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun OpenCameraScreenProductNotFoundContent(
-    onNavigateUp: () -> Unit,
+    onNavigateBack: () -> Unit,
     onTryAnotherProductButtonClicked: () -> Unit
 ) {
     Scaffold(
@@ -177,8 +185,12 @@ fun OpenCameraScreenProductNotFoundContent(
                     Text(text = "Product not found")
                 },
                 navigationIcon = {
-                    IconButton(onClick = onNavigateUp) {
-                        Icon(imageVector = Icons.Default.ArrowBackIosNew, contentDescription = "Back button")
+                    IconButton(onClick = onNavigateBack) {
+                        Icon(
+                            imageVector = Icons.Default.ChevronLeft,
+                            contentDescription = "Back button",
+                            modifier = Modifier.size(large_icon_size)
+                        )
                     }
                 }
             )

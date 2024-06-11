@@ -56,6 +56,7 @@ fun SelectAllergensScreen(
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
             is SelectAllergensEvent.NavigateToUserSettings -> onNavigateBack()
+            is SelectAllergensEvent.NavigateBack -> onNavigateBack()
         }
 
     }) { state ->
@@ -65,7 +66,7 @@ fun SelectAllergensScreen(
             onInputTextChanged = viewModel::onInputTextChanged,
             onAddAllergenClicked = viewModel::onAddAllergenClicked,
             onSaveChangesButtonClicked = viewModel::onSaveChangesButtonClicked,
-            onNavigateBack = onNavigateBack
+            onNavigateBack = viewModel::onNavigateBack
         )
     }
 }

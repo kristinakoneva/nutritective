@@ -53,6 +53,7 @@ fun UserSettingsScreen(
         when (event) {
             is UserSettingsEvent.NavigateToSelectAllergens -> onNavigateToSelectAllergens()
             is UserSettingsEvent.NavigateToDetectionInfo -> onNavigateToDetectionInfo()
+            is UserSettingsEvent.NavigateBack -> onNavigateBack()
         }
     }) { state ->
         UserSettingsScreenContent(
@@ -61,7 +62,7 @@ fun UserSettingsScreen(
             onNavigateToDetectionInfo = viewModel::onNavigateToDetectionInfo,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
             refreshAllergensList = viewModel::refreshAllergensList,
-            onCloseButtonClicked = onNavigateBack,
+            onCloseButtonClicked = viewModel::onNavigateBack,
             onRemoveAllergenClicked = viewModel::onRemoveAllergenClicked
         )
     }

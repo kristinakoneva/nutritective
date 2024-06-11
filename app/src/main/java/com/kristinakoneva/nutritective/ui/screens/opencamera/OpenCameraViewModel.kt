@@ -38,4 +38,8 @@ class OpenCameraViewModel @Inject constructor(
     fun resetToInitialState() {
         viewState = OpenCameraState.Initial
     }
+
+    fun onNavigateBack() {
+        emitEvent(OpenCameraEvent.NavigateBack)
+    }
 }

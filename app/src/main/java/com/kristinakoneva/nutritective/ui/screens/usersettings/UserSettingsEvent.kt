@@ -4,4 +4,6 @@ sealed interface UserSettingsEvent {
     data object NavigateToSelectAllergens : UserSettingsEvent
 
     data object NavigateToDetectionInfo : UserSettingsEvent
+
+    data object NavigateBack : UserSettingsEvent
 }

@@ -80,4 +80,8 @@ class SelectAllergensViewModel @Inject constructor(
             emitEvent(SelectAllergensEvent.NavigateToUserSettings)
         }
     }
+
+    fun onNavigateBack() {
+        emitEvent(SelectAllergensEvent.NavigateBack)
+    }
 }

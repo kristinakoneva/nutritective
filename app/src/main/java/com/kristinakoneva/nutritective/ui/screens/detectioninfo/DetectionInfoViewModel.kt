@@ -5,5 +5,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class DetectionInfoViewModel @Inject constructor() : BaseViewModel<Unit, Unit>(Unit) {
+class DetectionInfoViewModel @Inject constructor() : BaseViewModel<Unit, DetectionInfoEvent>(Unit) {
+    fun onNavigateBack() {
+        emitEvent(DetectionInfoEvent.NavigateBack)
+    }
 }

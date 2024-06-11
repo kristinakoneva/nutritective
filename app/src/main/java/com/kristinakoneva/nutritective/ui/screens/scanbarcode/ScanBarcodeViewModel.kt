@@ -82,4 +82,8 @@ class ScanBarcodeViewModel @Inject constructor(
     fun onClearLastSearchCancelled() {
         viewState = viewState.copy(showClearLastSearchDialog = false)
     }
+
+    fun onNavigateToFoodProductDetails() {
+        emitEvent(ScanBarcodeEvent.NavigateToFoodProductDetails)
+    }
 }
