@@ -1,7 +1,7 @@
 package com.kristinakoneva.nutritective.ui.screens.foodproductdetails
 
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 
 sealed interface FoodProductDetailsState {
 

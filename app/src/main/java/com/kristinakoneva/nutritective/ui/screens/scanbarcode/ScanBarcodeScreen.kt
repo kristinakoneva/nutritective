@@ -27,8 +27,8 @@ import com.kristinakoneva.nutritective.ui.screens.scanbarcode.composables.FoodPr
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
-import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8

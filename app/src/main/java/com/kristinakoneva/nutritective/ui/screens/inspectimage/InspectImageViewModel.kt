@@ -6,7 +6,7 @@ import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.io.File
 import javax.inject.Inject

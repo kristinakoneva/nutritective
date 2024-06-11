@@ -16,7 +16,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.kristinakoneva.nutritective.ui.shared.utils.BottomNavTab
+import com.kristinakoneva.nutritective.ui.shared.navigation.BottomNavTab
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_onSurfaceVariant
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 

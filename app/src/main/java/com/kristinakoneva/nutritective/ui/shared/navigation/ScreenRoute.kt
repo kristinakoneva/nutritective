@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.ui.shared.constants
+package com.kristinakoneva.nutritective.ui.shared.navigation
 
 object ScreenRoute {
     const val AUTH = "auth"

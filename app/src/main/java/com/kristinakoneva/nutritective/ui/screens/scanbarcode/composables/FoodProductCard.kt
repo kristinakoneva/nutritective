@@ -6,7 +6,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -27,7 +26,7 @@ import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_secondary

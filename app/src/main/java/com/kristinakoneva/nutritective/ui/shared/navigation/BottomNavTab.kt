@@ -1,22 +1,14 @@
-package com.kristinakoneva.nutritective.ui.shared.utils
+package com.kristinakoneva.nutritective.ui.shared.navigation
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.MenuBook
-import androidx.compose.material.icons.filled.CalendarViewDay
-import androidx.compose.material.icons.filled.Camera
-import androidx.compose.material.icons.filled.Create
-import androidx.compose.material.icons.filled.DocumentScanner
-import androidx.compose.material.icons.filled.FilterCenterFocus
 import androidx.compose.material.icons.filled.ImageSearch
-import androidx.compose.material.icons.filled.MenuBook
-import androidx.compose.material.icons.filled.QrCodeScanner
-import androidx.compose.material.icons.filled.Receipt
 import androidx.compose.material.icons.filled.TextFields
 import androidx.compose.material.icons.filled.ViewArray
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.kristinakoneva.nutritective.R
-import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
+import com.kristinakoneva.nutritective.ui.shared.navigation.ScreenRoute
 
 enum class BottomNavTab(
     val route: String?,

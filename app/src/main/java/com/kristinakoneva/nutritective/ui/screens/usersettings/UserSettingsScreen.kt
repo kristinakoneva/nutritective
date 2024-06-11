@@ -39,7 +39,7 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.NameChangeDialog
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.SettingsCell
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
-import com.kristinakoneva.nutritective.ui.shared.composables.AllergenListedItem
+import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.AllergenListedItem
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2

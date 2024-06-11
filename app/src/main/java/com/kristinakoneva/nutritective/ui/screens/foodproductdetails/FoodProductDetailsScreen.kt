@@ -35,7 +35,7 @@ import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.InformationSection
 import com.kristinakoneva.nutritective.ui.shared.composables.NutrimentItem
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.nutriscore_image_height
 import com.kristinakoneva.nutritective.ui.theme.nutriscore_image_width
 import com.kristinakoneva.nutritective.ui.theme.spacing_1

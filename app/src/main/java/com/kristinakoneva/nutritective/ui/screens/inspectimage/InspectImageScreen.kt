@@ -49,10 +49,10 @@ import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemCard
 import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDialog
-import com.kristinakoneva.nutritective.ui.shared.composables.ImagePickerBottomSheet
+import com.kristinakoneva.nutritective.ui.screens.inspectimage.composables.ImagePickerBottomSheet
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
-import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
-import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
+import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8

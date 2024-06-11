@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.ui.shared.base
+package com.kristinakoneva.nutritective.ui.shared.navigation
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
@@ -29,7 +29,6 @@ import com.kristinakoneva.nutritective.ui.screens.opencamera.OpenCameraScreen
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.ScanBarcodeScreen
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.SelectAllergensScreen
 import com.kristinakoneva.nutritective.ui.screens.usersettings.UserSettingsScreen
-import com.kristinakoneva.nutritective.ui.shared.constants.ScreenRoute
 import com.kristinakoneva.nutritective.ui.shared.composables.BottomNavigationBar
 import com.kristinakoneva.nutritective.ui.theme.floating_button_image_size
 import com.kristinakoneva.nutritective.ui.theme.floating_button_size

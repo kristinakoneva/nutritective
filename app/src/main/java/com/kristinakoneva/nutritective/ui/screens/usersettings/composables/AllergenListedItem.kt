@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.ui.shared.composables
+package com.kristinakoneva.nutritective.ui.screens.usersettings.composables
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.size

@@ -1,6 +1,6 @@
 package com.kristinakoneva.nutritective.ui.screens.selectallergens
 
-import com.kristinakoneva.nutritective.ui.shared.utils.CommonAllergen
+import com.kristinakoneva.nutritective.ui.shared.models.CommonAllergen
 
 data class SelectAllergensState(
     val commonAllergens: List<CommonAllergen> = CommonAllergen.entries,

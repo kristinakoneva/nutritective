@@ -1,4 +1,4 @@
-package com.kristinakoneva.nutritective.ui.shared.utils
+package com.kristinakoneva.nutritective.ui.shared.models
 
 import com.kristinakoneva.nutritective.R
 
