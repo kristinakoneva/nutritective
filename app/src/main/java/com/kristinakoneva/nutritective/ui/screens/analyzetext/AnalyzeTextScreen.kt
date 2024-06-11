@@ -21,6 +21,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -83,6 +84,8 @@ fun AnalyzeTextScreenContent(
     onClearLastSearchCancelled: () -> Unit,
     refresh: () -> Unit
 ) {
+    val focusManager = LocalFocusManager.current
+
     LaunchedEffect(Unit) {
         refresh()
     }
@@ -128,6 +131,7 @@ fun AnalyzeTextScreenContent(
             ),
             keyboardActions = KeyboardActions(
                 onSearch = {
+                    focusManager.clearFocus()
                     onAnalyzeText()
                 }
             )

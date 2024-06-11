@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.kristinakoneva.nutritective.extensions.isDigitsOnly
@@ -24,6 +25,7 @@ fun BarcodeInputDialog(
 ) {
     var barcode by remember { mutableStateOf("") }
     var errorMessage by remember { mutableStateOf("") }
+    val focusManager = LocalFocusManager.current
 
     AlertDialog(
         onDismissRequest = onCancel,
@@ -42,6 +44,7 @@ fun BarcodeInputDialog(
                     ),
                     keyboardActions = KeyboardActions(
                         onDone = {
+                            focusManager.clearFocus()
                             onConfirm(barcode)
                         }
                     ),
