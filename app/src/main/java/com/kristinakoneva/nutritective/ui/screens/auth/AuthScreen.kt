@@ -3,6 +3,7 @@ package com.kristinakoneva.nutritective.ui.screens.auth
 import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
@@ -123,10 +125,13 @@ fun AuthScreenContent(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = titleText, textAlign = TextAlign.Center, modifier = Modifier
+            text = titleText,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = spacing_3),
-            style = MaterialTheme.typography.headlineLarge
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.Bold
         )
 
         if (!isLogin) {
@@ -226,9 +231,10 @@ fun AuthScreenContent(
             colors = ButtonDefaults.buttonColors(
                 disabledContainerColor = Color.LightGray,
                 disabledContentColor = Color.Gray
-            )
+            ),
+            contentPadding = PaddingValues(spacing_2)
         ) {
-            Text(buttonText)
+            Text(buttonText.uppercase())
         }
 
         Text(
@@ -246,9 +252,10 @@ fun AuthScreenContent(
             },
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
-                .padding(top = spacing_1)
+                .padding(top = spacing_1),
+            contentPadding = PaddingValues(spacing_2)
         ) {
-            Text(secondaryButtonText)
+            Text(secondaryButtonText.uppercase())
         }
     }
 }

@@ -2,6 +2,7 @@ package com.kristinakoneva.nutritective.ui.screens.scanbarcode
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -96,8 +97,14 @@ fun ScanBarcodeScreenContent(
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
         )
-        Button(modifier = Modifier.padding(top = spacing_3), onClick = onScanBarcodeButtonClicked) {
-            Text(text = "Scan barcode")
+        Button(
+            modifier = Modifier
+                .padding(top = spacing_3)
+                .fillMaxWidth(),
+            onClick = onScanBarcodeButtonClicked,
+            contentPadding = PaddingValues(spacing_2)
+        ) {
+            Text(text = "Scan barcode".uppercase())
         }
 
         if (lastSearchedFoodProduct != null) {

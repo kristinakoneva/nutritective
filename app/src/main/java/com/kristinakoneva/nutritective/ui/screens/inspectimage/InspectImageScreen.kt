@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -242,11 +243,13 @@ fun InspectImageScreenContent(
             contentAlignment = Alignment.Center
         ) {
             Button(
+                modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     showBottomSheet = true
-                }
+                },
+                contentPadding = PaddingValues(spacing_2)
             ) {
-                Text(text = "Select image / Take photo")
+                Text(text = "Select image / Take photo".uppercase())
             }
         }
 
