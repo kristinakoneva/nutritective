@@ -20,7 +20,10 @@ class UserSettingsViewModel @Inject constructor(
     }
 
     fun refreshAllergensList() {
-        if (viewState.name != null && viewState.showLogoutConfirmationDialog.not()) {
+        if (viewState.name != null &&
+            viewState.showLogoutConfirmationDialog.not() &&
+            viewState.showNameChangeDialog.not()
+        ) {
             launchWithLoading {
                 viewState = viewState.copy(
                     allergens = userRepository.getUserAllergensList(),
@@ -49,6 +52,26 @@ class UserSettingsViewModel @Inject constructor(
 
     fun onNavigateBack() {
         emitEvent(UserSettingsEvent.NavigateBack)
+    }
+
+    fun onEditButtonClicked() {
+        viewState = viewState.copy(
+            showNameChangeDialog = true
+        )
+    }
+
+    fun onNameChangeConfirmed(newName: String) {
+        launchWithLoading {
+            viewState = viewState.copy(showNameChangeDialog = false)
+            userRepository.updateUserDisplayName(newName)
+            viewState = viewState.copy(name = newName)
+        }
+    }
+
+    fun onNameChangeCancelled() {
+        viewState = viewState.copy(
+            showNameChangeDialog = false
+        )
     }
 
     fun onLogoutButtonClicked() {

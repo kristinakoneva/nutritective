@@ -14,6 +14,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -35,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.NameChangeDialog
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.SettingsCell
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenListedItem
@@ -65,11 +67,15 @@ fun UserSettingsScreen(
             name = state.name.orEmpty(),
             allergens = state.allergens,
             shouldShowLogoutConfirmationDialog = state.showLogoutConfirmationDialog,
+            shouldShowNameChangeDialog = state.showNameChangeDialog,
             onNavigateToDetectionInfo = viewModel::onNavigateToDetectionInfo,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
             refreshAllergensList = viewModel::refreshAllergensList,
             onCloseButtonClicked = viewModel::onNavigateBack,
             onRemoveAllergenClicked = viewModel::onRemoveAllergenClicked,
+            onEditButtonClicked = viewModel::onEditButtonClicked,
+            onNameChangeConfirmed = viewModel::onNameChangeConfirmed,
+            onNameChangeCancelled = viewModel::onNameChangeCancelled,
             onLogoutButtonClicked = viewModel::onLogoutButtonClicked,
             onLogoutConfirmed = viewModel::onLogoutConfirmed,
             onLogoutCancelled = viewModel::onLogoutCancelled
@@ -84,11 +90,15 @@ fun UserSettingsScreenContent(
     name: String,
     allergens: List<String>,
     shouldShowLogoutConfirmationDialog: Boolean,
+    shouldShowNameChangeDialog: Boolean,
     onNavigateToDetectionInfo: () -> Unit,
     onNavigateToSelectAllergens: () -> Unit,
     refreshAllergensList: () -> Unit,
     onCloseButtonClicked: () -> Unit,
     onRemoveAllergenClicked: (String) -> Unit,
+    onEditButtonClicked: () -> Unit,
+    onNameChangeConfirmed: (String) -> Unit,
+    onNameChangeCancelled: () -> Unit,
     onLogoutButtonClicked: () -> Unit,
     onLogoutConfirmed: () -> Unit,
     onLogoutCancelled: () -> Unit
@@ -117,6 +127,14 @@ fun UserSettingsScreenContent(
         )
     }
 
+    if (shouldShowNameChangeDialog) {
+        NameChangeDialog(
+            currentName = name,
+            onConfirm = onNameChangeConfirmed,
+            onCancel = onNameChangeCancelled
+        )
+    }
+
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -132,6 +150,12 @@ fun UserSettingsScreenContent(
                     }
                 },
                 actions = {
+                    IconButton(onClick = onEditButtonClicked) {
+                        Icon(
+                            imageVector = Icons.Default.Edit,
+                            contentDescription = "Edit button"
+                        )
+                    }
                     IconButton(onClick = onLogoutButtonClicked) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Logout,
