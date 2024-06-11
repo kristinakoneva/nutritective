@@ -12,7 +12,10 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Logout
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
@@ -47,23 +50,29 @@ fun UserSettingsScreen(
     viewModel: UserSettingsViewModel = hiltViewModel(),
     onNavigateToDetectionInfo: () -> Unit,
     onNavigateToSelectAllergens: () -> Unit,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToAuth: () -> Unit
 ) {
     BaseScreen(viewModel = viewModel, eventHandler = { event ->
         when (event) {
             is UserSettingsEvent.NavigateToSelectAllergens -> onNavigateToSelectAllergens()
             is UserSettingsEvent.NavigateToDetectionInfo -> onNavigateToDetectionInfo()
             is UserSettingsEvent.NavigateBack -> onNavigateBack()
+            is UserSettingsEvent.NavigateToAuth -> onNavigateToAuth()
         }
     }) { state ->
         UserSettingsScreenContent(
             name = state.name.orEmpty(),
             allergens = state.allergens,
+            shouldShowLogoutConfirmationDialog = state.showLogoutConfirmationDialog,
             onNavigateToDetectionInfo = viewModel::onNavigateToDetectionInfo,
             onNavigateToSelectAllergens = viewModel::onNavigateToSelectAllergens,
             refreshAllergensList = viewModel::refreshAllergensList,
             onCloseButtonClicked = viewModel::onNavigateBack,
-            onRemoveAllergenClicked = viewModel::onRemoveAllergenClicked
+            onRemoveAllergenClicked = viewModel::onRemoveAllergenClicked,
+            onLogoutButtonClicked = viewModel::onLogoutButtonClicked,
+            onLogoutConfirmed = viewModel::onLogoutConfirmed,
+            onLogoutCancelled = viewModel::onLogoutCancelled
         )
     }
 }
@@ -74,16 +83,38 @@ fun UserSettingsScreen(
 fun UserSettingsScreenContent(
     name: String,
     allergens: List<String>,
+    shouldShowLogoutConfirmationDialog: Boolean,
     onNavigateToDetectionInfo: () -> Unit,
     onNavigateToSelectAllergens: () -> Unit,
     refreshAllergensList: () -> Unit,
     onCloseButtonClicked: () -> Unit,
-    onRemoveAllergenClicked: (String) -> Unit
+    onRemoveAllergenClicked: (String) -> Unit,
+    onLogoutButtonClicked: () -> Unit,
+    onLogoutConfirmed: () -> Unit,
+    onLogoutCancelled: () -> Unit
 ) {
     val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         refreshAllergensList()
+    }
+
+    if (shouldShowLogoutConfirmationDialog) {
+        AlertDialog(
+            onDismissRequest = onLogoutCancelled,
+            confirmButton = {
+                Button(onClick = onLogoutConfirmed) {
+                    Text(text = "Logout")
+                }
+            },
+            dismissButton = {
+                Button(onClick = onLogoutCancelled) {
+                    Text(text = "Cancel")
+                }
+            },
+            text = { Text("Are you sure you want to logout?") },
+            title = { Text("Logout") }
+        )
     }
 
     Scaffold(
@@ -98,6 +129,14 @@ fun UserSettingsScreenContent(
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
                         Icon(imageVector = Icons.Default.Close, contentDescription = "Close button")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = onLogoutButtonClicked) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Logout,
+                            contentDescription = "Logout button"
+                        )
                     }
                 }
             )

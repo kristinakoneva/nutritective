@@ -20,7 +20,7 @@ class UserSettingsViewModel @Inject constructor(
     }
 
     fun refreshAllergensList() {
-        if (viewState.name != null) {
+        if (viewState.name != null && viewState.showLogoutConfirmationDialog.not()) {
             launchWithLoading {
                 viewState = viewState.copy(
                     allergens = userRepository.getUserAllergensList(),
@@ -38,7 +38,7 @@ class UserSettingsViewModel @Inject constructor(
     }
 
     fun onRemoveAllergenClicked(allergen: String) {
-        launchWithLoading {
+        launch {
             val newAllergenList = viewState.allergens.filter { it != allergen }
             userRepository.setUserAllergensList(newAllergenList)
             viewState = viewState.copy(
@@ -49,5 +49,24 @@ class UserSettingsViewModel @Inject constructor(
 
     fun onNavigateBack() {
         emitEvent(UserSettingsEvent.NavigateBack)
+    }
+
+    fun onLogoutButtonClicked() {
+        viewState = viewState.copy(
+            showLogoutConfirmationDialog = true
+        )
+    }
+
+    fun onLogoutCancelled() {
+        viewState = viewState.copy(
+            showLogoutConfirmationDialog = false
+        )
+    }
+
+    fun onLogoutConfirmed() {
+        launch {
+            userRepository.logoutUser()
+            emitEvent(UserSettingsEvent.NavigateToAuth)
+        }
     }
 }

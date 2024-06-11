@@ -89,6 +89,13 @@ fun NavHost() {
                     },
                     onNavigateBack = {
                         navController.navigateUp()
+                    },
+                    onNavigateToAuth = {
+                        navController.navigate(ScreenRoute.AUTH) {
+                            popUpTo(ScreenRoute.AUTH) {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             })

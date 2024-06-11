@@ -6,4 +6,6 @@ sealed interface UserSettingsEvent {
     data object NavigateToDetectionInfo : UserSettingsEvent
 
     data object NavigateBack : UserSettingsEvent
+
+    data object NavigateToAuth : UserSettingsEvent
 }
