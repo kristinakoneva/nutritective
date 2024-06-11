@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -24,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.composables.RecipeItemCard
@@ -46,7 +49,7 @@ fun ExploreRecipesScreen(
             searchedFor = state.searchedFor,
             recipeItems = state.recipeItems,
             showClearLastSearchDialog = state.showClearLastSearchDialog,
-            onExploreButtonClick = viewModel::exploreRecipes,
+            onExplore = viewModel::exploreRecipes,
             onSearchTextChanged = viewModel::onSearchTextChanged,
             onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
             onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
@@ -62,7 +65,7 @@ fun ExploreRecipesScreenContent(
     searchedFor: String?,
     recipeItems: List<RecipeItem>?,
     showClearLastSearchDialog: Boolean,
-    onExploreButtonClick: () -> Unit,
+    onExplore: () -> Unit,
     onSearchTextChanged: (String) -> Unit,
     onClearLastSearchClicked: () -> Unit,
     onClearLastSearchConfirmed: () -> Unit,
@@ -105,10 +108,15 @@ fun ExploreRecipesScreenContent(
                 .fillMaxSize()
                 .padding(top = spacing_3),
             maxLines = 5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onExplore()
+                }
+            )
         )
-        Button(modifier = Modifier.padding(top = spacing_2), onClick = onExploreButtonClick) {
-            Text("Explore")
-        }
         if (searchedFor != null) {
             Text(
                 text = "You searched for: \"$searchedFor\"",

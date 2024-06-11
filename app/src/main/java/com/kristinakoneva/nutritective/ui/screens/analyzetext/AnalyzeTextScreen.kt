@@ -8,6 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
@@ -50,7 +53,7 @@ fun AnalyzeTextScreen(
             allergenStatus = state.allergenStatus,
             detectedAllergens = state.detectedAllergens,
             showClearLastSearchDialog = state.showClearLastSearchDialog,
-            onAnalyzeButtonClick = viewModel::analyzeText,
+            onAnalyzeText = viewModel::analyzeText,
             onSearchTextChanged = viewModel::onSearchTextChanged,
             onFoodItemClicked = viewModel::onFoodItemClicked,
             clearFoodItemSelection = viewModel::clearFoodItemSelection,
@@ -71,7 +74,7 @@ fun AnalyzeTextScreenContent(
     allergenStatus: AllergenStatus? = null,
     detectedAllergens: List<String>? = null,
     showClearLastSearchDialog: Boolean,
-    onAnalyzeButtonClick: () -> Unit,
+    onAnalyzeText: () -> Unit,
     onSearchTextChanged: (String) -> Unit,
     onFoodItemClicked: (FoodItem) -> Unit,
     clearFoodItemSelection: () -> Unit,
@@ -120,10 +123,16 @@ fun AnalyzeTextScreenContent(
                 .fillMaxSize()
                 .padding(top = spacing_3),
             maxLines = 5,
+            keyboardOptions = KeyboardOptions.Default.copy(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    onAnalyzeText()
+                }
+            )
         )
-        Button(modifier = Modifier.padding(top = spacing_2), onClick = onAnalyzeButtonClick) {
-            Text("Analyze")
-        }
+
         if (searchedFor != null) {
             Text(
                 text = "You searched for: \"$searchedFor\"",

@@ -2,6 +2,7 @@ package com.kristinakoneva.nutritective.ui.screens.opencamera.composables
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
@@ -10,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.kristinakoneva.nutritective.extensions.isDigitsOnly
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
@@ -34,8 +36,16 @@ fun BarcodeInputDialog(
                         barcode = it
                         errorMessage = ""
                     },
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done,
+                        keyboardType = KeyboardType.Number
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            onConfirm(barcode)
+                        }
+                    ),
                     label = { Text("Barcode") },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                     isError = errorMessage.isNotBlank(),
                     modifier = Modifier.padding(bottom = spacing_1)
                 )
