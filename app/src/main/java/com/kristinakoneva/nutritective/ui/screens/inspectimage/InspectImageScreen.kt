@@ -26,6 +26,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -76,7 +77,8 @@ fun InspectImageScreen(
             viewModel::clearFoodItemSelection,
             onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
             onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
-            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled,
+            refresh = viewModel::refresh
         )
     }
 }
@@ -94,8 +96,13 @@ fun InspectImageScreenContent(
     clearFoodItemSelection: () -> Unit,
     onClearLastSearchClicked: () -> Unit,
     onClearLastSearchConfirmed: () -> Unit,
-    onClearLastSearchCancelled: () -> Unit
+    onClearLastSearchCancelled: () -> Unit,
+    refresh: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        refresh()
+    }
+
     if (showClearLastSearchDialog) {
         ClearLastSearchConfirmationDialog(
             onConfirm = onClearLastSearchConfirmed,

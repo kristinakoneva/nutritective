@@ -17,6 +17,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,7 +50,8 @@ fun ExploreRecipesScreen(
             onSearchTextChanged = viewModel::onSearchTextChanged,
             onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
             onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
-            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled,
+            refresh = viewModel::refresh
         )
     }
 }
@@ -64,9 +66,14 @@ fun ExploreRecipesScreenContent(
     onSearchTextChanged: (String) -> Unit,
     onClearLastSearchClicked: () -> Unit,
     onClearLastSearchConfirmed: () -> Unit,
-    onClearLastSearchCancelled: () -> Unit
+    onClearLastSearchCancelled: () -> Unit,
+    refresh: () -> Unit
 ) {
     val context = LocalContext.current
+
+    LaunchedEffect(Unit) {
+        refresh()
+    }
 
     if (showClearLastSearchDialog) {
         ClearLastSearchConfirmationDialog(

@@ -4,7 +4,6 @@ import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
-import com.kristinakoneva.nutritective.ui.screens.inspectimage.InspectImageState
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,30 +28,8 @@ class AnalyzeTextViewModel @Inject constructor(
             val foodItems = foodItemsRepository.getNutritionFromText(searchedFor)
             searchText = ""
             val userAllergenList = userRepository.getUserAllergensList()
-            if (userAllergenList.isNotEmpty()) {
-                val detectedAllergens: List<String> =
-                    foodItems.map { foodItem -> foodItem.name }.detectAllergensPresence(userAllergenList)
-                val allergenStatus =
-                    if (detectedAllergens.isEmpty()) {
-                        AllergenStatus.WARNING
-                    } else {
-                        AllergenStatus.DANGER
-                    }
 
-                viewState = viewState.copy(
-                    searchText = searchText,
-                    searchedFor = searchedFor,
-                    foodItems = foodItems,
-                    allergenStatus = allergenStatus,
-                    detectedAllergens = detectedAllergens
-                )
-            } else {
-                viewState = viewState.copy(
-                    searchText = searchText,
-                    searchedFor = searchedFor,
-                    foodItems = foodItems
-                )
-            }
+            detectAllergens(searchedFor, foodItems, userAllergenList)
         }
     }
 
@@ -74,5 +51,45 @@ class AnalyzeTextViewModel @Inject constructor(
 
     fun onClearLastSearchCancelled() {
         viewState = viewState.copy(showClearLastSearchDialog = false)
+    }
+
+    private fun detectAllergens(searchedFor: String, foodItems: List<FoodItem>, userAllergensList: List<String>) {
+        if (userAllergensList.isNotEmpty()) {
+            val detectedAllergens: List<String> =
+                foodItems.map { foodItem -> foodItem.name }.detectAllergensPresence(userAllergensList)
+            val allergenStatus =
+                if (detectedAllergens.isEmpty()) {
+                    AllergenStatus.WARNING
+                } else {
+                    AllergenStatus.DANGER
+                }
+
+            viewState = AnalyzeTextState(
+                searchText = searchText,
+                searchedFor = searchedFor,
+                foodItems = foodItems,
+                allergenStatus = allergenStatus,
+                detectedAllergens = detectedAllergens
+            )
+        } else {
+            viewState = AnalyzeTextState(
+                searchText = searchText,
+                searchedFor = searchedFor,
+                foodItems = foodItems
+            )
+        }
+    }
+
+    fun refresh() {
+        if (viewState.searchedFor != null && !viewState.foodItems.isNullOrEmpty()
+            && viewState.showClearLastSearchDialog.not() && viewState.selectedFoodItem == null
+        )
+            launchWithLoading {
+                detectAllergens(
+                    viewState.searchedFor.orEmpty(),
+                    viewState.foodItems.orEmpty(),
+                    userRepository.getUserAllergensList()
+                )
+            }
     }
 }

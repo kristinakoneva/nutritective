@@ -15,6 +15,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -55,7 +56,8 @@ fun AnalyzeTextScreen(
             clearFoodItemSelection = viewModel::clearFoodItemSelection,
             onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
             onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
-            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled,
+            refresh = viewModel::refresh
         )
     }
 }
@@ -75,8 +77,13 @@ fun AnalyzeTextScreenContent(
     clearFoodItemSelection: () -> Unit,
     onClearLastSearchClicked: () -> Unit,
     onClearLastSearchConfirmed: () -> Unit,
-    onClearLastSearchCancelled: () -> Unit
+    onClearLastSearchCancelled: () -> Unit,
+    refresh: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        refresh()
+    }
+
     if (showClearLastSearchDialog) {
         ClearLastSearchConfirmationDialog(
             onConfirm = onClearLastSearchConfirmed,

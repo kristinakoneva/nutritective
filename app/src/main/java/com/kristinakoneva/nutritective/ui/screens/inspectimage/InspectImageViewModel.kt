@@ -1,10 +1,8 @@
 package com.kristinakoneva.nutritective.ui.screens.inspectimage
 
 import android.net.Uri
-import android.util.Log
 import com.kristinakoneva.nutritective.domain.fooditems.FoodItemsRepository
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
-import com.kristinakoneva.nutritective.domain.session.SessionRepository
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
@@ -34,31 +32,32 @@ class InspectImageViewModel @Inject constructor(
                     "$fileName.jpeg",
                     File(imagePath).asRequestBody("multipart/form-data".toMediaType())
                 )
-            try {
-                val foodItems = foodItemsRepository.getNutritionFromImage(requestBody)
-                val userAllergenList = userRepository.getUserAllergensList()
-                if (userAllergenList.isNotEmpty()) {
-                    val detectedAllergens: List<String> =
-                        foodItems.map { foodItem -> foodItem.name }.detectAllergensPresence(userAllergenList)
-                    val allergenStatus =
-                        if (detectedAllergens.isEmpty()) {
-                            AllergenStatus.WARNING
-                        } else {
-                            AllergenStatus.DANGER
-                        }
-                    viewState =
-                        InspectImageState(
-                            uri = uri,
-                            foodItems = foodItems,
-                            allergenStatus = allergenStatus,
-                            detectedAllergens = detectedAllergens.distinct()
-                        )
+
+            val foodItems = foodItemsRepository.getNutritionFromImage(requestBody)
+            val userAllergensList = userRepository.getUserAllergensList()
+            detectAllergens(uri, foodItems, userAllergensList)
+        }
+    }
+
+    private fun detectAllergens(uri: Uri, foodItems: List<FoodItem>, userAllergensList: List<String>) {
+        if (userAllergensList.isNotEmpty()) {
+            val detectedAllergens: List<String> =
+                foodItems.map { foodItem -> foodItem.name }.detectAllergensPresence(userAllergensList)
+            val allergenStatus =
+                if (detectedAllergens.isEmpty()) {
+                    AllergenStatus.WARNING
                 } else {
-                    viewState = InspectImageState(uri = uri, foodItems = foodItems)
+                    AllergenStatus.DANGER
                 }
-            } catch (e: Exception) {
-                Log.e("InspectImageViewModel", "analyzeImage: $e")
-            }
+            viewState =
+                InspectImageState(
+                    uri = uri,
+                    foodItems = foodItems,
+                    allergenStatus = allergenStatus,
+                    detectedAllergens = detectedAllergens.distinct()
+                )
+        } else {
+            viewState = InspectImageState(uri = uri, foodItems = foodItems)
         }
     }
 
@@ -80,5 +79,19 @@ class InspectImageViewModel @Inject constructor(
 
     fun onClearLastSearchCancelled() {
         viewState = viewState.copy(showClearLastSearchDialog = false)
+    }
+
+    fun refresh() {
+        if (viewState.uri != null && !viewState.foodItems.isNullOrEmpty() &&
+            viewState.showClearLastSearchDialog.not() && viewState.selectedFoodItem == null
+        ) {
+            launchWithLoading {
+                detectAllergens(
+                    viewState.uri!!,
+                    viewState.foodItems.orEmpty(),
+                    userRepository.getUserAllergensList()
+                )
+            }
+        }
     }
 }
