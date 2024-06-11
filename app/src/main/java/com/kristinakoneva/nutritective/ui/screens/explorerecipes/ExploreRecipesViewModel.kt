@@ -3,6 +3,7 @@ package com.kristinakoneva.nutritective.ui.screens.explorerecipes
 import com.kristinakoneva.nutritective.domain.recipes.RecipesRepository
 import com.kristinakoneva.nutritective.domain.user.UserRepository
 import com.kristinakoneva.nutritective.extensions.detectAllergensPresence
+import com.kristinakoneva.nutritective.ui.screens.analyzetext.AnalyzeTextState
 import com.kristinakoneva.nutritective.ui.shared.base.BaseViewModel
 import com.kristinakoneva.nutritective.ui.shared.utils.AllergenStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -60,5 +61,17 @@ class ExploreRecipesViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    fun onClearLastSearchClicked() {
+        viewState = viewState.copy(showClearLastSearchDialog = true)
+    }
+
+    fun onClearLastSearchConfirmed() {
+        viewState = ExploreRecipesState(showClearLastSearchDialog = false)
+    }
+
+    fun onClearLastSearchCancelled() {
+        viewState = viewState.copy(showClearLastSearchDialog = false)
     }
 }

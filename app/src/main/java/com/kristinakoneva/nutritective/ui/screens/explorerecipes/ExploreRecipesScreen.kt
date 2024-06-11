@@ -2,7 +2,9 @@ package com.kristinakoneva.nutritective.ui.screens.explorerecipes
 
 import android.net.Uri
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.composables.RecipeItemCard
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.utils.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -40,8 +44,12 @@ fun ExploreRecipesScreen(
             searchText = state.searchText,
             searchedFor = state.searchedFor,
             recipeItems = state.recipeItems,
+            showClearLastSearchDialog = state.showClearLastSearchDialog,
             onExploreButtonClick = viewModel::exploreRecipes,
             onSearchTextChanged = viewModel::onSearchTextChanged,
+            onClearLastSearchClicked = viewModel::onClearLastSearchClicked,
+            onClearLastSearchConfirmed = viewModel::onClearLastSearchConfirmed,
+            onClearLastSearchCancelled = viewModel::onClearLastSearchCancelled
         )
     }
 }
@@ -51,10 +59,22 @@ fun ExploreRecipesScreenContent(
     searchText: String?,
     searchedFor: String?,
     recipeItems: List<RecipeItem>?,
+    showClearLastSearchDialog: Boolean,
     onExploreButtonClick: () -> Unit,
-    onSearchTextChanged: (String) -> Unit
+    onSearchTextChanged: (String) -> Unit,
+    onClearLastSearchClicked: () -> Unit,
+    onClearLastSearchConfirmed: () -> Unit,
+    onClearLastSearchCancelled: () -> Unit
 ) {
     val context = LocalContext.current
+
+    if (showClearLastSearchDialog) {
+        ClearLastSearchConfirmationDialog(
+            onConfirm = onClearLastSearchConfirmed,
+            onCancel = onClearLastSearchCancelled
+        )
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -124,6 +144,12 @@ fun ExploreRecipesScreenContent(
             )
             Spacer(modifier = Modifier.padding(top = spacing_3))
             ExploreRecipesInstructionSteps()
+        } else {
+            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+                OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
+                    Text(text = "Clear last search")
+                }
+            }
         }
     }
 }
