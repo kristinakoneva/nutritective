@@ -1,19 +1,15 @@
 package com.kristinakoneva.nutritective.domain.recipes.mappers
 
-import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.models.RecipeResource
+import com.kristinakoneva.nutritective.data.remote.sources.edamam.models.RecipeResource
 import com.kristinakoneva.nutritective.domain.recipes.models.Recipe
 
 fun RecipeResource.toRecipe() = Recipe(
-    title = title,
-    servings = servings,
-    ingredients = ingredients.toIngredientList(),
-    instructions = instructions.toInstructionsList()
+    title = this.label,
+    imageUrl = this.image,
+    source = this.source,
+    url = this.url,
+    ingredientsList = this.ingredientLines,
+    cuisineType = this.cuisineType.joinToString(","),
+    mealType = this.mealType.joinToString(","),
+    dishType = this.dishType.joinToString(","),
 )
-
-fun String.toIngredientList(): List<String> {
-    return this.split("|").map { it.replace(";", " -") }
-}
-
-fun String.toInstructionsList(): List<String> {
-    return this.split(".")
-}

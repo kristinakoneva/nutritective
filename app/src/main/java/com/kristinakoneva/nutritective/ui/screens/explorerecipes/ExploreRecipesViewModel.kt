@@ -10,7 +10,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ExploreRecipesViewModel @Inject constructor(
-    private val source: EdamamSource
+    private val recipesRepository: RecipesRepository
 ) : BaseViewModel<ExploreRecipesState, Unit>(ExploreRecipesState()) {
 
     private var searchText: String = ""
@@ -24,7 +24,7 @@ class ExploreRecipesViewModel @Inject constructor(
         launchWithLoading {
             val searchedFor = searchText.trim()
             try{
-                val result = source.exploreRecipes(searchedFor)
+                val result = recipesRepository.exploreRecipes(searchedFor)
                 viewState = viewState.copy(
                     searchedFor = result.toString(),
                     recipes = null
