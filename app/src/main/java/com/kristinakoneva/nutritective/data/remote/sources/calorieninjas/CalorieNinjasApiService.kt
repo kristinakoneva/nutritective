@@ -1,7 +1,6 @@
 package com.kristinakoneva.nutritective.data.remote.sources.calorieninjas
 
 import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.models.FoodItemsNutritionDataResponse
-import com.kristinakoneva.nutritective.data.remote.sources.calorieninjas.models.RecipeResource
 import okhttp3.MultipartBody
 import retrofit2.http.GET
 import retrofit2.http.Headers
@@ -19,7 +18,4 @@ interface CalorieNinjasApiService {
     @POST("imagetextnutrition")
     @Headers("Transfer-Encoding: chunked")
     suspend fun getNutritionFromImage(@Part image: MultipartBody.Part): FoodItemsNutritionDataResponse
-
-    @GET("recipe")
-    suspend fun getRecipesFromText(@Query("query") text: String): List<RecipeResource>
 }
