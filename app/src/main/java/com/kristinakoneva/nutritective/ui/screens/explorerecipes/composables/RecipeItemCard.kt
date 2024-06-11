@@ -3,17 +3,20 @@ package com.kristinakoneva.nutritective.ui.screens.explorerecipes.composables
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -22,6 +25,7 @@ import coil.compose.AsyncImage
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.RecipeItem
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
+import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_secondary
 import com.kristinakoneva.nutritective.ui.theme.spacing_0_5
@@ -32,6 +36,7 @@ fun RecipeItemCard(
     recipeItem: RecipeItem,
     onClickAction: () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
     Card(
         modifier = Modifier
             .fillMaxSize()
@@ -39,7 +44,10 @@ fun RecipeItemCard(
                 color = md_theme_dark_secondary,
                 shape = RoundedCornerShape(food_item_card_corner_radius)
             )
-            .clickable {
+            .clickable(
+                interactionSource = interactionSource,
+                indication = rememberRipple(bounded = true, color = md_theme_dark_outline)
+            ) {
                 onClickAction()
             },
         elevation = CardDefaults.cardElevation(spacing_0_5),
