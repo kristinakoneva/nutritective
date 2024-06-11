@@ -69,7 +69,7 @@ class AnalyzeTextViewModel @Inject constructor(
                 searchedFor = searchedFor,
                 foodItems = foodItems,
                 allergenStatus = allergenStatus,
-                detectedAllergens = detectedAllergens
+                detectedAllergens = detectedAllergens.distinct()
             )
         } else {
             viewState = AnalyzeTextState(

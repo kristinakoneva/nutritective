@@ -29,7 +29,7 @@ fun BarcodeInputDialog(
 
     AlertDialog(
         onDismissRequest = onCancel,
-        title = { Text(text = "Enter Product Barcode") },
+        title = { Text(text = "Enter product barcode") },
         text = {
             Column {
                 OutlinedTextField(
