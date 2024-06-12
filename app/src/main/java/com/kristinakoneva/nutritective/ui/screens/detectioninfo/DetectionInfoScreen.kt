@@ -81,7 +81,7 @@ fun DetectionInfoScreenContent(
     ) { _ ->
         Column(
             modifier = Modifier
-                .padding(top = spacing_8, bottom = spacing_2)
+                .padding(top = spacing_8)
                 .padding(horizontal = spacing_3)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
@@ -135,7 +135,9 @@ fun DetectionInfoScreenContent(
                     "\n" +
                     "By using this app, you acknowledge and agree to these terms.",
                 style = MaterialTheme.typography.titleMedium,
-                modifier = Modifier.padding(top = spacing_2)
+                modifier = Modifier
+                    .padding(top = spacing_2)
+                    .padding(bottom = spacing_6)
             )
         }
     }

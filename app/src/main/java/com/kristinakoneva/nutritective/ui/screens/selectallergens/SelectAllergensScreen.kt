@@ -46,6 +46,7 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_4
+import com.kristinakoneva.nutritective.ui.theme.spacing_6
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
 
 @Composable
@@ -108,7 +109,7 @@ fun SelectAllergensScreenContent(
     ) { _ ->
         Column(
             modifier = Modifier
-                .padding(top = spacing_8, bottom = spacing_2)
+                .padding(top = spacing_8)
                 .verticalScroll(rememberScrollState())
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
@@ -220,6 +221,7 @@ fun SelectAllergensScreenContent(
                 modifier = Modifier
                     .padding(top = spacing_4)
                     .padding(horizontal = spacing_3)
+                    .padding(bottom = spacing_6)
                     .fillMaxWidth(),
                 onClick = onSaveChangesButtonClicked,
                 enabled = state.isSaveChangesButtonEnabled,

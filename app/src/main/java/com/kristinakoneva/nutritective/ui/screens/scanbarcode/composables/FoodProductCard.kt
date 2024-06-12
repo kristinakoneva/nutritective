@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -76,7 +77,9 @@ fun FoodProductCard(
                         fontWeight = FontWeight.Bold,
                         style = MaterialTheme.typography.titleLarge,
                         color = md_theme_dark_primary,
-                        textAlign = TextAlign.Start
+                        textAlign = TextAlign.Start,
+                        maxLines = 4,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxSize()) {
                         AsyncImage(
