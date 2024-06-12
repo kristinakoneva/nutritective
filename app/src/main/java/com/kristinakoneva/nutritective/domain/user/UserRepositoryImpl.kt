@@ -40,7 +40,7 @@ class UserRepositoryImpl @Inject constructor(
         firestoreSource.getAllergens(getCurrentUser()?.uid.orEmpty())
     }
 
-    override suspend fun setUserAllergensList(allergens: List<String>) {
+    override suspend fun setUserAllergensList(allergens: List<String>) = withContext(Dispatchers.IO) {
         firestoreSource.setAllergens(getCurrentUser()?.uid.orEmpty(), allergens)
     }
 }
