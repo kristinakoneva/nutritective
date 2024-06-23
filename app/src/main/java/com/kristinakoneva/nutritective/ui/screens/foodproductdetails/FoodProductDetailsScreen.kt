@@ -41,7 +41,6 @@ import com.kristinakoneva.nutritective.ui.theme.nutriscore_image_width
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
-import com.kristinakoneva.nutritective.ui.theme.spacing_6
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
 
 @Composable
@@ -142,22 +141,23 @@ fun FoodProductDetailsScreenContent(
                 }
             }
 
-            val nutriments = foodProduct.nutriments ?: emptyList()
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(spacing_3)
-                    .padding(bottom = spacing_6),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                maxItemsInEachRow = 2
-            ) {
-                val itemModifier = Modifier
-                    .padding(vertical = spacing_1)
-                    .weight(1f)
-                nutriments.forEach { nutriment ->
-                    NutrimentItem(itemModifier, nutriment)
+            foodProduct.nutriments?.let {
+                FlowRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(spacing_3),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    maxItemsInEachRow = 2
+                ) {
+                    val itemModifier = Modifier
+                        .padding(vertical = spacing_1)
+                        .weight(1f)
+                    it.forEach { nutriment ->
+                        NutrimentItem(itemModifier, nutriment)
+                    }
                 }
             }
+
             InformationSection(
                 modifier = Modifier.padding(spacing_3),
                 subtitle = "Allergens",
