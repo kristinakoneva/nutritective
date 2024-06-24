@@ -38,4 +38,11 @@ Some of the sources Nutritective integrates are:
 - Chucker - used for debugging API calls
 - Coil - used for image loading
 
+## How to run the app?
+Add the following content to your `local.properties` file:
+```
+CALORIE_NINJAS_API_KEY="<insert your Calorie Ninjas API key here>"
+EDAMAM_APP_ID="<insert your Edamam app id here>"
+EDAMAM_APP_KEY="<insert your Edamam app key here>"
+```
 
