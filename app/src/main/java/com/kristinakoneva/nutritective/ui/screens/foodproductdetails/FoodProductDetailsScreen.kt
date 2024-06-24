@@ -159,7 +159,9 @@ fun FoodProductDetailsScreenContent(
             }
 
             InformationSection(
-                modifier = Modifier.padding(spacing_3),
+                modifier = Modifier
+                    .padding(horizontal = spacing_3)
+                    .padding(bottom = spacing_3, top = spacing_1),
                 subtitle = "Allergens",
                 value = foodProduct.allergens?.joinToString(", ") ?: "No information available."
             )
