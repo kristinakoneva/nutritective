@@ -1,5 +1,5 @@
 # Nutritective - Your Nutrition Detective
-_Developed by: Kristina Koneva_
+_Developed by: Kristina Koneva (student index number: 201513)_
 
 ## Overview
 Nutritective is an Android native mobile app developed in Kotlin as the programming language of choice. The user interface is written in Jetpack Compose as a recommended modern UI toolkit which promises less code and accelerated intuitive development. The app consists of three layers: data, domain and ui and follows the MVVM pattern. The minimum supported SDK is API level 29 (Android 10) and the targeted SDK is API level 34 (Android 14). The app is fixed to portrait mode only. 
