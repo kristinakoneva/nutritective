@@ -17,26 +17,25 @@ The domain layer serves as a connection between the data and the domain layer. I
 for communicating with the data sources and their interface is used in the view models. They serve as an abstracted clean link to the data sources (without knowing their implementation and origin) in the UI layer.
 
 ### UI Layer
-The UI layer is what the user sees on the screen. Nutritective's UI is implemented following the MVVM pattern and `StateFlow` and `Channel` are used for handling the state and event management logic.
+The UI layer is what the user sees on the screen. Nutritective's UI is implemented following the [MVVM pattern](https://infinum.com/handbook/android/project-architecture/mvvm) and [`StateFlow`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) and [`Channel`](https://kotlinlang.org/docs/channels.html) are used for handling the state and event management logic.
 
 ## Demo
 To be added.
 
 ## Integrated Sources
-Some of the sources Nutritective integrates are:
-- OpenFoodFacts API - for obtaining nutrition data for a certain product by passing its barcode
-- Calorie Ninjas API - for obtaining nutrition data from images and text input
-- Edamam API - for getting a recipe list for certain text input
-- Firebase Authentication - for authenticating users
-- Firestore - a database for storing the user's selected allergens.
+- [Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/) - for obtaining nutrition data for a certain product by passing its barcode
+- [Calorie Ninjas API](https://calorieninjas.com/api) - for obtaining nutrition data from images and text input
+- [Edamam API](https://www.edamam.com/) - for getting a recipe list for certain text input
+- [Firebase Authentication](https://firebase.google.com/docs/auth/android/start) - for authenticating users
+- [Cloud Firestore](https://firebase.google.com/docs/firestore/quickstart) - a database for storing the user's selected allergens
 
 ## Useful Libraries
-- Retrofit, Okhttp, KotlinX Serialization - used for handling the networking logic
-- Hilt - used for dependency injection
-- Compose BOM - used for implementing the UI and app navigation
-- ML Kit - used for barcode scanning
-- Chucker - used for debugging API calls
-- Coil - used for image loading
+- [Retrofit](https://square.github.io/retrofit/), [Okhttp](https://square.github.io/okhttp/), [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) - used for handling the networking logic
+- [Hilt](https://dagger.dev/hilt/) - used for dependency injection
+- [Compose BOM](https://developer.android.com/develop/ui/compose/bom) - used for implementing the UI and app navigation
+- [ML Kit](https://developers.google.com/ml-kit/vision/barcode-scanning/android) - used for barcode scanning
+- [Chucker](https://github.com/ChuckerTeam/chucker) - used for debugging API calls
+- [Coil](https://github.com/coil-kt/coil) - used for image loading
 
 ## How to run the app?
 Add the following content to your `local.properties` file:
