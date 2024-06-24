@@ -19,10 +19,10 @@ for communicating with the data sources and their interface is used in the view 
 ### UI Layer
 The UI layer is what the user sees on the screen. Nutritective's UI is implemented following the MVVM pattern and `StateFlow` and `Channel` are used for handling the state and event management logic.
 
-### Demo
+## Demo
+To be added.
 
-
-### Integrated Sources
+## Integrated Sources
 Some of the sources Nutritective integrates are:
 - OpenFoodFacts API - for obtaining nutrition data for a certain product by passing its barcode
 - Calorie Ninjas API - for obtaining nutrition data from images and text input
@@ -30,7 +30,7 @@ Some of the sources Nutritective integrates are:
 - Firebase Authentication - for authenticating users
 - Firestore - a database for storing the user's selected allergens.
 
-### Useful Libraries
+## Useful Libraries
 - Retrofit, Okhttp, KotlinX Serialization - used for handling the networking logic
 - Hilt - used for dependency injection
 - Compose BOM - used for implementing the UI and app navigation
