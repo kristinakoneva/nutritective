@@ -4,7 +4,7 @@ _Developed by: Kristina Koneva_
 ## Overview
 Nutritective is an Android native mobile app developed in Kotlin as the programming language of choice. The user interface is written in Jetpack Compose as a recommended modern UI toolkit which promises less code and accelerated intuitive development. The app consists of three layers: data, domain and ui and follows the MVVM pattern. The minimum supported SDK is API level 29 (Android 10) and the targeted SDK is API level 34 (Android 14). The app is fixed to portrait mode only. 
 
-Nutritective offers a convenient way of obtaining nutrition data by scanning a food product's barcode, by inspecting an image (taken with the camera or chosen from gallery) or by inputing text. Users are able to explore recipes in the app as well. Morevover, Nutritective allows user to select allergens which they want to be detected in the food porducts they scan or the food items they come across using the other ways of obtaining nutrition data. 
+Nutritective offers a convenient way of obtaining nutrition data by scanning a food product's barcode, by inspecting an image (taken with the camera or chosen from gallery) or by entering text. Users are able to explore recipes in the app as well. Moreover, Nutritective allows user to select allergens which they want to be detected in the food porducts they scan or the food items they come across using the other ways of obtaining nutrition data. 
 
 ## Architecture
 The app is divided into three layers: data, domain, UI.
