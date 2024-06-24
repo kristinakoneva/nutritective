@@ -20,7 +20,11 @@ for communicating with the data sources and their interface is used in the view 
 The UI layer is what the user sees on the screen. Nutritective's UI is implemented following the [MVVM pattern](https://infinum.com/handbook/android/project-architecture/mvvm) and [`StateFlow`](https://kotlinlang.org/api/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-state-flow/) and [`Channel`](https://kotlinlang.org/docs/channels.html) are used for handling the state and event management logic.
 
 ## Demo
-To be added.
+_Click on the image to play the video demo._
+
+<a href="https://youtu.be/RmUxl7B8lyY">
+  <img src="https://github.com/kristinakoneva/nutritective/assets/83497391/c8e4024c-d6c1-4d56-a015-83aedd39bd54" alt="Demo" width=30% height=30% />
+</a>
 
 ## Integrated Sources
 - [Open Food Facts API](https://openfoodfacts.github.io/openfoodfacts-server/api/) - for obtaining nutrition data for a certain product by passing its barcode
