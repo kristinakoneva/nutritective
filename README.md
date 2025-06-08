@@ -10,7 +10,7 @@ Nutritective offers a convenient way of obtaining nutrition data by scanning a f
 The app is divided into three layers: data, domain, UI.
 
 ### Data Layer
-The data layer is the app data logic foundation where the direct communication with the sources resides. It is divided into remote and local sources. The data layer is the app data logic foundation where the direct communication with the sources resides.
+The data layer is the app data logic foundation where the direct communication with the sources resides. It is divided into remote and local sources.
 
 ### Domain Layer
 The domain layer serves as a connection between the data and the domain layer. It consists of domain models, repositories and extension functions from transforming models from data to domain models and vice versa. The data models are transformed into domain models in this layer. The repositories provide an interface
