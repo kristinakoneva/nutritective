@@ -23,7 +23,7 @@ The UI layer is what the user sees on the screen. Nutritective's UI is implement
 _Click on the image to play the video demo._
 
 <a href="https://youtu.be/RmUxl7B8lyY">
-  <img src="https://github.com/kristinakoneva/nutritective/assets/83497391/c8e4024c-d6c1-4d56-a015-83aedd39bd54" alt="Demo" width=30% height=30% />
+  <img src="https://github.com/kristinakoneva/nutritective/assets/83497391/c8e4024c-d6c1-4d56-a015-83aedd39bd54" alt="Demo" width=30%/>
 </a>
 
 ## Integrated Sources
