@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.medium_icon_size
 
 @Composable
@@ -27,15 +29,15 @@ fun AllergenListedItem(
         IconButton(onClick = onRemoveAllergen) {
             Icon(
                 imageVector = Icons.Default.DeleteOutline,
-                contentDescription = "Delete icon",
+                contentDescription = stringResource(R.string.cd_delete_icon),
                 modifier = Modifier.size(medium_icon_size)
             )
         }
         OutlinedButton(onClick = onClick) {
-            Text(text = "Avoid products")
+            Text(text = stringResource(R.string.avoid_products))
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = "Arrow forward"
+                contentDescription = stringResource(R.string.cd_arrow_forward)
             )
         }
     }

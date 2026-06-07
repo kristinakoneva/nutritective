@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -114,16 +115,16 @@ fun UserSettingsScreenContent(
             onDismissRequest = onLogoutCancelled,
             confirmButton = {
                 Button(onClick = onLogoutConfirmed) {
-                    Text(text = "Logout")
+                    Text(text = stringResource(R.string.logout))
                 }
             },
             dismissButton = {
                 Button(onClick = onLogoutCancelled) {
-                    Text(text = "Cancel")
+                    Text(text = stringResource(R.string.cancel))
                 }
             },
-            text = { Text("Are you sure you want to logout?") },
-            title = { Text("Logout") }
+            text = { Text(stringResource(R.string.logout_confirmation_message)) },
+            title = { Text(stringResource(R.string.logout)) }
         )
     }
 
@@ -146,20 +147,20 @@ fun UserSettingsScreenContent(
                 },
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Close button")
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close_button))
                     }
                 },
                 actions = {
                     IconButton(onClick = onEditButtonClicked) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = "Edit button"
+                            contentDescription = stringResource(R.string.cd_edit_button)
                         )
                     }
                     IconButton(onClick = onLogoutButtonClicked) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Logout,
-                            contentDescription = "Logout button"
+                            contentDescription = stringResource(R.string.cd_logout_button)
                         )
                     }
                 }
@@ -177,15 +178,15 @@ fun UserSettingsScreenContent(
                 modifier = Modifier.padding(spacing_3),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = "Nutritective logo")
+                Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = stringResource(R.string.cd_nutritective_logo))
                 Column(modifier = Modifier.padding(start = spacing_3)) {
                     Text(
-                        text = "Nutritective",
+                        text = stringResource(R.string.app_name),
                         style = MaterialTheme.typography.headlineMedium,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Your Nutrition Detective",
+                        text = stringResource(R.string.app_tagline),
                         style = MaterialTheme.typography.titleLarge,
                         fontStyle = FontStyle.Italic,
                         fontWeight = FontWeight.SemiBold
@@ -193,9 +194,9 @@ fun UserSettingsScreenContent(
                 }
             }
             Column(modifier = Modifier.padding(spacing_3)) {
-                SettingsCell(text = "What do we detect?", onClick = onNavigateToDetectionInfo)
+                SettingsCell(text = stringResource(R.string.settings_what_do_we_detect), onClick = onNavigateToDetectionInfo)
                 Spacer(modifier = Modifier.padding(top = spacing_3))
-                SettingsCell(text = "Select allergens", onClick = onNavigateToSelectAllergens)
+                SettingsCell(text = stringResource(R.string.select_allergens_title), onClick = onNavigateToSelectAllergens)
             }
             HorizontalDivider(
                 modifier = Modifier
@@ -204,14 +205,14 @@ fun UserSettingsScreenContent(
             )
 
             Text(
-                text = "Your selected allergens:",
+                text = stringResource(R.string.your_selected_allergens_label),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(spacing_3),
                 fontWeight = FontWeight.Bold
             )
             if (allergens.isEmpty()) {
                 Text(
-                    text = "You haven't selected any allergens you would like Nutritective to detect.",
+                    text = stringResource(R.string.no_allergens_selected_message),
                     modifier = Modifier.padding(horizontal = spacing_3)
                 )
             } else {

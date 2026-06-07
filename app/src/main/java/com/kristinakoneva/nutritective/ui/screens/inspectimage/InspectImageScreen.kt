@@ -38,6 +38,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -49,6 +50,7 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.kristinakoneva.nutritective.BuildConfig
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
@@ -197,16 +199,16 @@ fun InspectImageScreenContent(
                     }
                     context.startActivity(intent)
                 }) {
-                    Text("Go to settings")
+                    Text(stringResource(R.string.go_to_settings))
                 }
             }, text = {
-                Text("Camera permission is needed to take a photo.")
+                Text(stringResource(R.string.camera_permission_needed_message))
             }, dismissButton = {
                 Button(onClick = { openCamera = false }) {
-                    Text("Cancel")
+                    Text(stringResource(R.string.cancel))
                 }
             }, title = {
-                Text("Camera permission required")
+                Text(stringResource(R.string.camera_permission_required_title))
             })
         } else {
             SideEffect {
@@ -249,7 +251,7 @@ fun InspectImageScreenContent(
         }
 
         Text(
-            text = "Inspect image for food items",
+            text = stringResource(R.string.inspect_image_screen_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold,
@@ -267,14 +269,14 @@ fun InspectImageScreenContent(
                 },
                 contentPadding = PaddingValues(spacing_2)
             ) {
-                Text(text = "Select image / Take photo".uppercase())
+                Text(text = stringResource(R.string.select_image_or_take_photo).uppercase())
             }
         }
 
         // preview image
         uri?.let {
             Text(
-                text = "Inspected image:",
+                text = stringResource(R.string.inspected_image_label),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_3),
@@ -289,7 +291,7 @@ fun InspectImageScreenContent(
                     .size(
                         160.dp
                     ),
-                contentDescription = "Inspected image preview",
+                contentDescription = stringResource(R.string.cd_inspected_image_preview),
                 alignment = Alignment.TopStart
             )
         }
@@ -305,7 +307,7 @@ fun InspectImageScreenContent(
         }
         if (foodItems.isNullOrEmpty() && uri != null) {
             Text(
-                text = "No food items found.",
+                text = stringResource(R.string.no_food_items_found),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = spacing_2)
@@ -317,7 +319,7 @@ fun InspectImageScreenContent(
                 modifier = Modifier
                     .padding(top = spacing_3)
                     .fillMaxSize(),
-                text = "Instructions",
+                text = stringResource(R.string.instructions),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -327,7 +329,7 @@ fun InspectImageScreenContent(
         } else {
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
-                    Text(text = "Clear last search")
+                    Text(text = stringResource(R.string.clear_last_search))
                 }
             }
         }
@@ -340,7 +342,7 @@ fun InspectImageInstructionSteps() {
         InstructionSteps.getInspectImageInstructionSteps().forEach { step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                description = step.description
+                descriptionRes = step.descriptionRes
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }

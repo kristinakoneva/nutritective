@@ -18,10 +18,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.RecipeItem
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
@@ -58,7 +60,10 @@ fun RecipeItemCard(
                 .background(md_theme_dark_secondary)
         ) {
             Row(modifier = Modifier.padding(spacing_2)) {
-                AsyncImage(model = recipeItem.recipe.imageUrl, contentDescription = "Recipe image")
+                AsyncImage(
+                    model = recipeItem.recipe.imageUrl,
+                    contentDescription = stringResource(R.string.cd_recipe_image)
+                )
                 Column(modifier = Modifier.padding(start = spacing_2)) {
                     Text(
                         text = recipeItem.recipe.title,
@@ -68,14 +73,14 @@ fun RecipeItemCard(
                         textAlign = TextAlign.Start
                     )
                     Text(
-                        text = "Source: " + recipeItem.recipe.source,
+                        text = stringResource(R.string.recipe_source_label, recipeItem.recipe.source),
                         style = MaterialTheme.typography.titleSmall,
                         color = md_theme_dark_primary,
                         textAlign = TextAlign.Start
                     )
                     recipeItem.recipe.cuisineType?.let {
                         Text(
-                            text = "Cuisine type: $it",
+                            text = stringResource(R.string.recipe_cuisine_type_label, it),
                             style = MaterialTheme.typography.titleSmall,
                             color = md_theme_dark_primary,
                             textAlign = TextAlign.Start
@@ -83,7 +88,7 @@ fun RecipeItemCard(
                     }
                     recipeItem.recipe.dishType?.let {
                         Text(
-                            text = "Dish type: $it",
+                            text = stringResource(R.string.recipe_dish_type_label, it),
                             style = MaterialTheme.typography.titleSmall,
                             color = md_theme_dark_primary,
                             textAlign = TextAlign.Start
@@ -91,7 +96,7 @@ fun RecipeItemCard(
                     }
                     recipeItem.recipe.mealType?.let {
                         Text(
-                            text = "Meal type: $it",
+                            text = stringResource(R.string.recipe_meal_type_label, it),
                             style = MaterialTheme.typography.titleSmall,
                             color = md_theme_dark_primary,
                             textAlign = TextAlign.Start
@@ -114,7 +119,7 @@ fun RecipeItemCard(
                 border = BorderStroke(width = 2.dp, color = md_theme_dark_primary),
                 onClick = onClickAction,
             ) {
-                Text("View details", textAlign = TextAlign.Center)
+                Text(stringResource(R.string.view_details), textAlign = TextAlign.Center)
             }
         }
     }

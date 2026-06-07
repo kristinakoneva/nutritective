@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
@@ -32,13 +33,13 @@ fun FoodItemShortSummary(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_calories),
-            contentDescription = "Calories icon",
+            contentDescription = stringResource(R.string.cd_calories_icon),
             Modifier.size(large_icon_size)
         )
         Text(
             modifier = Modifier
                 .padding(start = spacing_2),
-            text = "Calories: $calories",
+            text = stringResource(R.string.calories_label, calories),
             style = MaterialTheme.typography.bodyLarge,
             color = textColor,
             fontWeight = FontWeight.SemiBold
@@ -52,13 +53,13 @@ fun FoodItemShortSummary(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_serving_size),
-            contentDescription = "Serving size icon",
+            contentDescription = stringResource(R.string.cd_serving_size_icon),
             Modifier.size(large_icon_size)
         )
         Text(
             modifier = Modifier
                 .padding(start = spacing_2),
-            text = "Serving Size: $servingSize",
+            text = stringResource(R.string.serving_size_label, servingSize),
             style = MaterialTheme.typography.bodyLarge,
             color = textColor,
             fontWeight = FontWeight.SemiBold

@@ -25,7 +25,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import com.kristinakoneva.nutritective.R
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
@@ -87,7 +89,7 @@ fun FoodProductDetailsScreenContent(
                 },
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = "Close button")
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close_button))
                     }
                 }
             )
@@ -113,7 +115,7 @@ fun FoodProductDetailsScreenContent(
                 ) {
                     Text(text = foodProduct.name.orEmpty(), style = MaterialTheme.typography.headlineSmall)
                     Text(
-                        text = "Brands: ${foodProduct.brands ?: "-"}",
+                        text = stringResource(R.string.brands_label, foodProduct.brands ?: "-"),
                         style = MaterialTheme.typography.labelLarge,
                         modifier = Modifier.padding(top = spacing_1)
                     )
@@ -122,7 +124,7 @@ fun FoodProductDetailsScreenContent(
                             .data(foodProduct.nutriscoreUrl)
                             .decoderFactory(SvgDecoder.Factory())
                             .build(),
-                        contentDescription = "Nutri-Score Grade Image",
+                        contentDescription = stringResource(R.string.cd_nutriscore_grade_image),
                         modifier = Modifier.size(height = nutriscore_image_height, width = nutriscore_image_width)
                     )
                 }
@@ -131,7 +133,7 @@ fun FoodProductDetailsScreenContent(
                         .fillMaxSize()
                         .weight(0.4f),
                     model = foodProduct.imageUrl,
-                    contentDescription = "Food Product Image"
+                    contentDescription = stringResource(R.string.cd_food_product_image)
                 )
             }
 
@@ -162,18 +164,18 @@ fun FoodProductDetailsScreenContent(
                 modifier = Modifier
                     .padding(horizontal = spacing_3)
                     .padding(bottom = spacing_3, top = spacing_1),
-                subtitle = "Allergens",
-                value = foodProduct.allergens?.joinToString(", ") ?: "No information available."
+                subtitle = stringResource(R.string.allergens),
+                value = foodProduct.allergens?.joinToString(", ") ?: stringResource(R.string.no_information_available)
             )
             InformationSection(
                 modifier = Modifier.padding(spacing_3),
-                subtitle = "Ingredients",
-                value = foodProduct.ingredients ?: "No information available."
+                subtitle = stringResource(R.string.ingredients),
+                value = foodProduct.ingredients ?: stringResource(R.string.no_information_available)
             )
             InformationSection(
                 modifier = Modifier.padding(spacing_3),
-                subtitle = "Categories",
-                value = foodProduct.categories ?: "No information available."
+                subtitle = stringResource(R.string.categories),
+                value = foodProduct.categories ?: stringResource(R.string.no_information_available)
             )
         }
     }

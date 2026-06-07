@@ -17,7 +17,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
@@ -72,7 +74,7 @@ fun FoodItemCard(
                 border = BorderStroke(width = 2.dp, color = md_theme_dark_primary),
                 onClick = { onClickAction(foodItem) },
             ) {
-                Text("View details", textAlign = TextAlign.Center)
+                Text(stringResource(R.string.view_details), textAlign = TextAlign.Center)
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.kristinakoneva.nutritective.ui.screens.inspectimage.composables
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -25,6 +26,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 
@@ -40,14 +43,14 @@ fun ImagePickerBottomSheet(
         },
         items = listOf(
             BottomSheetItem(
-                title = "Take a photo now",
+                titleRes = R.string.take_photo_now,
                 icon = Icons.Default.Camera,
                 onClick = {
                     onTakePhotoClick.invoke()
                 }
             ),
             BottomSheetItem(
-                title = "Select an image from gallery",
+                titleRes = R.string.select_image_from_gallery,
                 icon = Icons.Default.Image,
                 onClick = {
                     onPhotoGalleryClick.invoke()
@@ -85,6 +88,7 @@ fun MyModalBottomSheetContent(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             items.forEach { item ->
+                val title = stringResource(item.titleRes)
                 androidx.compose.material3.ListItem(
                     modifier = Modifier
                         .clickable {
@@ -93,14 +97,14 @@ fun MyModalBottomSheetContent(
                         .padding(horizontal = spacing_2, vertical = spacing_1),
                     headlineContent = {
                         Text(
-                            text = item.title,
+                            text = title,
                             style = MaterialTheme.typography.titleMedium,
                         )
                     },
                     leadingContent = {
                         Icon(
                             imageVector = item.icon,
-                            contentDescription = item.title
+                            contentDescription = title
                         )
                     },
                 )
@@ -111,7 +115,7 @@ fun MyModalBottomSheetContent(
 }
 
 data class BottomSheetItem(
-    val title: String = "",
+    @StringRes val titleRes: Int,
     val icon: ImageVector,
     val onClick: () -> Unit
 )

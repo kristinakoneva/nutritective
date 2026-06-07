@@ -32,8 +32,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
@@ -53,7 +55,7 @@ fun AuthScreen(
             is AuthEvent.SuccessfulAuth -> onNavigateToScanBarcodeScreen()
             is AuthEvent.FailedAuth -> {
                 focusManager.clearFocus()
-                Toast.makeText(context, "Failed to authenticate", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, context.getString(R.string.auth_failed), Toast.LENGTH_SHORT).show()
             }
         }
     }) { state ->
@@ -108,10 +110,12 @@ fun AuthScreenContent(
 
     val focusManager = LocalFocusManager.current
 
-    val titleText = if (isLogin) "Login" else "Register"
-    val buttonText = if (isLogin) "Login" else "Register"
-    val descriptionText = if (isLogin) "Don't have an account yet?" else "Already have an account?"
-    val secondaryButtonText = if (isLogin) "Register" else "Login"
+    val titleText = stringResource(if (isLogin) R.string.login else R.string.register)
+    val buttonText = stringResource(if (isLogin) R.string.login else R.string.register)
+    val descriptionText = stringResource(
+        if (isLogin) R.string.auth_dont_have_account else R.string.auth_already_have_account
+    )
+    val secondaryButtonText = stringResource(if (isLogin) R.string.register else R.string.login)
     val isPrimaryButtonEnabled =
         if (isLogin) isEmailValid && isPasswordValid && email.isNotBlank() && password.isNotBlank()
         else isNameValid && isEmailValid && isPasswordValid && isConfirmPasswordValid &&
@@ -139,7 +143,7 @@ fun AuthScreenContent(
                 value = name,
                 textStyle = TextStyle(color = Color.Black),
                 onValueChange = onNameValueChange,
-                label = { Text("Name") },
+                label = { Text(stringResource(R.string.name)) },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = spacing_2),
@@ -152,14 +156,14 @@ fun AuthScreenContent(
                 isError = !isNameValid
             )
             if (!isNameValid) {
-                Text("Name cannot be empty!", color = md_theme_dark_error)
+                Text(stringResource(R.string.auth_name_empty_error), color = md_theme_dark_error)
             }
         }
 
         OutlinedTextField(
             value = email,
             onValueChange = { onEmailValueChange(it) },
-            label = { Text("Email") },
+            label = { Text(stringResource(R.string.email)) },
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
@@ -173,13 +177,13 @@ fun AuthScreenContent(
             isError = !isEmailValid
         )
         if (!isEmailValid) {
-            Text("Invalid email address!", color = md_theme_dark_error)
+            Text(stringResource(R.string.auth_invalid_email), color = md_theme_dark_error)
         }
 
         OutlinedTextField(
             value = password,
             onValueChange = { onPasswordValueChange(it) },
-            label = { Text("Password") },
+            label = { Text(stringResource(R.string.password)) },
             textStyle = TextStyle(color = Color.Black),
             modifier = Modifier
                 .fillMaxWidth()
@@ -194,14 +198,14 @@ fun AuthScreenContent(
             isError = !isPasswordValid
         )
         if (!isPasswordValid) {
-            Text("Invalid password!", color = md_theme_dark_error)
+            Text(stringResource(R.string.auth_invalid_password), color = md_theme_dark_error)
         }
 
         if (!isLogin) {
             OutlinedTextField(
                 value = confirmPassword,
                 onValueChange = { onConfirmPasswordValueChange(it) },
-                label = { Text("Confirm Password") },
+                label = { Text(stringResource(R.string.confirm_password)) },
                 textStyle = TextStyle(color = Color.Black),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -216,7 +220,7 @@ fun AuthScreenContent(
                 isError = !isConfirmPasswordValid
             )
             if (!isConfirmPasswordValid) {
-                Text("Passwords do not match!", color = md_theme_dark_error)
+                Text(stringResource(R.string.auth_passwords_do_not_match), color = md_theme_dark_error)
             }
         }
 

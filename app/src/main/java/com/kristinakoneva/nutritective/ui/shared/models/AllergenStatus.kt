@@ -1,25 +1,26 @@
 package com.kristinakoneva.nutritective.ui.shared.models
 
+import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.Color
 import com.kristinakoneva.nutritective.R
 
 enum class AllergenStatus(
-    val text: String,
+    @StringRes val labelRes: Int,
     val color: Color,
     val iconResId: Int
 ) {
     SAFE(
-        "Safe to consume",
+        R.string.allergen_status_safe,
         Color(0xFF4CAF50),
         R.drawable.ic_safe
     ),
     WARNING(
-        "May contain allergens",
+        R.string.allergen_status_warning,
         Color(0xFFFFC107),
         R.drawable.ic_warning
     ),
     DANGER(
-        "Dangerous allergens present",
+        R.string.allergen_status_danger,
         Color(0xFFF44336),
         R.drawable.ic_danger
     )

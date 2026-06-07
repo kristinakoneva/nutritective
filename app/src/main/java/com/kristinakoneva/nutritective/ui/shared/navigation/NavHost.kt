@@ -13,6 +13,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.NavHost
@@ -167,7 +168,7 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
                 Image(
                     modifier = Modifier.size(floating_button_image_size),
                     painter = painterResource(id = R.mipmap.ic_launcher_round),
-                    contentDescription = "Floating action button"
+                    contentDescription = stringResource(R.string.cd_floating_action_button)
                 )
             }
         }) { padding ->

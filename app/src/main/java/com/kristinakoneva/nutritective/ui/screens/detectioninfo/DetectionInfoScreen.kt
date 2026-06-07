@@ -20,10 +20,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
@@ -62,7 +64,7 @@ fun DetectionInfoScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Detection info",
+                        text = stringResource(R.string.detection_info_title),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -71,7 +73,7 @@ fun DetectionInfoScreenContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = "Back button",
+                            contentDescription = stringResource(R.string.cd_back_button),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -88,17 +90,14 @@ fun DetectionInfoScreenContent(
             horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "After you have selected the allergens which you would like to be detected, " +
-                    "Nutritective will go through the ingredients and allergens of the scanned food products " +
-                    "and provide you with allergen status information. \n\n\n" +
-                    "The allergen status can be one of the following:",
+                text = stringResource(R.string.detection_info_intro),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = spacing_2)
             )
             Spacer(modifier = Modifier.padding(top = spacing_3))
             AllergenStatusCard(allergenStatus = AllergenStatus.SAFE)
             Text(
-                text = "The food product should be safe to consume since none of your selected allergens were detected.",
+                text = stringResource(R.string.detection_info_safe_explanation),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
@@ -106,7 +105,7 @@ fun DetectionInfoScreenContent(
             Spacer(modifier = Modifier.padding(top = spacing_5))
             AllergenStatusCard(allergenStatus = AllergenStatus.WARNING)
             Text(
-                text = "Nutritective could not determine the allergen status because of lack of data for the food product/item or recipe.",
+                text = stringResource(R.string.detection_info_warning_explanation),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
@@ -114,26 +113,20 @@ fun DetectionInfoScreenContent(
             Spacer(modifier = Modifier.padding(top = spacing_5))
             AllergenStatusCard(allergenStatus = AllergenStatus.DANGER, detectedAllergens = listOf("milk", "soy"))
             Text(
-                text = "Nutritective has detected some dangerous allergens and those allergens will be listed.",
+                text = stringResource(R.string.detection_info_danger_explanation),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
             )
 
             Text(
-                text = "Disclaimer:",
+                text = stringResource(R.string.disclaimer_title),
                 style = MaterialTheme.typography.titleLarge,
                 modifier = Modifier.padding(top = spacing_6),
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Our app provides information on allergens in food products to assist users in making informed decisions. However, please note that this information is intended for general informational purposes only and should not be relied upon as a substitute for professional advice or judgment.\n" +
-                    "\n" +
-                    "Due to the complexity and variability of food products, some allergens may be difficult to detect, and the database may contain incomplete or inaccurate information. The food product database we are using for finding products by barcode is open-source, which means that it is continuously updated by a community of contributors. While we strive for accuracy, we cannot guarantee the completeness or correctness of the data.\n" +
-                    "\n" +
-                    "Users are responsible for verifying the information provided and for any decisions made based on it. We do not accept any liability for inaccuracies or omissions, or for any consequences arising from the use of the app. Always consult with a healthcare professional or the product manufacturer for the most accurate and reliable information.\n" +
-                    "\n" +
-                    "By using this app, you acknowledge and agree to these terms.",
+                text = stringResource(R.string.detection_info_disclaimer),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier
                     .padding(top = spacing_2)
