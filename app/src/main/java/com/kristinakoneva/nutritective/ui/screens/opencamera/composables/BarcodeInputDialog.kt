@@ -32,6 +32,14 @@ fun BarcodeInputDialog(
     var showInvalidBarcodeError by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+    fun submitBarcode() {
+        if (barcode.isNotBlank() && barcode.isDigitsOnly()) {
+            onConfirm(barcode)
+        } else {
+            showInvalidBarcodeError = true
+        }
+    }
+
     AlertDialog(
         onDismissRequest = onCancel,
         title = { Text(text = stringResource(R.string.enter_product_barcode_title)) },
@@ -50,7 +58,7 @@ fun BarcodeInputDialog(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             focusManager.clearFocus()
-                            onConfirm(barcode)
+                            submitBarcode()
                         }
                     ),
                     label = { Text(stringResource(R.string.barcode)) },
@@ -64,13 +72,7 @@ fun BarcodeInputDialog(
             }
         },
         confirmButton = {
-            Button(onClick = {
-                if (barcode.isNotBlank() && barcode.isDigitsOnly()) {
-                    onConfirm(barcode)
-                } else {
-                    showInvalidBarcodeError = true
-                }
-            }) {
+            Button(onClick = ::submitBarcode) {
                 Text(stringResource(R.string.confirm))
             }
         },

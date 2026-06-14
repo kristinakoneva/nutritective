@@ -31,6 +31,14 @@ fun NameChangeDialog(
     var showInvalidNameError by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+    fun submitName() {
+        if (newName.isNotBlank() && newName != currentName) {
+            onConfirm(newName)
+        } else {
+            showInvalidNameError = true
+        }
+    }
+
     AlertDialog(
         onDismissRequest = onCancel,
         title = { Text(text = stringResource(R.string.enter_new_name_title)) },
@@ -48,7 +56,7 @@ fun NameChangeDialog(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             focusManager.clearFocus()
-                            onConfirm(newName)
+                            submitName()
                         }
                     ),
                     label = { Text(stringResource(R.string.new_name_label)) },
@@ -62,13 +70,7 @@ fun NameChangeDialog(
             }
         },
         confirmButton = {
-            Button(onClick = {
-                if (newName.isNotBlank() && newName != currentName) {
-                    onConfirm(newName)
-                } else {
-                    showInvalidNameError = true
-                }
-            }) {
+            Button(onClick = ::submitName) {
                 Text(stringResource(R.string.confirm))
             }
         },
