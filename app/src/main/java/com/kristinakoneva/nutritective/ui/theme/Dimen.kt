@@ -18,6 +18,7 @@ val spacing_10 = 80.dp
 val small_icon_size = 16.dp
 val medium_icon_size = 24.dp
 val large_icon_size = 32.dp
+val extra_large_icon_size = 40.dp
 
 val default_corner_radius = 8.dp
 
