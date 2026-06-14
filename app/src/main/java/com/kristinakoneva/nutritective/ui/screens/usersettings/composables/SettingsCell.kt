@@ -22,7 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
-import com.kristinakoneva.nutritective.ui.theme.large_icon_size
+import com.kristinakoneva.nutritective.ui.theme.extra_large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_secondary
@@ -65,7 +65,7 @@ fun SettingsCell(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,
                 modifier = Modifier
-                    .size(large_icon_size)
+                    .size(extra_large_icon_size)
                     .padding(end = spacing_2),
                 tint = md_theme_dark_primary,
             )
