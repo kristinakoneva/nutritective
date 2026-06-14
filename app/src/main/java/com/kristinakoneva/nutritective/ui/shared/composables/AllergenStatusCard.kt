@@ -51,7 +51,7 @@ fun AllergenStatusCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(id = allergenStatus.iconResId),
-                    contentDescription = stringResource(R.string.cd_allergen_status_icon),
+                    contentDescription = null,
                     modifier = Modifier
                         .padding(top = spacing_2)
                         .padding(start = spacing_2)

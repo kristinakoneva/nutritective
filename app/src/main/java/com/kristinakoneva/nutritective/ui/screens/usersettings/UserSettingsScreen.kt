@@ -147,20 +147,20 @@ fun UserSettingsScreenContent(
                 },
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close_button))
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close))
                     }
                 },
                 actions = {
                     IconButton(onClick = onEditButtonClicked) {
                         Icon(
                             imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(R.string.cd_edit_button)
+                            contentDescription = stringResource(R.string.cd_edit_name)
                         )
                     }
                     IconButton(onClick = onLogoutButtonClicked) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.Logout,
-                            contentDescription = stringResource(R.string.cd_logout_button)
+                            contentDescription = stringResource(R.string.cd_logout)
                         )
                     }
                 }
@@ -178,7 +178,7 @@ fun UserSettingsScreenContent(
                 modifier = Modifier.padding(spacing_3),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = stringResource(R.string.cd_nutritective_logo))
+                Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = null)
                 Column(modifier = Modifier.padding(start = spacing_3)) {
                     Text(
                         text = stringResource(R.string.app_name),

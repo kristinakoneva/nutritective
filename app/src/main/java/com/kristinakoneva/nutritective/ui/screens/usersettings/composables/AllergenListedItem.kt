@@ -29,7 +29,7 @@ fun AllergenListedItem(
         IconButton(onClick = onRemoveAllergen) {
             Icon(
                 imageVector = Icons.Default.DeleteOutline,
-                contentDescription = stringResource(R.string.cd_delete_icon),
+                contentDescription = stringResource(R.string.cd_remove_allergen, name),
                 modifier = Modifier.size(medium_icon_size)
             )
         }
@@ -37,7 +37,7 @@ fun AllergenListedItem(
             Text(text = stringResource(R.string.avoid_products))
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
-                contentDescription = stringResource(R.string.cd_arrow_forward)
+                contentDescription = null
             )
         }
     }

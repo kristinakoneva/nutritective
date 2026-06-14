@@ -104,7 +104,7 @@ fun MyModalBottomSheetContent(
                     leadingContent = {
                         Icon(
                             imageVector = item.icon,
-                            contentDescription = title
+                            contentDescription = null
                         )
                     },
                 )

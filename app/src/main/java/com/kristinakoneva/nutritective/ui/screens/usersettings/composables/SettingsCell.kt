@@ -14,7 +14,6 @@ import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,8 +21,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.res.stringResource
-import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
@@ -64,15 +61,14 @@ fun SettingsCell(
                 color = md_theme_dark_primary,
                 fontWeight = FontWeight.SemiBold
             )
-            IconButton(onClick = onClick) {
-                Icon(
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = stringResource(R.string.cd_chevron_right),
-                    modifier = Modifier
-                        .size(large_icon_size),
-                    tint = md_theme_dark_primary,
-                )
-            }
+            Icon(
+                imageVector = Icons.Default.ChevronRight,
+                contentDescription = null,
+                modifier = Modifier
+                    .size(large_icon_size)
+                    .padding(end = spacing_2),
+                tint = md_theme_dark_primary,
+            )
         }
     }
 }
