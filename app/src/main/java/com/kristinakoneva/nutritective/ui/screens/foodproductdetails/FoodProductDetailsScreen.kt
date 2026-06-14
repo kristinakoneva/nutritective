@@ -133,7 +133,9 @@ fun FoodProductDetailsScreenContent(
                         .fillMaxSize()
                         .weight(0.4f),
                     model = foodProduct.imageUrl,
-                    contentDescription = stringResource(R.string.cd_food_product_image, foodProduct.name.orEmpty())
+                    contentDescription = foodProduct.name?.takeIf { it.isNotBlank() }?.let {
+                        stringResource(R.string.cd_food_product_image, it)
+                    }
                 )
             }
 

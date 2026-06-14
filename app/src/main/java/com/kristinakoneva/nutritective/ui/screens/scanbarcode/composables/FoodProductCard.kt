@@ -74,7 +74,9 @@ fun FoodProductCard(
             Row(modifier = Modifier.padding(spacing_2)) {
                 AsyncImage(
                     model = foodProduct.imageUrl,
-                    contentDescription = stringResource(R.string.cd_food_product_image, foodProduct.name.orEmpty())
+                    contentDescription = foodProduct.name?.takeIf { it.isNotBlank() }?.let {
+                        stringResource(R.string.cd_food_product_image, it)
+                    }
                 )
                 Column(modifier = Modifier.padding(start = spacing_1)) {
                     Text(
