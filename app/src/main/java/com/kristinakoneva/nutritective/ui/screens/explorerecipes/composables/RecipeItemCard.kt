@@ -62,7 +62,7 @@ fun RecipeItemCard(
             Row(modifier = Modifier.padding(spacing_2)) {
                 AsyncImage(
                     model = recipeItem.recipe.imageUrl,
-                    contentDescription = stringResource(R.string.cd_recipe_image)
+                    contentDescription = stringResource(R.string.cd_recipe_image, recipeItem.recipe.title)
                 )
                 Column(modifier = Modifier.padding(start = spacing_2)) {
                     Text(

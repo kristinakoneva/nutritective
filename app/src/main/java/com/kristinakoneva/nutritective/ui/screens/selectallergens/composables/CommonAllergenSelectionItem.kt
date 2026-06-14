@@ -16,9 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.unit.dp
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
@@ -53,7 +51,7 @@ fun CommonAllergenSelectionItem(
                 modifier = Modifier
                     .size(large_icon_size),
                 painter = painterResource(id = iconRes),
-                contentDescription = stringResource(R.string.cd_allergen_icon)
+                contentDescription = null
             )
             Text(
                 modifier = Modifier.padding(bottom = spacing_1),

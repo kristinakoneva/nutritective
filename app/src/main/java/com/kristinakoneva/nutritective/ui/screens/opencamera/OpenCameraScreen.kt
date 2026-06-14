@@ -158,7 +158,7 @@ fun OpenCameraScreenContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = stringResource(R.string.cd_back_button),
+                            contentDescription = stringResource(R.string.cd_navigate_back),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -220,7 +220,7 @@ fun OpenCameraScreenProductNotFoundContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = stringResource(R.string.cd_back_button),
+                            contentDescription = stringResource(R.string.cd_navigate_back),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -236,7 +236,7 @@ fun OpenCameraScreenProductNotFoundContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(painter = painterResource(id = R.drawable.illustration_not_found), contentDescription = stringResource(R.string.cd_product_not_found_image))
+            Image(painter = painterResource(id = R.drawable.illustration_not_found), contentDescription = null)
             Text(
                 modifier = Modifier.padding(top = spacing_2),
                 text = stringResource(R.string.product_not_found_message),

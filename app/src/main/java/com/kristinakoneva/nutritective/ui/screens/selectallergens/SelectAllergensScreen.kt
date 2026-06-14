@@ -101,7 +101,7 @@ fun SelectAllergensScreenContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = stringResource(R.string.cd_back_button),
+                            contentDescription = stringResource(R.string.cd_navigate_back),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }

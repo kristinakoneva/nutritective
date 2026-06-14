@@ -26,7 +26,7 @@ fun NutrimentItem(modifier: Modifier, nutriment: Nutriment) {
     ) {
         Image(
             painter = painterResource(id = nutriment.type.iconRes),
-            contentDescription = label,
+            contentDescription = null,
             modifier = Modifier.size(large_icon_size)
         )
         Column(

@@ -291,7 +291,7 @@ fun InspectImageScreenContent(
                     .size(
                         160.dp
                     ),
-                contentDescription = stringResource(R.string.cd_inspected_image_preview),
+                contentDescription = stringResource(R.string.cd_inspected_image),
                 alignment = Alignment.TopStart
             )
         }

@@ -38,7 +38,7 @@ fun BottomNavigationBar(navController: NavController) {
                             restoreState = true
                         }
                     },
-                    icon = { Icon(item.icon, contentDescription = stringResource(item.label)) },
+                    icon = { Icon(item.icon, contentDescription = null) },
                     label = {
                         Text(
                             text = stringResource(id = item.label),

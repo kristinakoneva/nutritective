@@ -89,7 +89,7 @@ fun FoodProductDetailsScreenContent(
                 },
                 navigationIcon = {
                     IconButton(onClick = onCloseButtonClicked) {
-                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close_button))
+                        Icon(imageVector = Icons.Default.Close, contentDescription = stringResource(R.string.cd_close))
                     }
                 }
             )
@@ -124,7 +124,7 @@ fun FoodProductDetailsScreenContent(
                             .data(foodProduct.nutriscoreUrl)
                             .decoderFactory(SvgDecoder.Factory())
                             .build(),
-                        contentDescription = stringResource(R.string.cd_nutriscore_grade_image),
+                        contentDescription = stringResource(R.string.cd_nutriscore_grade),
                         modifier = Modifier.size(height = nutriscore_image_height, width = nutriscore_image_width)
                     )
                 }
@@ -133,7 +133,9 @@ fun FoodProductDetailsScreenContent(
                         .fillMaxSize()
                         .weight(0.4f),
                     model = foodProduct.imageUrl,
-                    contentDescription = stringResource(R.string.cd_food_product_image)
+                    contentDescription = foodProduct.name?.takeIf { it.isNotBlank() }?.let {
+                        stringResource(R.string.cd_food_product_image, it)
+                    }
                 )
             }
 

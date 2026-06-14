@@ -168,7 +168,7 @@ fun WithBottomNavigationBar(navController: NavController, screenContent: @Compos
                 Image(
                     modifier = Modifier.size(floating_button_image_size),
                     painter = painterResource(id = R.mipmap.ic_launcher_round),
-                    contentDescription = stringResource(R.string.cd_floating_action_button)
+                    contentDescription = stringResource(R.string.cd_open_settings)
                 )
             }
         }) { padding ->

@@ -12,7 +12,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.instruction_step_image_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 
@@ -26,7 +25,7 @@ fun InstructionStep(
     ) {
         Image(
             painter = painterResource(id = imageResId),
-            contentDescription = stringResource(R.string.cd_step_image),
+            contentDescription = null,
             modifier = Modifier.size(instruction_step_image_size)
         )
         Text(

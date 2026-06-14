@@ -33,7 +33,7 @@ fun FoodItemShortSummary(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_calories),
-            contentDescription = stringResource(R.string.cd_calories_icon),
+            contentDescription = null,
             Modifier.size(large_icon_size)
         )
         Text(
@@ -53,7 +53,7 @@ fun FoodItemShortSummary(
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_serving_size),
-            contentDescription = stringResource(R.string.cd_serving_size_icon),
+            contentDescription = null,
             Modifier.size(large_icon_size)
         )
         Text(

@@ -74,7 +74,9 @@ fun FoodProductCard(
             Row(modifier = Modifier.padding(spacing_2)) {
                 AsyncImage(
                     model = foodProduct.imageUrl,
-                    contentDescription = stringResource(R.string.cd_food_product_image)
+                    contentDescription = foodProduct.name?.takeIf { it.isNotBlank() }?.let {
+                        stringResource(R.string.cd_food_product_image, it)
+                    }
                 )
                 Column(modifier = Modifier.padding(start = spacing_1)) {
                     Text(
@@ -92,7 +94,7 @@ fun FoodProductCard(
                                 .data(foodProduct.nutriscoreUrl)
                                 .decoderFactory(SvgDecoder.Factory())
                                 .build(),
-                            contentDescription = stringResource(R.string.cd_nutriscore_grade_image),
+                            contentDescription = stringResource(R.string.cd_nutriscore_grade),
                             modifier = Modifier
                                 .padding(top = spacing_0_5)
                                 .size(height = nutriscore_image_height, width = nutriscore_image_width)
