@@ -22,6 +22,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
@@ -65,7 +67,7 @@ fun SettingsCell(
             IconButton(onClick = onClick) {
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
-                    contentDescription = "Chevron right",
+                    contentDescription = stringResource(R.string.cd_chevron_right),
                     modifier = Modifier
                         .size(large_icon_size),
                     tint = md_theme_dark_primary,

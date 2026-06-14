@@ -21,7 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -111,7 +113,7 @@ fun AnalyzeTextScreenContent(
 
 
         Text(
-            text = "Analyze food related text",
+            text = stringResource(R.string.analyze_text_screen_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
@@ -120,7 +122,7 @@ fun AnalyzeTextScreenContent(
             value = searchText.orEmpty(),
             textStyle = TextStyle(color = Color.Black),
             onValueChange = onSearchTextChanged,
-            label = { Text("Enter search text") },
+            label = { Text(stringResource(R.string.analyze_text_input_label)) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = spacing_3),
@@ -138,7 +140,7 @@ fun AnalyzeTextScreenContent(
 
         if (searchedFor != null) {
             Text(
-                text = "You searched for: \"$searchedFor\"",
+                text = stringResource(R.string.you_searched_for, searchedFor),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_3),
@@ -161,7 +163,7 @@ fun AnalyzeTextScreenContent(
 
         if (foodItems.isNullOrEmpty() && searchedFor != null) {
             Text(
-                text = "No food items found.",
+                text = stringResource(R.string.no_food_items_found),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.padding(top = spacing_2)
@@ -173,7 +175,7 @@ fun AnalyzeTextScreenContent(
                 modifier = Modifier
                     .padding(top = spacing_5)
                     .fillMaxSize(),
-                text = "Instructions",
+                text = stringResource(R.string.instructions),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -183,7 +185,7 @@ fun AnalyzeTextScreenContent(
         } else {
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
-                    Text(text = "Clear last search")
+                    Text(text = stringResource(R.string.clear_last_search))
                 }
             }
         }
@@ -196,7 +198,7 @@ fun AnalyzeTextInstructionSteps() {
         InstructionSteps.getAnalyzeTextInstructionSteps().forEach { step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                description = step.description
+                descriptionRes = step.descriptionRes
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }

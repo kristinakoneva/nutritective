@@ -24,7 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -95,7 +97,7 @@ fun ExploreRecipesScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Explore recipes",
+            text = stringResource(R.string.explore_recipes),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
@@ -104,7 +106,7 @@ fun ExploreRecipesScreenContent(
             value = searchText.orEmpty(),
             textStyle = TextStyle(color = Color.Black),
             onValueChange = onSearchTextChanged,
-            label = { Text("Enter dish name") },
+            label = { Text(stringResource(R.string.explore_recipes_input_label)) },
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = spacing_3),
@@ -121,7 +123,7 @@ fun ExploreRecipesScreenContent(
         )
         if (searchedFor != null) {
             Text(
-                text = "You searched for: \"$searchedFor\"",
+                text = stringResource(R.string.you_searched_for, searchedFor),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_3),
@@ -142,7 +144,7 @@ fun ExploreRecipesScreenContent(
         }
         if (recipeItems.isNullOrEmpty() && searchedFor != null) {
             Text(
-                text = "No recipes found.",
+                text = stringResource(R.string.no_recipes_found),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
                 modifier = Modifier.padding(top = spacing_2)
@@ -154,7 +156,7 @@ fun ExploreRecipesScreenContent(
                 modifier = Modifier
                     .padding(top = spacing_5)
                     .fillMaxSize(),
-                text = "Instructions",
+                text = stringResource(R.string.instructions),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -164,7 +166,7 @@ fun ExploreRecipesScreenContent(
         } else {
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
-                    Text(text = "Clear last search")
+                    Text(text = stringResource(R.string.clear_last_search))
                 }
             }
         }
@@ -177,7 +179,7 @@ fun ExploreRecipesInstructionSteps() {
         InstructionSteps.getExploreRecipesInstructionSteps().forEach { step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                description = step.description
+                descriptionRes = step.descriptionRes
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }

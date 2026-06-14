@@ -14,6 +14,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -53,7 +55,7 @@ fun FoodItemDetailsDialog(
         },
         confirmButton = {
             Button(onClick = onClose) {
-                Text("Close")
+                Text(stringResource(R.string.close))
             }
         }
     )

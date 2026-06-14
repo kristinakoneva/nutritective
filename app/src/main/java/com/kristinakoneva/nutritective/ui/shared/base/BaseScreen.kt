@@ -6,6 +6,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.composables.LoadingDialog
 
 @Composable
@@ -35,7 +36,7 @@ fun <State : Any, Event : Any> BaseScreen(
 
     LaunchedEffect(viewModel.errorFlow) {
         viewModel.errorFlow.collect { _ ->
-            Toast.makeText(context, "Something went wrong", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, context.getString(R.string.error_something_went_wrong), Toast.LENGTH_SHORT).show()
             navController.popBackStack()
         }
     }

@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import com.kristinakoneva.nutritective.domain.shared.models.Nutriment
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
@@ -18,19 +19,20 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
 @Composable
 fun NutrimentItem(modifier: Modifier, nutriment: Nutriment) {
+    val label = stringResource(nutriment.type.labelRes)
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Image(
             painter = painterResource(id = nutriment.type.iconRes),
-            contentDescription = nutriment.type.label,
+            contentDescription = label,
             modifier = Modifier.size(large_icon_size)
         )
         Column(
             modifier = Modifier.padding(horizontal = spacing_1)
         ) {
-            Text(text = nutriment.type.label, style = MaterialTheme.typography.bodySmall, maxLines = 1)
+            Text(text = label, style = MaterialTheme.typography.bodySmall, maxLines = 1)
             Text(text = nutriment.value, style = MaterialTheme.typography.bodyMedium, fontWeight = FontWeight.Bold)
         }
     }

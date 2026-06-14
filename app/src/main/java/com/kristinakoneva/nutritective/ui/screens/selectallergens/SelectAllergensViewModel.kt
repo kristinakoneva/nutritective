@@ -19,7 +19,7 @@ class SelectAllergensViewModel @Inject constructor(
             viewState = viewState.copy(
                 selectedAllergens = initialSelections,
                 manuallyAddedAllergens = initialSelections.filterNot {
-                    viewState.commonAllergens.map { allergen -> allergen.text }.contains(it)
+                    viewState.commonAllergens.map { allergen -> allergen.key }.contains(it)
                 }
             )
         }
@@ -49,7 +49,7 @@ class SelectAllergensViewModel @Inject constructor(
         inputText = ""
 
         if (allergenName.isEmpty()) return
-        if (viewState.commonAllergens.map { it.text }.contains(allergenName)) {
+        if (viewState.commonAllergens.map { it.key }.contains(allergenName)) {
             onAllergenSelected(allergenName)
             viewState = viewState.copy(inputText = "")
             return

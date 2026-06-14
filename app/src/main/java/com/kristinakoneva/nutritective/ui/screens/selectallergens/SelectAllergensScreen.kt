@@ -31,7 +31,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
+import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
@@ -90,7 +92,7 @@ fun SelectAllergensScreenContent(
             CenterAlignedTopAppBar(
                 title = {
                     Text(
-                        text = "Select allergens",
+                        text = stringResource(R.string.select_allergens_title),
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis
                     )
@@ -99,7 +101,7 @@ fun SelectAllergensScreenContent(
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = "Back button",
+                            contentDescription = stringResource(R.string.cd_back_button),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -119,7 +121,7 @@ fun SelectAllergensScreenContent(
                     .padding(top = spacing_4)
                     .padding(horizontal = spacing_3)
                     .fillMaxSize(),
-                text = "Common allergens:",
+                text = stringResource(R.string.common_allergens_label),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -137,11 +139,11 @@ fun SelectAllergensScreenContent(
                     .padding(spacing_1)
                 state.commonAllergens.forEach { allergen ->
                     CommonAllergenSelectionItem(
-                        name = allergen.text,
+                        name = stringResource(allergen.labelRes),
                         iconRes = allergen.icon,
-                        isSelected = state.selectedAllergens.contains(allergen.text),
+                        isSelected = state.selectedAllergens.contains(allergen.key),
                         modifier = itemModifier,
-                        onClick = { onAllergenSelected(allergen.text) }
+                        onClick = { onAllergenSelected(allergen.key) }
                     )
                 }
             }
@@ -152,7 +154,7 @@ fun SelectAllergensScreenContent(
                         .padding(top = spacing_4)
                         .padding(horizontal = spacing_3)
                         .fillMaxSize(),
-                    text = "Manually added allergens:",
+                    text = stringResource(R.string.manually_added_allergens_label),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.Bold
@@ -184,7 +186,7 @@ fun SelectAllergensScreenContent(
                     .padding(top = spacing_4)
                     .padding(horizontal = spacing_3)
                     .fillMaxSize(),
-                text = "Manually add allergens:",
+                text = stringResource(R.string.manually_add_allergens_label),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -193,7 +195,7 @@ fun SelectAllergensScreenContent(
                 value = state.inputText.orEmpty(),
                 textStyle = TextStyle(color = Color.Black),
                 onValueChange = onInputTextChanged,
-                label = { Text("Enter the allergen name") },
+                label = { Text(stringResource(R.string.enter_allergen_name_label)) },
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = spacing_3)
@@ -214,7 +216,7 @@ fun SelectAllergensScreenContent(
                     .padding(horizontal = spacing_3),
                 onClick = onAddAllergenClicked
             ) {
-                Text("Add allergen")
+                Text(stringResource(R.string.add_allergen))
             }
 
             Button(
@@ -230,7 +232,7 @@ fun SelectAllergensScreenContent(
                 ),
                 contentPadding = PaddingValues(spacing_2)
             ) {
-                Text("Save changes".uppercase())
+                Text(stringResource(R.string.save_changes).uppercase())
             }
         }
     }

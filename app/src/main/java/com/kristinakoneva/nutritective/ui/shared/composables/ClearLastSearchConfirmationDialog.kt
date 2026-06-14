@@ -4,6 +4,8 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
 
 @Composable
 fun ClearLastSearchConfirmationDialog(
@@ -14,15 +16,15 @@ fun ClearLastSearchConfirmationDialog(
         onDismissRequest = onCancel,
         confirmButton = {
             Button(onClick = onConfirm) {
-                Text(text = "Clear")
+                Text(text = stringResource(R.string.clear))
             }
         },
         dismissButton = {
             Button(onClick = onCancel) {
-                Text(text = "Cancel")
+                Text(text = stringResource(R.string.cancel))
             }
         },
-        text = { Text("Are you sure you want to clear your last search?") },
-        title = { Text("Clear last search") }
+        text = { Text(stringResource(R.string.clear_last_search_confirmation_message)) },
+        title = { Text(stringResource(R.string.clear_last_search)) }
     )
 }

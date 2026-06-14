@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
@@ -70,7 +72,10 @@ fun FoodProductCard(
                 .background(md_theme_dark_secondary)
         ) {
             Row(modifier = Modifier.padding(spacing_2)) {
-                AsyncImage(model = foodProduct.imageUrl, contentDescription = "Food product image")
+                AsyncImage(
+                    model = foodProduct.imageUrl,
+                    contentDescription = stringResource(R.string.cd_food_product_image)
+                )
                 Column(modifier = Modifier.padding(start = spacing_1)) {
                     Text(
                         text = foodProduct.name.orEmpty(),
@@ -87,7 +92,7 @@ fun FoodProductCard(
                                 .data(foodProduct.nutriscoreUrl)
                                 .decoderFactory(SvgDecoder.Factory())
                                 .build(),
-                            contentDescription = "Nutri-Score Grade Image",
+                            contentDescription = stringResource(R.string.cd_nutriscore_grade_image),
                             modifier = Modifier
                                 .padding(top = spacing_0_5)
                                 .size(height = nutriscore_image_height, width = nutriscore_image_width)
@@ -107,7 +112,7 @@ fun FoodProductCard(
                 border = BorderStroke(width = 2.dp, color = md_theme_dark_primary),
                 onClick = onClickAction,
             ) {
-                Text("View details", textAlign = TextAlign.Center)
+                Text(stringResource(R.string.view_details), textAlign = TextAlign.Center)
             }
         }
     }

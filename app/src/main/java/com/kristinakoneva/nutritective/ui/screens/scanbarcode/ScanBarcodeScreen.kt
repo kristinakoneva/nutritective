@@ -19,9 +19,10 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.R
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.screens.scanbarcode.composables.FoodProductCard
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
@@ -93,7 +94,7 @@ fun ScanBarcodeScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "Scan a food product's barcode",
+            text = stringResource(R.string.scan_barcode_screen_title),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.Bold
@@ -105,12 +106,12 @@ fun ScanBarcodeScreenContent(
             onClick = onScanBarcodeButtonClicked,
             contentPadding = PaddingValues(spacing_2)
         ) {
-            Text(text = "Scan barcode".uppercase())
+            Text(text = stringResource(R.string.scan_barcode).uppercase())
         }
 
         if (lastSearchedFoodProduct != null) {
             Text(
-                text = "Your last search:",
+                text = stringResource(R.string.your_last_search),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_3)
@@ -132,7 +133,7 @@ fun ScanBarcodeScreenContent(
                 modifier = Modifier
                     .padding(top = spacing_3)
                     .fillMaxSize(),
-                text = "Instructions",
+                text = stringResource(R.string.instructions),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
                 fontWeight = FontWeight.Bold
@@ -142,7 +143,7 @@ fun ScanBarcodeScreenContent(
         } else {
             Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
-                    Text(text = "Clear last search")
+                    Text(text = stringResource(R.string.clear_last_search))
                 }
             }
         }
@@ -155,19 +156,19 @@ fun ScanBarcodeInstructionSteps() {
         InstructionSteps.getScanBarcodeInstructionSteps().forEach { step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                description = step.description
+                descriptionRes = step.descriptionRes
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }
         Text(
-            modifier = Modifier.padding(top = spacing_2), text = "Alternative", style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier.padding(top = spacing_2), text = stringResource(R.string.alternative), style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.padding(top = spacing_3))
         InstructionStep(
             imageResId = R.drawable.illustration_alternative,
-            description = "Alternatively, you can manually enter the barcode of the food product and get the nutritional information."
+            descriptionRes = R.string.scan_barcode_manual_entry_description
         )
     }
 }

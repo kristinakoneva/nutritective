@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -152,12 +153,12 @@ fun OpenCameraScreenContent(
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text(text = "Scan barcode") },
+                title = { Text(text = stringResource(R.string.scan_barcode)) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = "Back button",
+                            contentDescription = stringResource(R.string.cd_back_button),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -175,16 +176,16 @@ fun OpenCameraScreenContent(
         ) {
             if (!isCameraPermissionGranted) {
                 Text(
-                    text = "You need to grant camera permission to scan barcodes. Go to the app settings to enable it.",
+                    text = stringResource(R.string.camera_permission_scan_message),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Button(onClick = onGoToSettingsButtonClicked, modifier = Modifier.padding(top = spacing_3)) {
-                    Text(text = "Go to settings")
+                    Text(text = stringResource(R.string.go_to_settings))
                 }
             } else {
                 Text(
                     modifier = Modifier.padding(bottom = spacing_2),
-                    text = "Locate the barcode on the product and position it within the preview area:",
+                    text = stringResource(R.string.scan_barcode_position_instruction),
                     style = MaterialTheme.typography.titleMedium
                 )
                 CameraPreview(successfulBarcodeScannedListener)
@@ -192,11 +193,11 @@ fun OpenCameraScreenContent(
 
             Text(
                 modifier = Modifier.padding(top = spacing_4, bottom = spacing_2),
-                text = "Alternatively:",
+                text = stringResource(R.string.alternatively),
                 style = MaterialTheme.typography.titleMedium
             )
             Button(modifier = Modifier.padding(bottom = spacing_3), onClick = onEnterBarcodeManuallyButtonClicked) {
-                Text(text = "Enter barcode manually")
+                Text(text = stringResource(R.string.enter_barcode_manually))
             }
         }
     }
@@ -213,13 +214,13 @@ fun OpenCameraScreenProductNotFoundContent(
         topBar = {
             CenterAlignedTopAppBar(
                 title = {
-                    Text(text = "Product not found")
+                    Text(text = stringResource(R.string.product_not_found_title))
                 },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.Default.ChevronLeft,
-                            contentDescription = "Back button",
+                            contentDescription = stringResource(R.string.cd_back_button),
                             modifier = Modifier.size(large_icon_size)
                         )
                     }
@@ -235,14 +236,14 @@ fun OpenCameraScreenProductNotFoundContent(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Image(painter = painterResource(id = R.drawable.illustration_not_found), contentDescription = "Product not found")
+            Image(painter = painterResource(id = R.drawable.illustration_not_found), contentDescription = stringResource(R.string.cd_product_not_found_image))
             Text(
                 modifier = Modifier.padding(top = spacing_2),
-                text = "Sorry, we couldn't find the product for the provided barcode.",
+                text = stringResource(R.string.product_not_found_message),
                 textAlign = TextAlign.Center
             )
             Button(modifier = Modifier.padding(top = spacing_3), onClick = onTryAnotherProductButtonClicked) {
-                Text(text = "Try another product")
+                Text(text = stringResource(R.string.try_another_product))
             }
         }
     }

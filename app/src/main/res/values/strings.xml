@@ -1,7 +1,191 @@
 <resources>
     <string name="app_name">Nutritective</string>
+    <string name="app_tagline">Your Nutrition Detective</string>
+
+    <!-- Navigation -->
     <string name="scan_barcode">Scan barcode</string>
     <string name="inspect_image">Inspect image</string>
     <string name="analyze_text">Analyze text</string>
     <string name="explore_recipes">Explore recipes</string>
+
+    <!-- Auth -->
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="auth_failed">Failed to authenticate</string>
+    <string name="auth_dont_have_account">Don\'t have an account yet?</string>
+    <string name="auth_already_have_account">Already have an account?</string>
+    <string name="name">Name</string>
+    <string name="auth_name_empty_error">Name cannot be empty!</string>
+    <string name="email">Email</string>
+    <string name="auth_invalid_email">Invalid email address!</string>
+    <string name="password">Password</string>
+    <string name="auth_invalid_password">Invalid password!</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="auth_passwords_do_not_match">Passwords do not match!</string>
+
+    <!-- Common actions -->
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    <string name="close">Close</string>
+    <string name="clear">Clear</string>
+    <string name="logout">Logout</string>
+    <string name="view_details">View details</string>
+    <string name="go_to_settings">Go to settings</string>
+    <string name="instructions">Instructions</string>
+    <string name="clear_last_search">Clear last search</string>
+    <string name="clear_last_search_confirmation_message">Are you sure you want to clear your last search?</string>
+    <string name="save_changes">Save changes</string>
+
+    <!-- Errors -->
+    <string name="error_something_went_wrong">Something went wrong</string>
+    <string name="no_food_items_found">No food items found.</string>
+    <string name="no_recipes_found">No recipes found.</string>
+    <string name="no_information_available">No information available.</string>
+
+    <!-- Content descriptions -->
+    <string name="cd_back_button">Back button</string>
+    <string name="cd_close_button">Close button</string>
+    <string name="cd_edit_button">Edit button</string>
+    <string name="cd_logout_button">Logout button</string>
+    <string name="cd_delete_icon">Delete icon</string>
+    <string name="cd_arrow_forward">Arrow forward</string>
+    <string name="cd_chevron_right">Chevron right</string>
+    <string name="cd_floating_action_button">Floating action button</string>
+    <string name="cd_nutritective_logo">Nutritective logo</string>
+    <string name="cd_allergen_status_icon">Allergen status icon</string>
+    <string name="cd_allergen_icon">Allergen icon</string>
+    <string name="cd_calories_icon">Calories icon</string>
+    <string name="cd_serving_size_icon">Serving size icon</string>
+    <string name="cd_step_image">Step image</string>
+    <string name="cd_food_product_image">Food product image</string>
+    <string name="cd_nutriscore_grade_image">Nutri-Score Grade Image</string>
+    <string name="cd_recipe_image">Recipe image</string>
+    <string name="cd_inspected_image_preview">Inspected image preview</string>
+    <string name="cd_product_not_found_image">Product not found</string>
+
+    <!-- Allergen status -->
+    <string name="allergen_status_safe">Safe to consume</string>
+    <string name="allergen_status_warning">May contain allergens</string>
+    <string name="allergen_status_danger">Dangerous allergens present</string>
+    <string name="allergen_status_safe_detail">None of your selected allergens were detected.</string>
+    <string name="allergen_status_warning_detail">Allergen status couldn\'t be determined.</string>
+    <string name="allergen_status_danger_detail">Detected allergens: %1$s</string>
+
+    <!-- Common allergens -->
+    <string name="allergen_milk">milk</string>
+    <string name="allergen_eggs">eggs</string>
+    <string name="allergen_sesame">sesame</string>
+    <string name="allergen_fish">fish</string>
+    <string name="allergen_shellfish">shellfish</string>
+    <string name="allergen_tree_nuts">tree nuts</string>
+    <string name="allergen_peanuts">peanuts</string>
+    <string name="allergen_wheat">wheat</string>
+    <string name="allergen_soy">soy</string>
+
+    <!-- Nutriments -->
+    <string name="nutriment_energy">Energy</string>
+    <string name="nutriment_fat">Fat</string>
+    <string name="nutriment_saturated_fat">Satur. fat</string>
+    <string name="nutriment_carbs">Carbs</string>
+    <string name="nutriment_sugars">Sugars</string>
+    <string name="nutriment_proteins">Proteins</string>
+    <string name="nutriment_salt">Salt</string>
+    <string name="nutriment_fiber">Fiber</string>
+    <string name="nutriment_sodium">Sodium</string>
+    <string name="nutriment_potassium">Potassium</string>
+    <string name="nutriment_cholesterol">Cholesterol</string>
+
+    <!-- Food item summary -->
+    <string name="calories_label">Calories: %1$s</string>
+    <string name="serving_size_label">Serving Size: %1$s</string>
+
+    <!-- Scan barcode screen -->
+    <string name="scan_barcode_screen_title">Scan a food product\'s barcode</string>
+    <string name="your_last_search">Your last search:</string>
+    <string name="alternative">Alternative</string>
+    <string name="scan_barcode_manual_entry_description">Alternatively, you can manually enter the barcode of the food product and get the nutritional information.</string>
+
+    <!-- Analyze text screen -->
+    <string name="analyze_text_screen_title">Analyze food related text</string>
+    <string name="analyze_text_input_label">Enter search text</string>
+    <string name="you_searched_for">You searched for: \"%1$s\"</string>
+
+    <!-- Inspect image screen -->
+    <string name="inspect_image_screen_title">Inspect image for food items</string>
+    <string name="select_image_or_take_photo">Select image / Take photo</string>
+    <string name="inspected_image_label">Inspected image:</string>
+    <string name="camera_permission_required_title">Camera permission required</string>
+    <string name="camera_permission_needed_message">Camera permission is needed to take a photo.</string>
+    <string name="take_photo_now">Take a photo now</string>
+    <string name="select_image_from_gallery">Select an image from gallery</string>
+
+    <!-- Explore recipes screen -->
+    <string name="explore_recipes_input_label">Enter dish name</string>
+    <string name="recipe_source_label">Source: %1$s</string>
+    <string name="recipe_cuisine_type_label">Cuisine type: %1$s</string>
+    <string name="recipe_dish_type_label">Dish type: %1$s</string>
+    <string name="recipe_meal_type_label">Meal type: %1$s</string>
+
+    <!-- Open camera screen -->
+    <string name="camera_permission_scan_message">You need to grant camera permission to scan barcodes. Go to the app settings to enable it.</string>
+    <string name="scan_barcode_position_instruction">Locate the barcode on the product and position it within the preview area:</string>
+    <string name="alternatively">Alternatively:</string>
+    <string name="enter_barcode_manually">Enter barcode manually</string>
+    <string name="product_not_found_title">Product not found</string>
+    <string name="product_not_found_message">Sorry, we couldn\'t find the product for the provided barcode.</string>
+    <string name="try_another_product">Try another product</string>
+    <string name="enter_product_barcode_title">Enter product barcode</string>
+    <string name="barcode">Barcode</string>
+    <string name="invalid_barcode_error">Invalid barcode!</string>
+
+    <!-- Food product details -->
+    <string name="brands_label">Brands: %1$s</string>
+    <string name="allergens">Allergens</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="categories">Categories</string>
+
+    <!-- Select allergens -->
+    <string name="select_allergens_title">Select allergens</string>
+    <string name="common_allergens_label">Common allergens:</string>
+    <string name="manually_added_allergens_label">Manually added allergens:</string>
+    <string name="manually_add_allergens_label">Manually add allergens:</string>
+    <string name="enter_allergen_name_label">Enter the allergen name</string>
+    <string name="add_allergen">Add allergen</string>
+
+    <!-- User settings -->
+    <string name="logout_confirmation_message">Are you sure you want to logout?</string>
+    <string name="settings_what_do_we_detect">What do we detect?</string>
+    <string name="your_selected_allergens_label">Your selected allergens:</string>
+    <string name="no_allergens_selected_message">You haven\'t selected any allergens you would like Nutritective to detect.</string>
+    <string name="avoid_products">Avoid products</string>
+    <string name="enter_new_name_title">Enter new name</string>
+    <string name="new_name_label">New name</string>
+    <string name="new_name_invalid_error">New name cannot be empty or same as the current one!</string>
+
+    <!-- Detection info -->
+    <string name="detection_info_title">Detection info</string>
+    <string name="detection_info_intro">After you have selected the allergens which you would like to be detected, Nutritective will go through the ingredients and allergens of the scanned food products and provide you with allergen status information.\n\n\nThe allergen status can be one of the following:</string>
+    <string name="detection_info_safe_explanation">The food product should be safe to consume since none of your selected allergens were detected.</string>
+    <string name="detection_info_warning_explanation">Nutritective could not determine the allergen status because of lack of data for the food product/item or recipe.</string>
+    <string name="detection_info_danger_explanation">Nutritective has detected some dangerous allergens and those allergens will be listed.</string>
+    <string name="disclaimer_title">Disclaimer:</string>
+    <string name="detection_info_disclaimer">Our app provides information on allergens in food products to assist users in making informed decisions. However, please note that this information is intended for general informational purposes only and should not be relied upon as a substitute for professional advice or judgment.\n\nDue to the complexity and variability of food products, some allergens may be difficult to detect, and the database may contain incomplete or inaccurate information. The food product database we are using for finding products by barcode is open-source, which means that it is continuously updated by a community of contributors. While we strive for accuracy, we cannot guarantee the completeness or correctness of the data.\n\nUsers are responsible for verifying the information provided and for any decisions made based on it. We do not accept any liability for inaccuracies or omissions, or for any consequences arising from the use of the app. Always consult with a healthcare professional or the product manufacturer for the most accurate and reliable information.\n\nBy using this app, you acknowledge and agree to these terms.</string>
+
+    <!-- Instruction steps: scan barcode -->
+    <string name="instruction_scan_barcode_step_1">Get a food product whose nutrition data interests you.</string>
+    <string name="instruction_scan_barcode_step_2">Locate the barcode on the food product and point your camera at it.</string>
+    <string name="instruction_scan_barcode_step_3">View the available nutrition information about the food product.</string>
+
+    <!-- Instruction steps: inspect image -->
+    <string name="instruction_inspect_image_step_1">Take a photo or choose one from gallery which contains food related words.\nFor example, take a photo of a restaurant menu.</string>
+    <string name="instruction_inspect_image_step_2">View the available nutrition information about the food or drink items detected from the photo.</string>
+
+    <!-- Instruction steps: analyze text -->
+    <string name="instruction_analyze_text_step_1">Enter some text containing food or drink items.\nFor example enter what you had for lunch: \"steak and fries.\"</string>
+    <string name="instruction_analyze_text_step_2">If you want to get a more precise nutrition data, you can prefix the item with a quantity.\nExample: \"20g chocolate and 2 bananas\"\n(the default quantity is 100 grams)</string>
+    <string name="instruction_analyze_text_step_3">View the available nutrition information about the food or drink items detected from the input text.</string>
+
+    <!-- Instruction steps: explore recipes -->
+    <string name="instruction_explore_recipes_step_1">Enter the name of a dish you want to cook or eat.</string>
+    <string name="instruction_explore_recipes_step_2">View the available recipes for the dish you entered.</string>
 </resources>

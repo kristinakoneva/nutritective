@@ -17,8 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
@@ -49,7 +51,7 @@ fun AllergenStatusCard(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(id = allergenStatus.iconResId),
-                    contentDescription = "Allergen status icon",
+                    contentDescription = stringResource(R.string.cd_allergen_status_icon),
                     modifier = Modifier
                         .padding(top = spacing_2)
                         .padding(start = spacing_2)
@@ -65,7 +67,7 @@ fun AllergenStatusCard(
                         .padding(horizontal = spacing_2)
                         .padding(top = spacing_2)
                         .padding(bottom = spacing_1),
-                    text = allergenStatus.text,
+                    text = stringResource(allergenStatus.labelRes),
                     fontWeight = FontWeight.Bold,
                     style = MaterialTheme.typography.titleSmall,
                     color = Color.White,
@@ -78,7 +80,7 @@ fun AllergenStatusCard(
                         modifier = Modifier
                             .padding(horizontal = spacing_2)
                             .padding(bottom = spacing_2),
-                        text = "None of your selected allergens were detected.",
+                        text = stringResource(R.string.allergen_status_safe_detail),
                         style = MaterialTheme.typography.titleSmall,
                         color = Color.White,
                         fontStyle = FontStyle.Italic
@@ -90,7 +92,7 @@ fun AllergenStatusCard(
                         modifier = Modifier
                             .padding(horizontal = spacing_2)
                             .padding(bottom = spacing_2),
-                        text = "Allergen status couldn't be determined.",
+                        text = stringResource(R.string.allergen_status_warning_detail),
                         style = MaterialTheme.typography.titleSmall,
                         color = Color.White,
                         fontStyle = FontStyle.Italic
@@ -102,7 +104,10 @@ fun AllergenStatusCard(
                         modifier = Modifier
                             .padding(horizontal = spacing_2)
                             .padding(bottom = spacing_2),
-                        text = "Detected allergens: ${detectedAllergens?.joinToString()}",
+                        text = stringResource(
+                            R.string.allergen_status_danger_detail,
+                            detectedAllergens?.joinToString().orEmpty()
+                        ),
                         style = MaterialTheme.typography.titleSmall,
                         color = Color.White,
                         fontStyle = FontStyle.Italic

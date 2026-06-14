@@ -15,7 +15,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
@@ -26,19 +28,27 @@ fun NameChangeDialog(
     onCancel: () -> Unit
 ) {
     var newName by remember { mutableStateOf("") }
-    var errorMessage by remember { mutableStateOf("") }
+    var showInvalidNameError by remember { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
+
+    fun submitName() {
+        if (newName.isNotBlank() && newName != currentName) {
+            onConfirm(newName)
+        } else {
+            showInvalidNameError = true
+        }
+    }
 
     AlertDialog(
         onDismissRequest = onCancel,
-        title = { Text(text = "Enter new name") },
+        title = { Text(text = stringResource(R.string.enter_new_name_title)) },
         text = {
             Column {
                 OutlinedTextField(
                     value = newName,
                     onValueChange = {
                         newName = it
-                        errorMessage = ""
+                        showInvalidNameError = false
                     },
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
@@ -46,33 +56,27 @@ fun NameChangeDialog(
                     keyboardActions = KeyboardActions(
                         onDone = {
                             focusManager.clearFocus()
-                            onConfirm(newName)
+                            submitName()
                         }
                     ),
-                    label = { Text("New name") },
-                    isError = errorMessage.isNotBlank() || newName == currentName,
+                    label = { Text(stringResource(R.string.new_name_label)) },
+                    isError = showInvalidNameError || newName == currentName,
                     modifier = Modifier.padding(bottom = spacing_1)
                 )
 
-                if (errorMessage.isNotBlank()) {
-                    Text(errorMessage, color = md_theme_dark_error)
+                if (showInvalidNameError) {
+                    Text(stringResource(R.string.new_name_invalid_error), color = md_theme_dark_error)
                 }
             }
         },
         confirmButton = {
-            Button(onClick = {
-                if (newName.isNotBlank() && newName != currentName) {
-                    onConfirm(newName)
-                } else {
-                    errorMessage = "New name cannot be empty or same as the current one!"
-                }
-            }) {
-                Text("Confirm")
+            Button(onClick = ::submitName) {
+                Text(stringResource(R.string.confirm))
             }
         },
         dismissButton = {
             Button(onClick = onCancel) {
-                Text("Cancel")
+                Text(stringResource(R.string.cancel))
             }
         }
     )

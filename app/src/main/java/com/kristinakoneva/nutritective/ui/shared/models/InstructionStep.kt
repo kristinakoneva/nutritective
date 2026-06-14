@@ -1,6 +1,8 @@
 package com.kristinakoneva.nutritective.ui.shared.models
 
+import androidx.annotation.StringRes
+
 data class InstructionStep(
-    val description: String,
+    @StringRes val descriptionRes: Int,
     val imageResId: Int
 )
