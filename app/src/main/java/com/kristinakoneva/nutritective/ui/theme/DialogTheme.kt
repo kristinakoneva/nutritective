@@ -9,8 +9,8 @@ object NutritectiveDialogDefaults {
         @Composable get() = MaterialTheme.colorScheme.background
 
     val titleContentColor: Color
-        @Composable get() = md_theme_dark_onSecondary
+        @Composable get() = MaterialTheme.colorScheme.onBackground
 
     val textContentColor: Color
-        @Composable get() = md_theme_dark_onSecondary
+        @Composable get() = MaterialTheme.colorScheme.onBackground
 }
