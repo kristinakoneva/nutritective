@@ -142,28 +142,26 @@ fun ExploreRecipesScreenContent(
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.Bold
                 )
-                recipeItems?.forEachIndexed { index, item ->
-                    Spacer(modifier = Modifier.padding(top = spacing_2))
-                    RecipeItemCard(recipeItem = item, listIndex = index) {
-                        val intent = CustomTabsIntent.Builder().build()
-                        intent.launchUrl(
-                            context,
-                            Uri.parse(item.recipe.url)
-                        )
+                if (recipeItems.isNullOrEmpty()) {
+                    Text(
+                        text = stringResource(R.string.no_recipes_found),
+                        style = MaterialTheme.typography.titleMedium,
+                        textAlign = TextAlign.Start,
+                        modifier = Modifier.padding(top = spacing_2),
+                    )
+                } else {
+                    recipeItems.forEachIndexed { index, item ->
+                        Spacer(modifier = Modifier.padding(top = spacing_2))
+                        RecipeItemCard(recipeItem = item, listIndex = index) {
+                            val intent = CustomTabsIntent.Builder().build()
+                            intent.launchUrl(
+                                context,
+                                Uri.parse(item.recipe.url)
+                            )
+                        }
                     }
                 }
             }
-        }
-
-        if (recipeItems.isNullOrEmpty() && searchedFor != null) {
-            Text(
-                text = stringResource(R.string.no_recipes_found),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(top = spacing_2)
-                    .semanticSection(1f),
-            )
         }
 
         if (searchedFor == null) {

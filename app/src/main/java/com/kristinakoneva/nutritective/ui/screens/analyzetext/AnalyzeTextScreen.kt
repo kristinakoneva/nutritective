@@ -171,28 +171,28 @@ fun AnalyzeTextScreenContent(
             }
         }
 
-        foodItems?.let { items ->
+        if (foodItems != null && (foodItems.isNotEmpty() || searchedFor != null)) {
             Column(modifier = Modifier.semanticSection(3f)) {
-                items.forEachIndexed { index, item ->
-                    Spacer(modifier = Modifier.padding(top = spacing_2))
-                    FoodItemCard(
-                        foodItem = item,
-                        onClickAction = onFoodItemClicked,
-                        listIndex = index,
-                    )
+                if (foodItems.isEmpty()) {
+                    if (searchedFor != null) {
+                        Text(
+                            text = stringResource(R.string.no_food_items_found),
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(top = spacing_2),
+                        )
+                    }
+                } else {
+                    foodItems.forEachIndexed { index, item ->
+                        Spacer(modifier = Modifier.padding(top = spacing_2))
+                        FoodItemCard(
+                            foodItem = item,
+                            onClickAction = onFoodItemClicked,
+                            listIndex = index,
+                        )
+                    }
                 }
             }
-        }
-
-        if (foodItems.isNullOrEmpty() && searchedFor != null) {
-            Text(
-                text = stringResource(R.string.no_food_items_found),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Start,
-                modifier = Modifier
-                    .padding(top = spacing_2)
-                    .semanticSection(3f),
-            )
         }
 
         if (foodItems == null) {
