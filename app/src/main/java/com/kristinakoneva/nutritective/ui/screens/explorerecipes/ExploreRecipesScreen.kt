@@ -37,6 +37,9 @@ import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConf
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
+import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
@@ -97,76 +100,94 @@ fun ExploreRecipesScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.explore_recipes),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        OutlinedTextField(
-            value = searchText.orEmpty(),
-            textStyle = TextStyle(color = Color.Black),
-            onValueChange = onSearchTextChanged,
-            label = { Text(stringResource(R.string.explore_recipes_input_label)) },
-            colors = nutritectiveOutlinedTextFieldColors(),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = spacing_3),
-            maxLines = 5,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    focusManager.clearFocus()
-                    onExplore()
-                }
-            )
-        )
-        if (searchedFor != null) {
+        Column(modifier = Modifier.semanticSection(0f)) {
             Text(
-                text = stringResource(R.string.you_searched_for, searchedFor),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = spacing_3),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
+                text = stringResource(R.string.explore_recipes),
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.screenHeading(),
             )
-            recipeItems?.forEach {
-                Spacer(modifier = Modifier.padding(top = spacing_2))
-                RecipeItemCard(recipeItem = it) {
-                    val intent = CustomTabsIntent.Builder().build()
-                    intent.launchUrl(
-                        context,
-                        Uri.parse(it.recipe.url)
-                    )
+            OutlinedTextField(
+                value = searchText.orEmpty(),
+                textStyle = TextStyle(color = Color.Black),
+                onValueChange = onSearchTextChanged,
+                label = { Text(stringResource(R.string.explore_recipes_input_label)) },
+                colors = nutritectiveOutlinedTextFieldColors(),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = spacing_3),
+                maxLines = 5,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        focusManager.clearFocus()
+                        onExplore()
+                    }
+                )
+            )
+        }
+
+        if (searchedFor != null) {
+            Column(modifier = Modifier.semanticSection(1f)) {
+                Text(
+                    text = stringResource(R.string.you_searched_for, searchedFor),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing_3)
+                        .sectionHeading(),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                recipeItems?.forEachIndexed { index, item ->
+                    Spacer(modifier = Modifier.padding(top = spacing_2))
+                    RecipeItemCard(recipeItem = item, listIndex = index) {
+                        val intent = CustomTabsIntent.Builder().build()
+                        intent.launchUrl(
+                            context,
+                            Uri.parse(item.recipe.url)
+                        )
+                    }
                 }
             }
         }
+
         if (recipeItems.isNullOrEmpty() && searchedFor != null) {
             Text(
                 text = stringResource(R.string.no_recipes_found),
                 style = MaterialTheme.typography.titleMedium,
                 textAlign = TextAlign.Start,
-                modifier = Modifier.padding(top = spacing_2)
+                modifier = Modifier
+                    .padding(top = spacing_2)
+                    .semanticSection(1f),
             )
         }
 
         if (searchedFor == null) {
-            Text(
-                modifier = Modifier
-                    .padding(top = spacing_5)
-                    .fillMaxSize(),
-                text = stringResource(R.string.instructions),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.padding(top = spacing_3))
-            ExploreRecipesInstructionSteps()
+            Column(modifier = Modifier.semanticSection(2f)) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = spacing_5)
+                        .fillMaxSize()
+                        .sectionHeading(),
+                    text = stringResource(R.string.instructions),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(top = spacing_3))
+                ExploreRecipesInstructionSteps()
+            }
         } else {
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semanticSection(2f),
+            ) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
                     Text(text = stringResource(R.string.clear_last_search))
                 }
@@ -177,11 +198,14 @@ fun ExploreRecipesScreenContent(
 
 @Composable
 fun ExploreRecipesInstructionSteps() {
+    val steps = InstructionSteps.getExploreRecipesInstructionSteps()
     Column {
-        InstructionSteps.getExploreRecipesInstructionSteps().forEach { step ->
+        steps.forEachIndexed { index, step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                descriptionRes = step.descriptionRes
+                descriptionRes = step.descriptionRes,
+                stepIndex = index + 1,
+                totalSteps = steps.size,
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }

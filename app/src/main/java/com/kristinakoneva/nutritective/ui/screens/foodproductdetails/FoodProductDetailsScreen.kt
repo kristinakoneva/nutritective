@@ -38,6 +38,9 @@ import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.InformationSection
 import com.kristinakoneva.nutritective.ui.shared.composables.NutrimentItem
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticGrid
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.nutriscore_image_height
 import com.kristinakoneva.nutritective.ui.theme.nutriscore_image_width
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
@@ -102,6 +105,7 @@ fun FoodProductDetailsScreenContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
         ) {
+            Column(modifier = Modifier.semanticSection(0f)) {
             Row(
                 modifier = Modifier
                     .padding(top = spacing_2, bottom = spacing_2)
@@ -138,10 +142,19 @@ fun FoodProductDetailsScreenContent(
                     }
                 )
             }
+            }
 
             if (allergenStatus != null) {
-                Column(modifier = Modifier.padding(horizontal = spacing_3, vertical = spacing_2)) {
-                    AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
+                Column(
+                    modifier = Modifier
+                        .padding(horizontal = spacing_3, vertical = spacing_2)
+                        .semanticSection(1f),
+                ) {
+                    AllergenStatusCard(
+                        allergenStatus = allergenStatus,
+                        detectedAllergens = detectedAllergens,
+                        subjectName = foodProduct.name.orEmpty(),
+                    )
                 }
             }
 
@@ -149,7 +162,12 @@ fun FoodProductDetailsScreenContent(
                 FlowRow(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(spacing_3),
+                        .padding(spacing_3)
+                        .semanticSection(2f)
+                        .semanticGrid(
+                            rowCount = (it.size + 1) / 2,
+                            columnCount = 2,
+                        ),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     maxItemsInEachRow = 2
                 ) {
@@ -162,6 +180,7 @@ fun FoodProductDetailsScreenContent(
                 }
             }
 
+            Column(modifier = Modifier.semanticSection(3f)) {
             InformationSection(
                 modifier = Modifier
                     .padding(horizontal = spacing_3)
@@ -179,6 +198,7 @@ fun FoodProductDetailsScreenContent(
                 subtitle = stringResource(R.string.categories),
                 value = foodProduct.categories ?: stringResource(R.string.no_information_available)
             )
+            }
         }
     }
 }

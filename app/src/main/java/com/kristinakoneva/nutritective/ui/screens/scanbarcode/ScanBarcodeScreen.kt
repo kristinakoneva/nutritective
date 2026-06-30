@@ -30,6 +30,11 @@ import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConf
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
+import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
@@ -85,6 +90,8 @@ fun ScanBarcodeScreenContent(
         )
     }
 
+    val scanBarcodeContentDescription = stringResource(R.string.cd_scan_barcode)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -93,55 +100,70 @@ fun ScanBarcodeScreenContent(
             .padding(bottom = spacing_8),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            text = stringResource(R.string.scan_barcode_screen_title),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        Button(
-            modifier = Modifier
-                .padding(top = spacing_3)
-                .fillMaxWidth(),
-            onClick = onScanBarcodeButtonClicked,
-            contentPadding = PaddingValues(spacing_2)
-        ) {
-            Text(text = stringResource(R.string.scan_barcode).uppercase())
+        Column(modifier = Modifier.semanticSection(0f)) {
+            Text(
+                text = stringResource(R.string.scan_barcode_screen_title),
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.screenHeading(),
+            )
+            Button(
+                modifier = Modifier
+                    .padding(top = spacing_3)
+                    .fillMaxWidth()
+                    .semantics { contentDescription = scanBarcodeContentDescription },
+                onClick = onScanBarcodeButtonClicked,
+                contentPadding = PaddingValues(spacing_2)
+            ) {
+                Text(text = stringResource(R.string.scan_barcode).uppercase())
+            }
         }
 
         if (lastSearchedFoodProduct != null) {
-            Text(
-                text = stringResource(R.string.your_last_search),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = spacing_3)
-                    .padding(bottom = spacing_2),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            FoodProductCard(
-                foodProduct = lastSearchedFoodProduct,
-                onClickAction = onNavigateToFoodProductDetails,
-                allergenStatus = allergenStatus,
-                detectedAllergens = detectedAllergens
-            )
+            Column(modifier = Modifier.semanticSection(1f)) {
+                Text(
+                    text = stringResource(R.string.your_last_search),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing_3)
+                        .padding(bottom = spacing_2)
+                        .sectionHeading(),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                FoodProductCard(
+                    foodProduct = lastSearchedFoodProduct,
+                    onClickAction = onNavigateToFoodProductDetails,
+                    allergenStatus = allergenStatus,
+                    detectedAllergens = detectedAllergens
+                )
+            }
         }
 
         if (lastSearchedFoodProduct == null) {
-            Text(
-                modifier = Modifier
-                    .padding(top = spacing_3)
-                    .fillMaxSize(),
-                text = stringResource(R.string.instructions),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.padding(top = spacing_3))
-            ScanBarcodeInstructionSteps()
+            Column(modifier = Modifier.semanticSection(2f)) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = spacing_3)
+                        .fillMaxSize()
+                        .sectionHeading(),
+                    text = stringResource(R.string.instructions),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(top = spacing_3))
+                ScanBarcodeInstructionSteps()
+            }
         } else {
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semanticSection(2f),
+            ) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
                     Text(text = stringResource(R.string.clear_last_search))
                 }
@@ -152,23 +174,32 @@ fun ScanBarcodeScreenContent(
 
 @Composable
 fun ScanBarcodeInstructionSteps() {
+    val steps = InstructionSteps.getScanBarcodeInstructionSteps()
     Column {
-        InstructionSteps.getScanBarcodeInstructionSteps().forEach { step ->
+        steps.forEachIndexed { index, step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                descriptionRes = step.descriptionRes
+                descriptionRes = step.descriptionRes,
+                stepIndex = index + 1,
+                totalSteps = steps.size + 1,
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }
         Text(
-            modifier = Modifier.padding(top = spacing_2), text = stringResource(R.string.alternative), style = MaterialTheme.typography.titleMedium,
+            modifier = Modifier
+                .padding(top = spacing_2)
+                .sectionHeading(),
+            text = stringResource(R.string.alternative),
+            style = MaterialTheme.typography.titleMedium,
             textAlign = TextAlign.Start,
             fontWeight = FontWeight.Bold
         )
         Spacer(modifier = Modifier.padding(top = spacing_3))
         InstructionStep(
             imageResId = R.drawable.illustration_alternative,
-            descriptionRes = R.string.scan_barcode_manual_entry_description
+            descriptionRes = R.string.scan_barcode_manual_entry_description,
+            stepIndex = steps.size + 1,
+            totalSteps = steps.size + 1,
         )
     }
 }

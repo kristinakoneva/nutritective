@@ -41,6 +41,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.CommonAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.ManuallyAddedAllergenSelectionItem
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticGrid
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveButtonColors
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
@@ -116,11 +119,13 @@ fun SelectAllergensScreenContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
         ) {
+            Column(modifier = Modifier.semanticSection(0f)) {
             Text(
                 modifier = Modifier
                     .padding(top = spacing_4)
                     .padding(horizontal = spacing_3)
-                    .fillMaxSize(),
+                    .fillMaxSize()
+                    .sectionHeading(),
                 text = stringResource(R.string.common_allergens_label),
                 style = MaterialTheme.typography.titleLarge,
                 textAlign = TextAlign.Start,
@@ -130,108 +135,127 @@ fun SelectAllergensScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
+                    .padding(horizontal = spacing_3)
+                    .semanticGrid(
+                        rowCount = (state.commonAllergens.size + 2) / 3,
+                        columnCount = 3,
+                    ),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 maxItemsInEachRow = 3
             ) {
                 val itemModifier = Modifier
                     .weight(1f)
                     .padding(spacing_1)
-                state.commonAllergens.forEach { allergen ->
+                state.commonAllergens.forEachIndexed { index, allergen ->
                     CommonAllergenSelectionItem(
                         name = stringResource(allergen.labelRes),
                         iconRes = allergen.icon,
                         isSelected = state.selectedAllergens.contains(allergen.key),
                         modifier = itemModifier,
-                        onClick = { onAllergenSelected(allergen.key) }
+                        onClick = { onAllergenSelected(allergen.key) },
+                        gridIndex = index,
                     )
                 }
             }
+            }
 
             if (state.manuallyAddedAllergens.isNotEmpty()) {
+                Column(modifier = Modifier.semanticSection(1f)) {
+                    Text(
+                        modifier = Modifier
+                            .padding(top = spacing_4)
+                            .padding(horizontal = spacing_3)
+                            .fillMaxSize()
+                            .sectionHeading(),
+                        text = stringResource(R.string.manually_added_allergens_label),
+                        style = MaterialTheme.typography.titleLarge,
+                        textAlign = TextAlign.Start,
+                        fontWeight = FontWeight.Bold
+                    )
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = spacing_2)
+                            .padding(horizontal = spacing_3)
+                            .semanticGrid(
+                                rowCount = (state.manuallyAddedAllergens.size + 2) / 3,
+                                columnCount = 3,
+                            ),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        maxItemsInEachRow = 3
+                    ) {
+                        val itemModifier = Modifier
+                            .weight(1f)
+                            .padding(spacing_1)
+                        state.manuallyAddedAllergens.forEachIndexed { index, allergen ->
+                            ManuallyAddedAllergenSelectionItem(
+                                name = allergen,
+                                isSelected = state.selectedAllergens.contains(allergen),
+                                modifier = itemModifier,
+                                onClick = { onAllergenSelected(allergen) },
+                                gridIndex = index,
+                            )
+                        }
+                    }
+                }
+            }
+
+            Column(modifier = Modifier.semanticSection(2f)) {
                 Text(
                     modifier = Modifier
                         .padding(top = spacing_4)
                         .padding(horizontal = spacing_3)
-                        .fillMaxSize(),
-                    text = stringResource(R.string.manually_added_allergens_label),
+                        .fillMaxSize()
+                        .sectionHeading(),
+                    text = stringResource(R.string.manually_add_allergens_label),
                     style = MaterialTheme.typography.titleLarge,
                     textAlign = TextAlign.Start,
                     fontWeight = FontWeight.Bold
                 )
-            }
-            FlowRow(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                maxItemsInEachRow = 3
-            ) {
-                val itemModifier = Modifier
-                    .weight(1f)
-                    .padding(spacing_1)
-                state.manuallyAddedAllergens.forEach { allergen ->
-                    ManuallyAddedAllergenSelectionItem(
-                        name = allergen,
-                        isSelected = state.selectedAllergens.contains(allergen),
-                        modifier = itemModifier,
-                        onClick = { onAllergenSelected(allergen) }
+                OutlinedTextField(
+                    value = state.inputText.orEmpty(),
+                    textStyle = TextStyle(color = Color.Black),
+                    onValueChange = onInputTextChanged,
+                    label = { Text(stringResource(R.string.enter_allergen_name_label)) },
+                    colors = nutritectiveOutlinedTextFieldColors(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = spacing_3)
+                        .padding(horizontal = spacing_3),
+                    maxLines = 2,
+                    keyboardOptions = KeyboardOptions.Default.copy(
+                        imeAction = ImeAction.Done
+                    ),
+                    keyboardActions = KeyboardActions(
+                        onDone = {
+                            focusManager.clearFocus()
+                        }
                     )
+                )
+                Button(
+                    modifier = Modifier
+                        .padding(top = spacing_2)
+                        .padding(horizontal = spacing_3),
+                    onClick = onAddAllergenClicked
+                ) {
+                    Text(stringResource(R.string.add_allergen))
                 }
             }
 
-            Text(
-                modifier = Modifier
-                    .padding(top = spacing_4)
-                    .padding(horizontal = spacing_3)
-                    .fillMaxSize(),
-                text = stringResource(R.string.manually_add_allergens_label),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            OutlinedTextField(
-                value = state.inputText.orEmpty(),
-                textStyle = TextStyle(color = Color.Black),
-                onValueChange = onInputTextChanged,
-                label = { Text(stringResource(R.string.enter_allergen_name_label)) },
-                colors = nutritectiveOutlinedTextFieldColors(),
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = spacing_3)
-                    .padding(horizontal = spacing_3),
-                maxLines = 2,
-                keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Done
-                ),
-                keyboardActions = KeyboardActions(
-                    onDone = {
-                        focusManager.clearFocus()
-                    }
-                )
-            )
-            Button(
-                modifier = Modifier
-                    .padding(top = spacing_2)
-                    .padding(horizontal = spacing_3),
-                onClick = onAddAllergenClicked
-            ) {
-                Text(stringResource(R.string.add_allergen))
-            }
-
-            Button(
-                modifier = Modifier
-                    .padding(top = spacing_4)
-                    .padding(horizontal = spacing_3)
-                    .padding(bottom = spacing_6)
-                    .fillMaxWidth(),
-                onClick = onSaveChangesButtonClicked,
-                enabled = state.isSaveChangesButtonEnabled,
-                colors = nutritectiveButtonColors(),
-                contentPadding = PaddingValues(spacing_2)
-            ) {
-                Text(stringResource(R.string.save_changes).uppercase())
+            Column(modifier = Modifier.semanticSection(3f)) {
+                Button(
+                    modifier = Modifier
+                        .padding(top = spacing_4)
+                        .padding(horizontal = spacing_3)
+                        .padding(bottom = spacing_6)
+                        .fillMaxWidth(),
+                    onClick = onSaveChangesButtonClicked,
+                    enabled = state.isSaveChangesButtonEnabled,
+                    colors = nutritectiveButtonColors(),
+                    contentPadding = PaddingValues(spacing_2)
+                ) {
+                    Text(stringResource(R.string.save_changes).uppercase())
+                }
             }
         }
     }

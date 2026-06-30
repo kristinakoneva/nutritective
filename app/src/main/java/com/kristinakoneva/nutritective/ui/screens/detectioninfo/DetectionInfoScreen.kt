@@ -29,6 +29,8 @@ import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -89,12 +91,15 @@ fun DetectionInfoScreenContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
         ) {
+            Column(modifier = Modifier.semanticSection(0f)) {
             Text(
                 text = stringResource(R.string.detection_info_intro),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(top = spacing_2)
             )
-            Spacer(modifier = Modifier.padding(top = spacing_3))
+            }
+
+            Column(modifier = Modifier.semanticSection(1f)) {
             AllergenStatusCard(allergenStatus = AllergenStatus.SAFE)
             Text(
                 text = stringResource(R.string.detection_info_safe_explanation),
@@ -102,7 +107,9 @@ fun DetectionInfoScreenContent(
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
             )
-            Spacer(modifier = Modifier.padding(top = spacing_5))
+            }
+
+            Column(modifier = Modifier.semanticSection(2f)) {
             AllergenStatusCard(allergenStatus = AllergenStatus.WARNING)
             Text(
                 text = stringResource(R.string.detection_info_warning_explanation),
@@ -110,7 +117,9 @@ fun DetectionInfoScreenContent(
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
             )
-            Spacer(modifier = Modifier.padding(top = spacing_5))
+            }
+
+            Column(modifier = Modifier.semanticSection(3f)) {
             AllergenStatusCard(allergenStatus = AllergenStatus.DANGER, detectedAllergens = listOf("milk", "soy"))
             Text(
                 text = stringResource(R.string.detection_info_danger_explanation),
@@ -118,11 +127,15 @@ fun DetectionInfoScreenContent(
                 modifier = Modifier.padding(top = spacing_1),
                 fontStyle = FontStyle.Italic
             )
+            }
 
+            Column(modifier = Modifier.semanticSection(4f)) {
             Text(
                 text = stringResource(R.string.disclaimer_title),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(top = spacing_6),
+                modifier = Modifier
+                    .padding(top = spacing_6)
+                    .sectionHeading(),
                 fontWeight = FontWeight.Bold
             )
             Text(
@@ -132,6 +145,7 @@ fun DetectionInfoScreenContent(
                     .padding(top = spacing_2)
                     .padding(bottom = spacing_6)
             )
+            }
         }
     }
 }

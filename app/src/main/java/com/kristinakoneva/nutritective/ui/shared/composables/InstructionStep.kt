@@ -12,16 +12,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.informationSemantics
 import com.kristinakoneva.nutritective.ui.theme.instruction_step_image_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 
 @Composable
 fun InstructionStep(
     imageResId: Int,
-    @StringRes descriptionRes: Int
+    @StringRes descriptionRes: Int,
+    stepIndex: Int? = null,
+    totalSteps: Int? = null,
 ) {
+    val description = stringResource(descriptionRes)
+    val stepDescription = if (stepIndex != null && totalSteps != null) {
+        stringResource(R.string.cd_instruction_step, stepIndex, totalSteps, description)
+    } else {
+        description
+    }
     Row(
-        verticalAlignment = Alignment.Top
+        verticalAlignment = Alignment.Top,
+        modifier = Modifier.informationSemantics(stepDescription),
     ) {
         Image(
             painter = painterResource(id = imageResId),

@@ -20,7 +20,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.actionSemantics
+import com.kristinakoneva.nutritective.ui.shared.accessibility.hideFromSemanticTree
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.extra_large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
@@ -33,6 +37,7 @@ fun SettingsCell(
     text: String,
     onClick: () -> Unit
 ) {
+    val navigateDescription = stringResource(R.string.cd_settings_navigate, text)
     val interactionSource = remember { MutableInteractionSource() }
     Card(
         modifier = Modifier
@@ -41,6 +46,7 @@ fun SettingsCell(
                 interactionSource = interactionSource,
                 indication = rememberRipple(bounded = true, color = md_theme_dark_outline)
             ) { onClick() }
+            .actionSemantics(navigateDescription)
             .background(
                 color = md_theme_dark_secondary,
                 shape = RoundedCornerShape(default_corner_radius)
@@ -56,7 +62,8 @@ fun SettingsCell(
                 text = text,
                 modifier = Modifier
                     .weight(1f)
-                    .padding(spacing_2),
+                    .padding(spacing_2)
+                    .hideFromSemanticTree(),
                 style = MaterialTheme.typography.titleMedium,
                 color = md_theme_dark_primary,
                 fontWeight = FontWeight.SemiBold
