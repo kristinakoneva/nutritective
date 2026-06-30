@@ -7,11 +7,12 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.informationSemantics
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
-import com.kristinakoneva.nutritective.ui.theme.spacing_3
-import com.kristinakoneva.nutritective.ui.theme.spacing_4
 
 @Composable
 fun InformationSection(
@@ -20,7 +21,9 @@ fun InformationSection(
     value: String
 ) {
     Column(
-        modifier = modifier,
+        modifier = modifier.informationSemantics(
+            stringResource(R.string.cd_information_section, subtitle, value)
+        ),
     ) {
         Text(
             modifier = Modifier.fillMaxSize(),
@@ -32,7 +35,9 @@ fun InformationSection(
         Text(
             modifier = Modifier
                 .padding(top = spacing_1)
-                .fillMaxSize(), text = value, style = MaterialTheme.typography.bodyLarge
+                .fillMaxSize(),
+            text = value,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

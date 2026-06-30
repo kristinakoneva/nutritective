@@ -19,6 +19,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.actionSemantics
+import com.kristinakoneva.nutritective.ui.shared.accessibility.hideFromSemanticTree
+import com.kristinakoneva.nutritective.ui.shared.accessibility.listItem
 import com.kristinakoneva.nutritective.ui.theme.medium_icon_size
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
@@ -26,9 +29,15 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_1
 fun AllergenListedItem(
     name: String,
     onClick: () -> Unit,
-    onRemoveAllergen: () -> Unit
+    onRemoveAllergen: () -> Unit,
+    listIndex: Int? = null,
 ) {
-    Column(modifier = Modifier.fillMaxWidth()) {
+    val avoidProductsContentDescription = stringResource(R.string.cd_avoid_products_for, name)
+    var itemModifier = Modifier.fillMaxWidth()
+    if (listIndex != null) {
+        itemModifier = itemModifier.listItem(listIndex)
+    }
+    Column(modifier = itemModifier) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
@@ -55,12 +64,18 @@ fun AllergenListedItem(
             modifier = Modifier
                 .align(Alignment.End)
                 .padding(top = spacing_1)
+                .actionSemantics(avoidProductsContentDescription),
         ) {
-            Text(text = stringResource(R.string.avoid_products))
+            Text(
+                text = stringResource(R.string.avoid_products),
+                modifier = Modifier.hideFromSemanticTree(),
+            )
             Icon(
                 imageVector = Icons.AutoMirrored.Filled.ArrowForward,
                 contentDescription = null,
-                modifier = Modifier.size(medium_icon_size)
+                modifier = Modifier
+                    .size(medium_icon_size)
+                    .hideFromSemanticTree(),
             )
         }
     }

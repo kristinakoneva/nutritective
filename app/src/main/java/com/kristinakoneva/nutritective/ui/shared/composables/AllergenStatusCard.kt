@@ -21,6 +21,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.informationSemantics
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.default_corner_radius
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
@@ -32,11 +33,27 @@ import com.kristinakoneva.nutritective.ui.theme.spacing_2
 @Composable
 fun AllergenStatusCard(
     allergenStatus: AllergenStatus,
-    detectedAllergens: List<String>? = null
+    detectedAllergens: List<String>? = null,
+    subjectName: String? = null,
 ) {
+    val statusLabel = stringResource(allergenStatus.labelRes)
+    val detailText = when (allergenStatus) {
+        AllergenStatus.SAFE -> stringResource(R.string.allergen_status_safe_detail)
+        AllergenStatus.WARNING -> stringResource(R.string.allergen_status_warning_detail)
+        AllergenStatus.DANGER -> stringResource(
+            R.string.allergen_status_danger_detail,
+            detectedAllergens?.joinToString().orEmpty()
+        )
+    }
+    val accessibilityDescription = if (subjectName != null) {
+        stringResource(R.string.cd_allergen_status_for_item, subjectName, statusLabel, detailText)
+    } else {
+        stringResource(R.string.cd_allergen_status, statusLabel, detailText)
+    }
     Card(
         modifier = Modifier
             .fillMaxSize()
+            .informationSemantics(accessibilityDescription)
             .background(
                 color = Color.Transparent,
                 shape = RoundedCornerShape(food_item_card_corner_radius),

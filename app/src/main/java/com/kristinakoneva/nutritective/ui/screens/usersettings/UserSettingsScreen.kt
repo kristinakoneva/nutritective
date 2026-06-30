@@ -41,6 +41,8 @@ import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.NameC
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.SettingsCell
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.AllergenListedItem
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
@@ -178,11 +180,15 @@ fun UserSettingsScreenContent(
                 .fillMaxSize(),
             horizontalAlignment = Alignment.Start
         ) {
+            Column(modifier = Modifier.semanticSection(0f)) {
             Row(
                 modifier = Modifier.padding(spacing_3),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(painter = painterResource(id = R.mipmap.ic_launcher), contentDescription = null)
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_launcher),
+                    contentDescription = stringResource(R.string.cd_app_logo),
+                )
                 Column(modifier = Modifier.padding(start = spacing_3)) {
                     Text(
                         text = stringResource(R.string.app_name),
@@ -197,21 +203,29 @@ fun UserSettingsScreenContent(
                     )
                 }
             }
+            }
+
+            Column(modifier = Modifier.semanticSection(1f)) {
             Column(modifier = Modifier.padding(spacing_3)) {
                 SettingsCell(text = stringResource(R.string.settings_what_do_we_detect), onClick = onNavigateToDetectionInfo)
                 Spacer(modifier = Modifier.padding(top = spacing_3))
                 SettingsCell(text = stringResource(R.string.select_allergens_title), onClick = onNavigateToSelectAllergens)
             }
+            }
+
             HorizontalDivider(
                 modifier = Modifier
                     .padding(horizontal = spacing_1, vertical = spacing_2),
                 color = md_theme_dark_primary
             )
 
+            Column(modifier = Modifier.semanticSection(2f)) {
             Text(
                 text = stringResource(R.string.your_selected_allergens_label),
                 style = MaterialTheme.typography.titleLarge,
-                modifier = Modifier.padding(spacing_3),
+                modifier = Modifier
+                    .padding(spacing_3)
+                    .sectionHeading(),
                 fontWeight = FontWeight.Bold
             )
             if (allergens.isEmpty()) {
@@ -221,18 +235,23 @@ fun UserSettingsScreenContent(
                 )
             } else {
                 Column(modifier = Modifier.padding(horizontal = spacing_3)) {
-                    allergens.forEach {
-                        AllergenListedItem(name = it, onClick = {
+                    allergens.forEachIndexed { index, allergen ->
+                        AllergenListedItem(
+                            name = allergen,
+                            onClick = {
                             val intent = CustomTabsIntent.Builder().build()
                             intent.launchUrl(
                                 context,
-                                Uri.parse(BASE_URL_ALLERGEN_PRODUCTS + it)
+                                Uri.parse(BASE_URL_ALLERGEN_PRODUCTS + allergen)
                             )
-                        }, onRemoveAllergen = { onRemoveAllergenClicked(it) })
+                        }, onRemoveAllergen = { onRemoveAllergenClicked(allergen) },
+                            listIndex = index,
+                        )
                         HorizontalDivider(modifier = Modifier.padding(vertical = spacing_1))
                         Spacer(modifier = Modifier.padding(top = spacing_1))
                     }
                 }
+            }
             }
         }
     }

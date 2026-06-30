@@ -35,6 +35,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -62,6 +64,9 @@ import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
+import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
@@ -244,6 +249,8 @@ fun InspectImageScreenContent(
         )
     }
 
+    val selectImageContentDescription = stringResource(R.string.cd_select_image)
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -256,84 +263,111 @@ fun InspectImageScreenContent(
             FoodItemDetailsDialog(foodItem = selectedFoodItem, onClose = clearFoodItemSelection)
         }
 
-        Text(
-            text = stringResource(R.string.inspect_image_screen_title),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold,
-        )
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = spacing_3),
-            contentAlignment = Alignment.Center
-        ) {
-            Button(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    showBottomSheet = true
-                },
-                contentPadding = PaddingValues(spacing_2)
-            ) {
-                Text(text = stringResource(R.string.select_image_or_take_photo).uppercase())
-            }
-        }
-
-        // preview image
-        uri?.let {
+        Column(modifier = Modifier.semanticSection(0f)) {
             Text(
-                text = stringResource(R.string.inspected_image_label),
+                text = stringResource(R.string.inspect_image_screen_title),
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.screenHeading(),
+            )
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(top = spacing_3),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            AsyncImage(
-                model = it,
-                modifier = Modifier
-                    .padding(vertical = spacing_2)
-                    .size(
-                        160.dp
-                    ),
-                contentDescription = stringResource(R.string.cd_inspected_image),
-                alignment = Alignment.TopStart
-            )
+                contentAlignment = Alignment.Center
+            ) {
+                Button(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .semantics { contentDescription = selectImageContentDescription },
+                    onClick = { showBottomSheet = true },
+                    contentPadding = PaddingValues(spacing_2)
+                ) {
+                    Text(text = stringResource(R.string.select_image_or_take_photo).uppercase())
+                }
+            }
+        }
+
+        uri?.let {
+            Column(modifier = Modifier.semanticSection(1f)) {
+                Text(
+                    text = stringResource(R.string.inspected_image_label),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing_3)
+                        .sectionHeading(),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                AsyncImage(
+                    model = it,
+                    modifier = Modifier
+                        .padding(vertical = spacing_2)
+                        .size(160.dp),
+                    contentDescription = stringResource(R.string.cd_inspected_image),
+                    alignment = Alignment.TopStart
+                )
+            }
         }
 
         if (allergenStatus != null && !foodItems.isNullOrEmpty()) {
-            Column {
-                AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
+            Column(modifier = Modifier.semanticSection(2f)) {
+                AllergenStatusCard(
+                    allergenStatus = allergenStatus,
+                    detectedAllergens = detectedAllergens,
+                    subjectName = stringResource(R.string.cd_allergen_subject_inspected_image),
+                )
             }
         }
-        foodItems?.forEach {
-            Spacer(modifier = Modifier.padding(top = spacing_2))
-            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
-        }
-        if (foodItems.isNullOrEmpty() && uri != null) {
-            Text(
-                text = stringResource(R.string.no_food_items_found),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = spacing_2)
-            )
+
+        if (foodItems != null && (foodItems.isNotEmpty() || uri != null)) {
+            Column(modifier = Modifier.semanticSection(3f)) {
+                if (foodItems.isEmpty()) {
+                    if (uri != null) {
+                        Text(
+                            text = stringResource(R.string.no_food_items_found),
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier.padding(top = spacing_2),
+                        )
+                    }
+                } else {
+                    foodItems.forEachIndexed { index, item ->
+                        Spacer(modifier = Modifier.padding(top = spacing_2))
+                        FoodItemCard(
+                            foodItem = item,
+                            onClickAction = onFoodItemClicked,
+                            listIndex = index,
+                        )
+                    }
+                }
+            }
         }
 
         if (foodItems == null) {
-            Text(
-                modifier = Modifier
-                    .padding(top = spacing_3)
-                    .fillMaxSize(),
-                text = stringResource(R.string.instructions),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.padding(top = spacing_3))
-            InspectImageInstructionSteps()
+            Column(modifier = Modifier.semanticSection(4f)) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = spacing_3)
+                        .fillMaxSize()
+                        .sectionHeading(),
+                    text = stringResource(R.string.instructions),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(top = spacing_3))
+                InspectImageInstructionSteps()
+            }
         } else {
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semanticSection(4f),
+            ) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
                     Text(text = stringResource(R.string.clear_last_search))
                 }
@@ -344,11 +378,14 @@ fun InspectImageScreenContent(
 
 @Composable
 fun InspectImageInstructionSteps() {
+    val steps = InstructionSteps.getInspectImageInstructionSteps()
     Column {
-        InstructionSteps.getInspectImageInstructionSteps().forEach { step ->
+        steps.forEachIndexed { index, step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                descriptionRes = step.descriptionRes
+                descriptionRes = step.descriptionRes,
+                stepIndex = index + 1,
+                totalSteps = steps.size,
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }

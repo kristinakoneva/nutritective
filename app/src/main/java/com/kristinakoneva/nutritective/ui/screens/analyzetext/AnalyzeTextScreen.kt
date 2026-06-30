@@ -38,6 +38,9 @@ import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
+import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
@@ -113,79 +116,107 @@ fun AnalyzeTextScreenContent(
         }
 
 
-        Text(
-            text = stringResource(R.string.analyze_text_screen_title),
-            style = MaterialTheme.typography.headlineMedium,
-            textAlign = TextAlign.Center,
-            fontWeight = FontWeight.Bold
-        )
-        OutlinedTextField(
-            value = searchText.orEmpty(),
-            textStyle = TextStyle(color = Color.Black),
-            onValueChange = onSearchTextChanged,
-            label = { Text(stringResource(R.string.analyze_text_input_label)) },
-            colors = nutritectiveOutlinedTextFieldColors(),
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(top = spacing_3),
-            maxLines = 5,
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Search
-            ),
-            keyboardActions = KeyboardActions(
-                onSearch = {
-                    focusManager.clearFocus()
-                    onAnalyzeText()
-                }
-            )
-        )
-
-        if (searchedFor != null) {
+        Column(modifier = Modifier.semanticSection(0f)) {
             Text(
-                text = stringResource(R.string.you_searched_for, searchedFor),
+                text = stringResource(R.string.analyze_text_screen_title),
+                style = MaterialTheme.typography.headlineMedium,
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.screenHeading(),
+            )
+            OutlinedTextField(
+                value = searchText.orEmpty(),
+                textStyle = TextStyle(color = Color.Black),
+                onValueChange = onSearchTextChanged,
+                label = { Text(stringResource(R.string.analyze_text_input_label)) },
+                colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .padding(top = spacing_3),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
+                maxLines = 5,
+                keyboardOptions = KeyboardOptions.Default.copy(
+                    imeAction = ImeAction.Search
+                ),
+                keyboardActions = KeyboardActions(
+                    onSearch = {
+                        focusManager.clearFocus()
+                        onAnalyzeText()
+                    }
+                )
             )
         }
 
-        if (allergenStatus != null && !foodItems.isNullOrEmpty()) {
-            Column(modifier = Modifier.padding(top = spacing_2)) {
-                AllergenStatusCard(allergenStatus = allergenStatus, detectedAllergens = detectedAllergens)
+        if (searchedFor != null) {
+            Column(modifier = Modifier.semanticSection(1f)) {
+                Text(
+                    text = stringResource(R.string.you_searched_for, searchedFor),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = spacing_3)
+                        .sectionHeading(),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
             }
         }
 
-        foodItems?.forEach {
-            Spacer(modifier = Modifier.padding(top = spacing_2))
-            FoodItemCard(foodItem = it, onClickAction = onFoodItemClicked)
+        if (allergenStatus != null && !foodItems.isNullOrEmpty()) {
+            Column(modifier = Modifier.semanticSection(2f)) {
+                AllergenStatusCard(
+                    allergenStatus = allergenStatus,
+                    detectedAllergens = detectedAllergens,
+                    subjectName = searchedFor ?: stringResource(R.string.cd_allergen_subject_search_results),
+                )
+            }
         }
 
-        if (foodItems.isNullOrEmpty() && searchedFor != null) {
-            Text(
-                text = stringResource(R.string.no_food_items_found),
-                style = MaterialTheme.typography.titleMedium,
-                textAlign = TextAlign.Start,
-                modifier = Modifier.padding(top = spacing_2)
-            )
+        if (foodItems != null && (foodItems.isNotEmpty() || searchedFor != null)) {
+            Column(modifier = Modifier.semanticSection(3f)) {
+                if (foodItems.isEmpty()) {
+                    if (searchedFor != null) {
+                        Text(
+                            text = stringResource(R.string.no_food_items_found),
+                            style = MaterialTheme.typography.titleMedium,
+                            textAlign = TextAlign.Start,
+                            modifier = Modifier.padding(top = spacing_2),
+                        )
+                    }
+                } else {
+                    foodItems.forEachIndexed { index, item ->
+                        Spacer(modifier = Modifier.padding(top = spacing_2))
+                        FoodItemCard(
+                            foodItem = item,
+                            onClickAction = onFoodItemClicked,
+                            listIndex = index,
+                        )
+                    }
+                }
+            }
         }
 
         if (foodItems == null) {
-            Text(
-                modifier = Modifier
-                    .padding(top = spacing_5)
-                    .fillMaxSize(),
-                text = stringResource(R.string.instructions),
-                style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Start,
-                fontWeight = FontWeight.Bold
-            )
-            Spacer(modifier = Modifier.padding(top = spacing_3))
-            AnalyzeTextInstructionSteps()
+            Column(modifier = Modifier.semanticSection(4f)) {
+                Text(
+                    modifier = Modifier
+                        .padding(top = spacing_5)
+                        .fillMaxSize()
+                        .sectionHeading(),
+                    text = stringResource(R.string.instructions),
+                    style = MaterialTheme.typography.titleLarge,
+                    textAlign = TextAlign.Start,
+                    fontWeight = FontWeight.Bold
+                )
+                Spacer(modifier = Modifier.padding(top = spacing_3))
+                AnalyzeTextInstructionSteps()
+            }
         } else {
-            Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+            Row(
+                horizontalArrangement = Arrangement.End,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .semanticSection(4f),
+            ) {
                 OutlinedButton(onClick = onClearLastSearchClicked, modifier = Modifier.padding(top = spacing_3)) {
                     Text(text = stringResource(R.string.clear_last_search))
                 }
@@ -196,11 +227,14 @@ fun AnalyzeTextScreenContent(
 
 @Composable
 fun AnalyzeTextInstructionSteps() {
+    val steps = InstructionSteps.getAnalyzeTextInstructionSteps()
     Column {
-        InstructionSteps.getAnalyzeTextInstructionSteps().forEach { step ->
+        steps.forEachIndexed { index, step ->
             InstructionStep(
                 imageResId = step.imageResId,
-                descriptionRes = step.descriptionRes
+                descriptionRes = step.descriptionRes,
+                stepIndex = index + 1,
+                totalSteps = steps.size,
             )
             Spacer(modifier = Modifier.padding(top = spacing_2))
         }
