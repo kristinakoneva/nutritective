@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
 
 @Composable
 fun ClearLastSearchConfirmationDialog(
@@ -14,6 +15,9 @@ fun ClearLastSearchConfirmationDialog(
 ) {
     AlertDialog(
         onDismissRequest = onCancel,
+        containerColor = NutritectiveDialogDefaults.containerColor,
+        titleContentColor = NutritectiveDialogDefaults.titleContentColor,
+        textContentColor = NutritectiveDialogDefaults.textContentColor,
         confirmButton = {
             Button(onClick = onConfirm) {
                 Text(text = stringResource(R.string.clear))

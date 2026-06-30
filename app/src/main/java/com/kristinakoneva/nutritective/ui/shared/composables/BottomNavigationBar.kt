@@ -17,7 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.kristinakoneva.nutritective.ui.shared.navigation.BottomNavTab
-import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_onSurfaceVariant
+import com.kristinakoneva.nutritective.ui.theme.bottom_nav_unselected
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 
 @Composable
@@ -53,8 +53,8 @@ fun BottomNavigationBar(navController: NavController) {
                             selectedIconColor = Color.White,
                             selectedTextColor = Color.White,
                             indicatorColor = md_theme_dark_primary,
-                            unselectedIconColor = md_theme_dark_onSurfaceVariant,
-                            unselectedTextColor = md_theme_dark_onSurfaceVariant,
+                            unselectedIconColor = bottom_nav_unselected,
+                            unselectedTextColor = bottom_nav_unselected,
                         )
                 )
             } else {

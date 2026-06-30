@@ -17,7 +17,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronLeft
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -43,7 +42,8 @@ import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.CommonAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.ManuallyAddedAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
-import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_outline
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveButtonColors
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -196,6 +196,7 @@ fun SelectAllergensScreenContent(
                 textStyle = TextStyle(color = Color.Black),
                 onValueChange = onInputTextChanged,
                 label = { Text(stringResource(R.string.enter_allergen_name_label)) },
+                colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(top = spacing_3)
@@ -227,9 +228,7 @@ fun SelectAllergensScreenContent(
                     .fillMaxWidth(),
                 onClick = onSaveChangesButtonClicked,
                 enabled = state.isSaveChangesButtonEnabled,
-                colors = ButtonDefaults.buttonColors(
-                    disabledContainerColor = md_theme_dark_outline
-                ),
+                colors = nutritectiveButtonColors(),
                 contentPadding = PaddingValues(spacing_2)
             ) {
                 Text(stringResource(R.string.save_changes).uppercase())

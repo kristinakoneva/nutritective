@@ -37,6 +37,7 @@ import com.kristinakoneva.nutritective.ui.shared.composables.FoodItemDetailsDial
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
@@ -123,6 +124,7 @@ fun AnalyzeTextScreenContent(
             textStyle = TextStyle(color = Color.Black),
             onValueChange = onSearchTextChanged,
             label = { Text(stringResource(R.string.analyze_text_input_label)) },
+            colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = spacing_3),

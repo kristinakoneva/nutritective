@@ -61,6 +61,7 @@ import com.kristinakoneva.nutritective.ui.screens.inspectimage.composables.Image
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
+import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_8
@@ -192,7 +193,12 @@ fun InspectImageScreenContent(
             }
             openCamera = false
         } else if (cameraPermissionState.status.shouldShowRationale) {
-            AlertDialog(onDismissRequest = { openCamera = false }, confirmButton = {
+            AlertDialog(
+                onDismissRequest = { openCamera = false },
+                containerColor = NutritectiveDialogDefaults.containerColor,
+                titleContentColor = NutritectiveDialogDefaults.titleContentColor,
+                textContentColor = NutritectiveDialogDefaults.textContentColor,
+                confirmButton = {
                 Button(onClick = {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                         data = Uri.fromParts("package", context.packageName, null)

@@ -13,10 +13,10 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.domain.fooditems.models.FoodItem
+import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import java.util.Locale
@@ -30,10 +30,13 @@ fun FoodItemDetailsDialog(
 
     AlertDialog(
         onDismissRequest = onClose,
+        containerColor = NutritectiveDialogDefaults.containerColor,
+        titleContentColor = NutritectiveDialogDefaults.titleContentColor,
+        textContentColor = NutritectiveDialogDefaults.textContentColor,
         title = { Text(text = foodItem.name.replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.ROOT) else it.toString() }) },
         text = {
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                FoodItemShortSummary(calories = foodItem.calories, servingSize = foodItem.servingSize, textColor = Color.White)
+                FoodItemShortSummary(calories = foodItem.calories, servingSize = foodItem.servingSize)
 
                 val nutriments = foodItem.nutriments
                 FlowRow(
