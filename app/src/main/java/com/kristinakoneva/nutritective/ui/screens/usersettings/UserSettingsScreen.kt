@@ -41,6 +41,7 @@ import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.NameC
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.SettingsCell
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.screens.usersettings.composables.AllergenListedItem
+import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_primary
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
@@ -113,6 +114,9 @@ fun UserSettingsScreenContent(
     if (shouldShowLogoutConfirmationDialog) {
         AlertDialog(
             onDismissRequest = onLogoutCancelled,
+            containerColor = NutritectiveDialogDefaults.containerColor,
+            titleContentColor = NutritectiveDialogDefaults.titleContentColor,
+            textContentColor = NutritectiveDialogDefaults.textContentColor,
             confirmButton = {
                 Button(onClick = onLogoutConfirmed) {
                     Text(text = stringResource(R.string.logout))

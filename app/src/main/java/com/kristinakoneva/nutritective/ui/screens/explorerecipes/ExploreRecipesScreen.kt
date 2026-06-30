@@ -36,6 +36,7 @@ import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
@@ -107,6 +108,7 @@ fun ExploreRecipesScreenContent(
             textStyle = TextStyle(color = Color.Black),
             onValueChange = onSearchTextChanged,
             label = { Text(stringResource(R.string.explore_recipes_input_label)) },
+            colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(top = spacing_3),

@@ -14,7 +14,6 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -38,6 +37,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveButtonColors
+import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
@@ -144,6 +145,7 @@ fun AuthScreenContent(
                 textStyle = TextStyle(color = Color.Black),
                 onValueChange = onNameValueChange,
                 label = { Text(stringResource(R.string.name)) },
+                colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = spacing_2),
@@ -165,6 +167,7 @@ fun AuthScreenContent(
             onValueChange = { onEmailValueChange(it) },
             label = { Text(stringResource(R.string.email)) },
             textStyle = TextStyle(color = Color.Black),
+            colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = spacing_1),
@@ -185,6 +188,7 @@ fun AuthScreenContent(
             onValueChange = { onPasswordValueChange(it) },
             label = { Text(stringResource(R.string.password)) },
             textStyle = TextStyle(color = Color.Black),
+            colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = spacing_1),
@@ -207,6 +211,7 @@ fun AuthScreenContent(
                 onValueChange = { onConfirmPasswordValueChange(it) },
                 label = { Text(stringResource(R.string.confirm_password)) },
                 textStyle = TextStyle(color = Color.Black),
+                colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = spacing_1),
@@ -232,10 +237,7 @@ fun AuthScreenContent(
                 .fillMaxWidth()
                 .padding(vertical = spacing_1),
             enabled = isPrimaryButtonEnabled,
-            colors = ButtonDefaults.buttonColors(
-                disabledContainerColor = Color.LightGray,
-                disabledContentColor = Color.Gray
-            ),
+            colors = nutritectiveButtonColors(),
             contentPadding = PaddingValues(spacing_2)
         ) {
             Text(buttonText.uppercase())
