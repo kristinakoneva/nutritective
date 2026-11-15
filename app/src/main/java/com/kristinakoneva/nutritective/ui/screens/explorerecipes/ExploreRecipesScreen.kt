@@ -26,20 +26,21 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.explorerecipes.composables.RecipeItemCard
+import com.kristinakoneva.nutritective.ui.shared.accessibility.moveFocusOnTab
+import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
+import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.ClearLastSearchConfirmationDialog
 import com.kristinakoneva.nutritective.ui.shared.composables.InstructionStep
 import com.kristinakoneva.nutritective.ui.shared.models.InstructionSteps
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
-import com.kristinakoneva.nutritective.ui.shared.accessibility.screenHeading
-import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
-import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
 import com.kristinakoneva.nutritective.ui.theme.spacing_2
 import com.kristinakoneva.nutritective.ui.theme.spacing_3
 import com.kristinakoneva.nutritective.ui.theme.spacing_5
@@ -116,7 +117,8 @@ fun ExploreRecipesScreenContent(
                 colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = spacing_3),
+                    .padding(top = spacing_3)
+                    .moveFocusOnTab(focusManager),
                 maxLines = 5,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Search

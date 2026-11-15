@@ -37,7 +37,11 @@ fun SettingsCell(
     text: String,
     onClick: () -> Unit
 ) {
-    val navigateDescription = stringResource(R.string.cd_settings_navigate, text)
+    val navigateDescription = if (text.lastOrNull() in listOf('.', '?', '!')) {
+        stringResource(R.string.cd_settings_navigate_after_punctuation, text)
+    } else {
+        stringResource(R.string.cd_settings_navigate, text)
+    }
     val interactionSource = remember { MutableInteractionSource() }
     Card(
         modifier = Modifier

@@ -23,20 +23,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.moveFocusOnTab
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
-import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
+import com.kristinakoneva.nutritective.ui.shared.composables.errorText
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveButtonColors
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
@@ -148,18 +151,16 @@ fun AuthScreenContent(
                 colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = spacing_2),
+                    .padding(vertical = spacing_2)
+                    .moveFocusOnTab(focusManager),
+                singleLine = true,
                 keyboardOptions = KeyboardOptions.Default.copy(
                     imeAction = ImeAction.Next
                 ),
-                keyboardActions = KeyboardActions {
-                    focusManager.clearFocus()
-                },
-                isError = !isNameValid
+                keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+                isError = !isNameValid,
+                supportingText = errorText(!isNameValid, R.string.auth_name_empty_error)
             )
-            if (!isNameValid) {
-                Text(stringResource(R.string.auth_name_empty_error), color = md_theme_dark_error)
-            }
         }
 
         OutlinedTextField(
@@ -170,18 +171,17 @@ fun AuthScreenContent(
             colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = spacing_1),
+                .padding(vertical = spacing_1)
+                .moveFocusOnTab(focusManager),
+            singleLine = true,
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
+                imeAction = ImeAction.Next,
+                keyboardType = KeyboardType.Email
             ),
-            keyboardActions = KeyboardActions {
-                focusManager.clearFocus()
-            },
-            isError = !isEmailValid
+            keyboardActions = KeyboardActions(onNext = { focusManager.moveFocus(FocusDirection.Down) }),
+            isError = !isEmailValid,
+            supportingText = errorText(!isEmailValid, R.string.auth_invalid_email)
         )
-        if (!isEmailValid) {
-            Text(stringResource(R.string.auth_invalid_email), color = md_theme_dark_error)
-        }
 
         OutlinedTextField(
             value = password,
@@ -191,19 +191,21 @@ fun AuthScreenContent(
             colors = nutritectiveOutlinedTextFieldColors(),
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = spacing_1),
+                .padding(vertical = spacing_1)
+                .moveFocusOnTab(focusManager),
+            singleLine = true,
             visualTransformation = PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Next
+                imeAction = if (isLogin) ImeAction.Done else ImeAction.Next,
+                keyboardType = KeyboardType.Password
             ),
-            keyboardActions = KeyboardActions {
-                focusManager.clearFocus()
-            },
-            isError = !isPasswordValid
+            keyboardActions = KeyboardActions(
+                onNext = { focusManager.moveFocus(FocusDirection.Down) },
+                onDone = { focusManager.clearFocus() }
+            ),
+            isError = !isPasswordValid,
+            supportingText = errorText(!isPasswordValid, R.string.auth_invalid_password)
         )
-        if (!isPasswordValid) {
-            Text(stringResource(R.string.auth_invalid_password), color = md_theme_dark_error)
-        }
 
         if (!isLogin) {
             OutlinedTextField(
@@ -214,19 +216,18 @@ fun AuthScreenContent(
                 colors = nutritectiveOutlinedTextFieldColors(),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = spacing_1),
+                    .padding(vertical = spacing_1)
+                    .moveFocusOnTab(focusManager),
+                singleLine = true,
                 visualTransformation = PasswordVisualTransformation(),
                 keyboardOptions = KeyboardOptions.Default.copy(
-                    imeAction = ImeAction.Next
+                    imeAction = ImeAction.Done,
+                    keyboardType = KeyboardType.Password
                 ),
-                keyboardActions = KeyboardActions {
-                    focusManager.clearFocus()
-                },
-                isError = !isConfirmPasswordValid
+                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
+                isError = !isConfirmPasswordValid,
+                supportingText = errorText(!isConfirmPasswordValid, R.string.auth_passwords_do_not_match)
             )
-            if (!isConfirmPasswordValid) {
-                Text(stringResource(R.string.auth_passwords_do_not_match), color = md_theme_dark_error)
-            }
         }
 
         Spacer(modifier = Modifier.height(spacing_2))

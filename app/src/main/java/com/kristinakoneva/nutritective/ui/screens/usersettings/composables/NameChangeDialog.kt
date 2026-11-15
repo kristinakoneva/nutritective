@@ -20,8 +20,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import com.kristinakoneva.nutritective.R
+import com.kristinakoneva.nutritective.ui.shared.accessibility.moveFocusOnTab
+import com.kristinakoneva.nutritective.ui.shared.composables.errorText
 import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
-import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
@@ -70,12 +71,12 @@ fun NameChangeDialog(
                     ),
                     label = { Text(stringResource(R.string.new_name_label)) },
                     isError = showInvalidNameError || newName == currentName,
-                    modifier = Modifier.padding(bottom = spacing_1)
+                    supportingText = errorText(showInvalidNameError, R.string.new_name_invalid_error),
+                    singleLine = true,
+                    modifier = Modifier
+                        .padding(bottom = spacing_1)
+                        .moveFocusOnTab(focusManager)
                 )
-
-                if (showInvalidNameError) {
-                    Text(stringResource(R.string.new_name_invalid_error), color = md_theme_dark_error)
-                }
             }
         },
         confirmButton = {

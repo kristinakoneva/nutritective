@@ -16,9 +16,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.res.stringResource
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.shared.accessibility.gridItem
 import com.kristinakoneva.nutritective.ui.shared.accessibility.hideFromSemanticTree
@@ -78,7 +79,8 @@ fun CommonAllergenSelectionItem(
                     .hideFromSemanticTree(),
                 text = name,
                 color = md_theme_dark_onSecondary,
-                maxLines = 1,
+                textAlign = TextAlign.Center,
+                maxLines = 2,
                 overflow = TextOverflow.Ellipsis
             )
         }

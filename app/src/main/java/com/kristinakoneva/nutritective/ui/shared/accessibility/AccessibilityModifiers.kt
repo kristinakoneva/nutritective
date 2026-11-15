@@ -1,6 +1,14 @@
 package com.kristinakoneva.nutritective.ui.shared.accessibility
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.semantics.CollectionInfo
 import androidx.compose.ui.semantics.CollectionItemInfo
 import androidx.compose.ui.semantics.Role
@@ -65,6 +73,15 @@ fun Modifier.selectableSemantics(
     contentDescription = label
     stateDescription = if (selected) selectedDescription else notSelectedDescription
     role = Role.Checkbox
+}
+
+/** Text fields consume Tab as a character by default; this moves focus instead so keyboard users can leave the field (WCAG 2.1.1, 2.1.2). */
+fun Modifier.moveFocusOnTab(focusManager: FocusManager): Modifier = onPreviewKeyEvent { event ->
+    if (event.key != Key.Tab) return@onPreviewKeyEvent false
+    if (event.type == KeyEventType.KeyDown) {
+        focusManager.moveFocus(if (event.isShiftPressed) FocusDirection.Previous else FocusDirection.Next)
+    }
+    true
 }
 
 fun Modifier.actionSemantics(description: String, role: Role = Role.Button): Modifier = semantics {

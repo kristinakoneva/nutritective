@@ -22,8 +22,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.extensions.isDigitsOnly
+import com.kristinakoneva.nutritective.ui.shared.accessibility.moveFocusOnTab
+import com.kristinakoneva.nutritective.ui.shared.composables.errorText
 import com.kristinakoneva.nutritective.ui.theme.NutritectiveDialogDefaults
-import com.kristinakoneva.nutritective.ui.theme.md_theme_dark_error
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
 import com.kristinakoneva.nutritective.ui.theme.spacing_1
 
@@ -72,12 +73,12 @@ fun BarcodeInputDialog(
                     ),
                     label = { Text(stringResource(R.string.barcode)) },
                     isError = showInvalidBarcodeError,
-                    modifier = Modifier.padding(bottom = spacing_1)
+                    supportingText = errorText(showInvalidBarcodeError, R.string.invalid_barcode_error),
+                    singleLine = true,
+                    modifier = Modifier
+                        .padding(bottom = spacing_1)
+                        .moveFocusOnTab(focusManager)
                 )
-
-                if (showInvalidBarcodeError) {
-                    Text(stringResource(R.string.invalid_barcode_error), color = md_theme_dark_error)
-                }
             }
         },
         confirmButton = {
