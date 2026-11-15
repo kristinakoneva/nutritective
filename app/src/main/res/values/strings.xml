@@ -50,7 +50,8 @@
     <string name="cd_open_settings">Settings</string>
     <string name="cd_remove_allergen">Remove %1$s</string>
     <string name="cd_food_product_image">Photo of %1$s</string>
-    <string name="cd_nutriscore_grade">Nutri-Score rating</string>
+    <string name="cd_nutriscore_grade">Nutri-Score: %1$s</string>
+    <string name="cd_nutriscore_unavailable">Nutri-Score not available</string>
     <string name="cd_recipe_image">Photo of %1$s</string>
     <string name="cd_inspected_image">Selected image for food analysis</string>
     <string name="cd_allergen_subject_inspected_image">food in your selected image</string>
@@ -61,12 +62,13 @@
     <string name="cd_food_item_summary">Food item. %1$s. %2$s calories. Serving size: %3$s</string>
     <string name="cd_view_food_item_details">View details for %1$s</string>
     <string name="cd_settings_navigate">%1$s. Navigate to screen</string>
+    <string name="cd_settings_navigate_after_punctuation">%1$s Navigate to screen</string>
     <string name="cd_avoid_products_for">Find products to avoid for %1$s</string>
     <string name="cd_instruction_step">Step %1$d of %2$d. %3$s</string>
     <string name="cd_allergen_status">%1$s. %2$s</string>
     <string name="cd_allergen_status_for_item">Allergen check for %1$s. %2$s. %3$s</string>
     <string name="cd_nutriment">%1$s: %2$s</string>
-    <string name="cd_food_product_summary">Product. %1$s by %2$s. Nutri-Score rating shown.</string>
+    <string name="cd_food_product_summary">Product. %1$s by %2$s. %3$s.</string>
     <string name="cd_recipe_summary">Recipe. %1$s from %2$s</string>
     <string name="cd_open_recipe">Open recipe %1$s in browser</string>
     <string name="cd_information_section">%1$s: %2$s</string>

@@ -31,6 +31,7 @@ import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
 import com.kristinakoneva.nutritective.ui.shared.accessibility.actionSemantics
 import com.kristinakoneva.nutritective.ui.shared.accessibility.hideFromSemanticTree
 import com.kristinakoneva.nutritective.ui.shared.accessibility.informationSemantics
+import com.kristinakoneva.nutritective.ui.shared.accessibility.nutriscoreDescription
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.models.AllergenStatus
 import com.kristinakoneva.nutritective.ui.theme.food_item_card_corner_radius
@@ -54,6 +55,7 @@ fun FoodProductCard(
         R.string.cd_food_product_summary,
         productName,
         foodProduct.brands.orEmpty().ifBlank { "-" },
+        nutriscoreDescription(foodProduct.nutriscoreGrade),
     )
     val viewDetailsDescription = stringResource(R.string.cd_view_food_item_details, productName)
     Card(

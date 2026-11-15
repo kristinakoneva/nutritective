@@ -18,6 +18,7 @@ fun FoodProductResource.toFoodProduct() = FoodProduct(
     brands = this.brands,
     categories = this.categories,
     nutriscoreUrl = this.nutriscoreGrade?.toNutriscoreGradeUrl(),
+    nutriscoreGrade = this.nutriscoreGrade?.takeIf { it.length == 1 }?.uppercase(),
     hasAllergensInOtherLanguages = this.allergensTags.checkIfHasAllergensInOtherLanguages()
 )
 

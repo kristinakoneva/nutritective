@@ -33,6 +33,7 @@ import coil.compose.AsyncImage
 import coil.decode.SvgDecoder
 import coil.request.ImageRequest
 import com.kristinakoneva.nutritective.domain.foodproducts.models.FoodProduct
+import com.kristinakoneva.nutritective.ui.shared.accessibility.nutriscoreDescription
 import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.shared.composables.AllergenStatusCard
 import com.kristinakoneva.nutritective.ui.shared.composables.InformationSection
@@ -128,7 +129,7 @@ fun FoodProductDetailsScreenContent(
                             .data(foodProduct.nutriscoreUrl)
                             .decoderFactory(SvgDecoder.Factory())
                             .build(),
-                        contentDescription = stringResource(R.string.cd_nutriscore_grade),
+                        contentDescription = nutriscoreDescription(foodProduct.nutriscoreGrade),
                         modifier = Modifier.size(height = nutriscore_image_height, width = nutriscore_image_width)
                     )
                 }

@@ -32,18 +32,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import com.kristinakoneva.nutritective.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
+import com.kristinakoneva.nutritective.R
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.CommonAllergenSelectionItem
 import com.kristinakoneva.nutritective.ui.screens.selectallergens.composables.ManuallyAddedAllergenSelectionItem
+import com.kristinakoneva.nutritective.ui.shared.accessibility.moveFocusOnTab
 import com.kristinakoneva.nutritective.ui.shared.accessibility.sectionHeading
 import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticGrid
 import com.kristinakoneva.nutritective.ui.shared.accessibility.semanticSection
+import com.kristinakoneva.nutritective.ui.shared.base.BaseScreen
 import com.kristinakoneva.nutritective.ui.theme.large_icon_size
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveButtonColors
 import com.kristinakoneva.nutritective.ui.theme.nutritectiveOutlinedTextFieldColors
@@ -221,7 +222,8 @@ fun SelectAllergensScreenContent(
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(top = spacing_3)
-                        .padding(horizontal = spacing_3),
+                        .padding(horizontal = spacing_3)
+                        .moveFocusOnTab(focusManager),
                     maxLines = 2,
                     keyboardOptions = KeyboardOptions.Default.copy(
                         imeAction = ImeAction.Done
